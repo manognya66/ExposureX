@@ -1,0 +1,415 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,600&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* =========================================================================
+   THEME TOKENS: BLACK THEME (DARK) & LIGHT THEME
+   Primary Colors: Orange (#ff6600), White (#ffffff), Black (#000000 / #09090b)
+   Secondary Colors: Green (#10b981), Red (#ef4444), Yellow (#eab308), Grey (#71717a)
+   ========================================================================= */
+
+:root,
+html.dark {
+  --background: #000000;
+  --surface-0: #000000;
+  --surface-1: #09090b;
+  --surface-2: #121215;
+  --surface-3: #18181b;
+  --border: #27272a;
+  --border-subtle: rgba(255, 255, 255, 0.09);
+  --foreground: #ffffff;
+  --foreground-muted: #a1a1aa;
+  --foreground-subtle: #71717a;
+  --primary-orange: #ff6600;
+  --primary-orange-hover: #e65c00;
+  --secondary-green: #10b981;
+  --secondary-red: #ef4444;
+  --secondary-yellow: #eab308;
+  --secondary-grey: #71717a;
+  color-scheme: dark;
+}
+
+html.light {
+  --background: #f8fafc;
+  --surface-0: #f8fafc;
+  --surface-1: #ffffff;
+  --surface-2: #f1f5f9;
+  --surface-3: #e2e8f0;
+  --border: #e2e8f0;
+  --border-subtle: #cbd5e1;
+  --foreground: #09090b;
+  --foreground-muted: #334155;
+  --foreground-subtle: #64748b;
+  --primary-orange: #ff6600;
+  --primary-orange-hover: #ea580c;
+  --secondary-green: #059669;
+  --secondary-red: #dc2626;
+  --secondary-yellow: #d97706;
+  --secondary-grey: #64748b;
+  color-scheme: light;
+}
+
+/* Base HTML & Typography Scale */
+html {
+  font-size: 16.5px;
+  font-family: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  scrollbar-gutter: stable;
+}
+
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  letter-spacing: -0.012em;
+  font-size: 1rem;
+  line-height: 1.625;
+  overflow-x: hidden;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+code, kbd, samp, pre, .font-mono {
+  font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace !important;
+}
+
+/* Minimal Matte Scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--surface-1);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 6px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #ff6600;
+}
+
+/* =========================================================================
+   GLOWING & EYE-CATCHING ACCENTS
+   ========================================================================= */
+
+.glow-orange {
+  box-shadow: 0 0 28px -2px rgba(255, 102, 0, 0.45);
+}
+.glow-orange-sm {
+  box-shadow: 0 0 14px -2px rgba(255, 102, 0, 0.35);
+}
+.glow-white {
+  box-shadow: 0 0 22px -3px rgba(255, 255, 255, 0.25);
+}
+.glow-green {
+  box-shadow: 0 0 24px -3px rgba(16, 185, 129, 0.4);
+}
+.glow-green-sm {
+  box-shadow: 0 0 12px -2px rgba(16, 185, 129, 0.3);
+}
+.glow-red {
+  box-shadow: 0 0 24px -3px rgba(239, 68, 68, 0.4);
+}
+.glow-yellow {
+  box-shadow: 0 0 24px -3px rgba(234, 179, 8, 0.4);
+}
+.glow-grey {
+  box-shadow: 0 0 16px -2px rgba(113, 113, 122, 0.25);
+}
+
+/* Backward compatibility aliases */
+.glow-blue {
+  box-shadow: 0 0 24px -2px rgba(255, 102, 0, 0.4);
+}
+.glow-cyan {
+  box-shadow: 0 0 20px -3px rgba(16, 185, 129, 0.35);
+}
+.glow-emerald {
+  box-shadow: 0 0 20px -3px rgba(16, 185, 129, 0.35);
+}
+.glow-amber {
+  box-shadow: 0 0 20px -3px rgba(234, 179, 8, 0.35);
+}
+
+/* =========================================================================
+   CARDS & PANELS (SPACIOUS & BREATHABLE)
+   ========================================================================= */
+
+.glass-panel {
+  background: rgba(18, 18, 22, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.glass-card {
+  background: linear-gradient(135deg, rgba(18, 18, 22, 0.95) 0%, rgba(9, 9, 11, 0.98) 100%);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: 1rem;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.glass-card:hover {
+  border-color: rgba(255, 102, 0, 0.45);
+  box-shadow: 0 12px 36px -8px rgba(255, 102, 0, 0.22);
+  transform: translateY(-2px);
+}
+
+.card-cyber {
+  background: linear-gradient(180deg, rgba(14, 14, 17, 0.95) 0%, rgba(9, 9, 11, 0.98) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 1rem;
+  transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.card-cyber:hover {
+  border-color: rgba(255, 102, 0, 0.45);
+}
+
+/* Subtle Grid Background for Minimalist Depth */
+.cyber-grid-bg {
+  background-image: radial-gradient(rgba(255, 255, 255, 0.06) 1px, transparent 1px);
+  background-size: 32px 32px;
+}
+
+/* =========================================================================
+   LIGHT THEME COMPLETE ADAPTATION ENGINE
+   Ensures 100% of panels, cards, sidebars, headers, text, and inputs cleanly update
+   ========================================================================= */
+
+html.light body {
+  background-color: #f8fafc !important;
+  color: #09090b !important;
+}
+
+html.light main {
+  background-color: #f8fafc !important;
+  color: #09090b !important;
+}
+
+html.light aside {
+  background-color: #ffffff !important;
+  border-color: #e2e8f0 !important;
+}
+
+html.light aside [class*="bg-zinc-950"],
+html.light aside [class*="bg-[#09090b]"] {
+  background-color: #ffffff !important;
+}
+
+html.light header {
+  background-color: rgba(255, 255, 255, 0.92) !important;
+  border-color: #e2e8f0 !important;
+}
+
+/* Background Overrides in Light Theme */
+html.light [class*="bg-black"],
+html.light [class*="bg-[#000000]"],
+html.light [class*="bg-[#09090b]"],
+html.light [class*="bg-[#070d1e]"],
+html.light [class*="bg-[#0b1120]"],
+html.light [class*="bg-[#070b14]"],
+html.light [class*="bg-[#080d1a]"],
+html.light [class*="bg-[#0c1220]"],
+html.light [class*="bg-[#090e1c]"],
+html.light [class*="bg-[#040814]"] {
+  background-color: #ffffff !important;
+}
+
+html.light [class*="bg-zinc-950"],
+html.light [class*="bg-zinc-900"],
+html.light [class*="bg-[#0f172a]"],
+html.light [class*="bg-[#0d1733]"],
+html.light [class*="bg-[#0d1424]"],
+html.light [class*="bg-[#11192e]"],
+html.light [class*="bg-slate-900"] {
+  background-color: #f1f5f9 !important;
+}
+
+html.light [class*="bg-zinc-800"],
+html.light [class*="bg-[#1e293b]"],
+html.light [class*="bg-[#131c31]"],
+html.light [class*="bg-[#182852]"],
+html.light [class*="bg-slate-800"] {
+  background-color: #e2e8f0 !important;
+}
+
+/* Border Overrides in Light Theme */
+html.light [class*="border-zinc-800"],
+html.light [class*="border-zinc-800/90"],
+html.light [class*="border-zinc-800/80"],
+html.light [class*="border-[#1a2333]"],
+html.light [class*="border-[#1e293b]"],
+html.light [class*="border-[#1a2942]"],
+html.light [class*="border-[#182852]"],
+html.light [class*="border-slate-800"] {
+  border-color: #e2e8f0 !important;
+}
+
+html.light [class*="border-zinc-700"],
+html.light [class*="border-slate-700"] {
+  border-color: #cbd5e1 !important;
+}
+
+/* Text Overrides in Light Theme */
+html.light .text-white,
+html.light .text-slate-100 {
+  color: #09090b !important;
+}
+
+html.light .text-slate-200,
+html.light .text-zinc-200,
+html.light .text-slate-300,
+html.light .text-zinc-300 {
+  color: #1e293b !important;
+}
+
+html.light .text-slate-400,
+html.light .text-zinc-400 {
+  color: #64748b !important;
+}
+
+html.light .text-slate-500,
+html.light .text-zinc-500 {
+  color: #94a3b8 !important;
+}
+
+/* Cards & Modals in Light Theme */
+html.light .card-cyber,
+html.light .glass-card,
+html.light .glass-panel {
+  background: #ffffff !important;
+  border-color: #e2e8f0 !important;
+  box-shadow: 0 4px 18px -2px rgba(0, 0, 0, 0.05), 0 1px 4px 0 rgba(0, 0, 0, 0.03) !important;
+}
+
+html.light .card-cyber:hover,
+html.light .glass-card:hover {
+  border-color: #ff6600 !important;
+  box-shadow: 0 10px 28px -4px rgba(255, 102, 0, 0.16) !important;
+}
+
+/* Form Inputs in Light Theme */
+html.light input,
+html.light select,
+html.light textarea {
+  background-color: #ffffff !important;
+  border-color: #cbd5e1 !important;
+  color: #09090b !important;
+}
+
+html.light input:focus,
+html.light select:focus,
+html.light textarea:focus {
+  border-color: #ff6600 !important;
+}
+
+html.light input::placeholder,
+html.light textarea::placeholder {
+  color: #94a3b8 !important;
+}
+
+/* Light Mode Scrollbars */
+html.light ::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+html.light ::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+}
+html.light ::-webkit-scrollbar-thumb:hover {
+  background: #ff6600;
+}
+
+/* =========================================================================
+   BLACK THEME COMPLETE ADAPTATION ENGINE
+   ========================================================================= */
+
+html.dark body {
+  background-color: #000000 !important;
+  color: #ffffff !important;
+}
+
+html.dark main {
+  background-color: #000000 !important;
+}
+
+html.dark aside {
+  background-color: #09090b !important;
+  border-color: #27272a !important;
+}
+
+html.dark header {
+  background-color: rgba(9, 9, 11, 0.95) !important;
+  border-color: #27272a !important;
+}
+
+/* Ensure any remaining legacy blue/slate text and borders blend seamlessly in Dark mode */
+html.dark .text-cyan-300,
+html.dark .text-blue-300 {
+  color: #fed7aa !important; /* Soft warm orange-tinted white */
+}
+
+html.dark .text-cyan-400,
+html.dark .text-blue-400 {
+  color: #ff6600 !important; /* Brand orange accent */
+}
+
+/* Light Mode Comprehensive Color Remapping */
+html.light .text-cyan-300,
+html.light .text-blue-300,
+html.light .text-cyan-400,
+html.light .text-blue-400 {
+  color: #ea580c !important; /* Darker vibrant orange for high readability on white */
+}
+
+html.light .border-blue-500\/40,
+html.light .border-cyan-500\/40,
+html.light .border-blue-800,
+html.light .border-cyan-800 {
+  border-color: #fdba74 !important;
+}
+
+html.light .bg-blue-950,
+html.light .bg-cyan-950,
+html.light [class*="bg-blue-950"],
+html.light [class*="bg-cyan-950"] {
+  background-color: #fff7ed !important;
+}
+
+/* Module & Route Transition Animations */
+@keyframes moduleFadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes moduleSlideIn {
+  0% {
+    opacity: 0;
+    transform: translateX(-6px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.animate-module-fade {
+  animation: moduleFadeIn 0.26s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  will-change: opacity, transform;
+}
+
+.animate-module-slide {
+  animation: moduleSlideIn 0.24s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  will-change: opacity, transform;
+}

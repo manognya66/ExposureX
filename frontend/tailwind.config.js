@@ -1,0 +1,73 @@
+/** @type {import('tailwindcss').Config} */
+module.exports = {
+  darkMode: ["class"],
+  content: [
+    "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
+    "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
+    "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
+  ],
+  theme: {
+    extend: {
+      fontFamily: {
+        sans: ["Plus Jakarta Sans", "Inter", "system-ui", "-apple-system", "sans-serif"],
+        mono: ["JetBrains Mono", "ui-monospace", "SFMono-Regular", "Menlo", "monospace"],
+      },
+      fontSize: {
+        "2xs": ["0.6875rem", { lineHeight: "1rem" }],
+        xs: ["0.8125rem", { lineHeight: "1.25rem" }],
+        sm: ["0.9375rem", { lineHeight: "1.45rem" }],
+        base: ["1.0625rem", { lineHeight: "1.65rem" }],
+        lg: ["1.1875rem", { lineHeight: "1.75rem" }],
+        xl: ["1.3125rem", { lineHeight: "1.85rem" }],
+        "2xl": ["1.625rem", { lineHeight: "2.1rem" }],
+        "3xl": ["2rem", { lineHeight: "2.4rem" }],
+        "4xl": ["2.5rem", { lineHeight: "2.9rem" }],
+        "5xl": ["3.25rem", { lineHeight: "1.15" }],
+      },
+      colors: {
+        background: "var(--background)",
+        foreground: "var(--foreground)",
+        card: {
+          DEFAULT: "var(--surface-1)",
+          foreground: "var(--foreground)",
+          border: "var(--border)",
+        },
+        brand: {
+          orange: "#ff6600",
+          "orange-hover": "#e65c00",
+          "orange-light": "#ff8533",
+          white: "#ffffff",
+          black: "#000000",
+          dark: "#09090b",
+        },
+        secondary: {
+          green: "#10b981",
+          "green-hover": "#059669",
+          "green-light": "#34d399",
+          red: "#ef4444",
+          "red-hover": "#dc2626",
+          "red-light": "#f87171",
+          yellow: "#eab308",
+          "yellow-hover": "#ca8a04",
+          "yellow-light": "#fde047",
+          grey: "#71717a",
+          "grey-light": "#a1a1aa",
+          "grey-dark": "#27272a",
+          "grey-darker": "#18181b",
+        },
+        cyber: {
+          orange: "#ff6600",
+          green: "#10b981",
+          red: "#ef4444",
+          yellow: "#eab308",
+          grey: "#71717a",
+          emerald: "#10b981",
+          amber: "#eab308",
+          blue: "#ff6600",
+          cyan: "#10b981",
+        },
+      },
+    },
+  },
+  plugins: [],
+}
