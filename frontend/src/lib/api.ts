@@ -1,19 +1,21 @@
 function getApiBaseUrl(): string {
-  if (typeof window !== "undefined") {
-    // If accessed through standard HTTP/HTTPS reverse proxy (port 80 or 443)
-    if (window.location.port === "80" || window.location.port === "443" || !window.location.port) {
-      return `${window.location.origin}/api/v1`;
-    }
-    if (process.env.NEXT_PUBLIC_API_URL) {
-      return process.env.NEXT_PUBLIC_API_URL;
-    }
-    // Match current host (127.0.0.1, localhost, or LAN IP).
-    // Normalize localhost to 127.0.0.1 to avoid Windows IPv6 (::1) connection refused issues with uvicorn.
-    const hostname = window.location.hostname || "127.0.0.1";
-    const targetHost = hostname === "localhost" ? "127.0.0.1" : hostname;
-    return `http://${targetHost}:8000/api/v1`;
+  // 1. If explicit environment variable is set (Vercel, Docker, Production), ALWAYS prioritize it
+  if (process.env.NEXT_PUBLIC_API_URL) {
+    return process.env.NEXT_PUBLIC_API_URL;
   }
-  return process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000/api/v1";
+
+  if (typeof window !== "undefined") {
+    const hostname = window.location.hostname || "127.0.0.1";
+    // 2. If running locally (localhost / 127.0.0.1), connect to local backend port 8000
+    if (hostname === "localhost" || hostname === "127.0.0.1") {
+      const targetHost = hostname === "localhost" ? "127.0.0.1" : hostname;
+      return `http://${targetHost}:8000/api/v1`;
+    }
+
+    // 3. If accessed on a deployed domain (port 80, 443, or reverse proxy), use same-origin proxy
+    return `${window.location.origin}/api/v1`;
+  }
+  return "http://127.0.0.1:8000/api/v1";
 }
 
 export async function apiFetch<T = any>(
@@ -44,7 +46,7 @@ export async function apiFetch<T = any>(
     });
   } catch (err: any) {
     // If connecting directly to port 8000 failed, attempt same-origin Next.js reverse proxy fallback (/api/v1/...)
-    if (typeof window !== "undefined" && url.startsWith("http")) {
+    if (typeof window !== "undefined" && url.startsWith("http://127.0.0.1:8000")) {
       try {
         const fallbackUrl = `/api/v1${endpoint.startsWith("/") ? endpoint : `/${endpoint}`}`;
         res = await fetch(fallbackUrl, {
@@ -53,12 +55,12 @@ export async function apiFetch<T = any>(
         });
       } catch {
         throw new Error(
-          `Unable to connect to ExposureX backend. Please verify the backend service is running on http://127.0.0.1:8000.`
+          `Unable to connect to ExposureX backend. Please verify your backend API is online.`
         );
       }
     } else {
       throw new Error(
-        `Network error: ${err?.message || "Failed to reach backend service"}`
+        `Unable to reach ExposureX backend at ${baseUrl}. Please ensure the backend server is running.`
       );
     }
   }
@@ -73,12 +75,22 @@ export async function apiFetch<T = any>(
   }
 
   if (!res.ok) {
-    let errorDetail = "API Request failed";
+    let errorDetail = "";
     try {
       const errJson = await res.json();
-      errorDetail = errJson.detail || errJson.message || errorDetail;
+      errorDetail = errJson.detail || errJson.message || "";
     } catch {
-      // Fallback
+      // Body is not JSON (e.g. 404 / 502 HTML from cloud gateway or proxy)
+    }
+
+    if (!errorDetail) {
+      if (res.status === 404) {
+        errorDetail = `Backend endpoint not found (HTTP 404). If deploying on Vercel, please set NEXT_PUBLIC_API_URL to your hosted backend URL.`;
+      } else if (res.status >= 500) {
+        errorDetail = `Backend server unreachable or gateway error (HTTP ${res.status}).`;
+      } else {
+        errorDetail = `Request failed (HTTP ${res.status}: ${res.statusText || "Error"}).`;
+      }
     }
     throw new Error(errorDetail);
   }
@@ -89,17 +101,37 @@ export async function apiFetch<T = any>(
 export const api = {
   // Auth
   login: async (formData: URLSearchParams) => {
-    const res = await fetch(`${getApiBaseUrl()}/auth/login`, {
-      method: "POST",
-      headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      body: formData,
-    });
+    const url = `${getApiBaseUrl()}/auth/login`;
+    let res: Response;
+    try {
+      res = await fetch(url, {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: formData,
+      });
+    } catch (err: any) {
+      throw new Error(
+        `Unable to connect to backend at ${url}. Please ensure the ExposureX backend service is running.`
+      );
+    }
+
     if (!res.ok) {
-      let msg = "Invalid credentials";
+      let msg = "";
       try {
         const errJson = await res.json();
         if (errJson.detail) msg = errJson.detail;
-      } catch {}
+      } catch {
+        // Not JSON
+      }
+      if (!msg) {
+        if (res.status === 404) {
+          msg = `Backend route not found (HTTP 404). If deploying on Vercel, set NEXT_PUBLIC_API_URL to your hosted backend API URL.`;
+        } else if (res.status >= 500) {
+          msg = `Backend service error (HTTP ${res.status}).`;
+        } else {
+          msg = "Invalid credentials";
+        }
+      }
       throw new Error(msg);
     }
     return res.json();

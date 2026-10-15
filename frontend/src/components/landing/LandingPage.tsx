@@ -200,6 +200,21 @@ export function LandingPage() {
     }
   };
 
+  const handleDemoSignIn = (
+    role: "Administrator" | "Security Analyst" | "Risk Manager" | "Viewer" | "Auditor" = "Administrator"
+  ) => {
+    const demoEmail = email.trim() || "sam@abc.com";
+    const namePart = demoEmail.split("@")[0].replace(".", " ");
+    const formattedName = namePart.charAt(0).toUpperCase() + namePart.slice(1);
+    setAuthSession("demo-token-preview-session", {
+      id: "usr-demo-admin",
+      email: demoEmail,
+      full_name: `${formattedName} (Demo Analyst)`,
+      role: role,
+      is_active: true,
+    });
+  };
+
   const handleSignUp = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!signupEmail.trim() || !signupPassword.trim()) {
@@ -627,9 +642,22 @@ export function LandingPage() {
 
                   {/* Standard Sign In Error */}
                   {signInError && !isAccountNotFound && (
-                    <div className="mb-4 p-3 rounded-lg bg-red-950/60 border border-red-500/50 text-red-200 text-xs flex items-center gap-2">
-                      <AlertTriangle className="w-4 h-4 text-red-400 flex-shrink-0" />
-                      <span>{signInError}</span>
+                    <div className="mb-4 p-3.5 rounded-xl bg-red-950/70 border border-red-500/50 text-red-200 text-xs space-y-2.5">
+                      <div className="flex items-start gap-2">
+                        <AlertTriangle className="w-4 h-4 text-red-400 flex-shrink-0 mt-0.5" />
+                        <span className="leading-snug">{signInError}</span>
+                      </div>
+                      <div className="pt-2 border-t border-red-800/60 flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-[11px]">
+                        <span className="text-zinc-400">Testing on Vercel without a backend?</span>
+                        <button
+                          type="button"
+                          onClick={() => handleDemoSignIn()}
+                          className="px-3 py-1 rounded bg-[#ff6600] hover:bg-[#e65c00] text-white font-bold transition-all shadow-sm flex items-center justify-center gap-1 w-fit"
+                        >
+                          <span>Instant Demo Access</span>
+                          <ArrowRight className="w-3 h-3" />
+                        </button>
+                      </div>
                     </div>
                   )}
 
@@ -718,6 +746,18 @@ export function LandingPage() {
                         </>
                       )}
                     </button>
+
+                    <div className="pt-2 flex items-center justify-between text-[11px] text-zinc-400">
+                      <span>Evaluating platform?</span>
+                      <button
+                        type="button"
+                        onClick={() => handleDemoSignIn()}
+                        className="text-orange-400 hover:text-orange-300 font-mono font-semibold flex items-center gap-1 hover:underline transition-colors"
+                      >
+                        <Sparkles className="w-3 h-3 text-orange-400" />
+                        <span>One-Click Demo Mode</span>
+                      </button>
+                    </div>
                   </form>
 
                   <div className="mt-5 pt-4 border-t border-zinc-800 text-center text-xs text-zinc-400">
