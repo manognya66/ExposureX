@@ -555,7 +555,7 @@ def seed_database(db: Session, seed_users: bool = False):
         },
         organization_id=org.id,
         assigned_analyst="Sarah Chen (Sec Analyst)",
-        assigned_analyst_id=users[1].id,
+        assigned_analyst_id=users[1].id if ('users' in locals() and users) else None,
         status="Investigating",
         related_finding_ids=[f1.id],
         related_asset_ids=[vpn_asset.id],
@@ -572,7 +572,7 @@ def seed_database(db: Session, seed_users: bool = False):
 
     comment1 = CaseComment(
         case_id=case1.id,
-        user_id=users[1].id,
+        user_id=users[1].id if ('users' in locals() and users) else None,
         user_name="Sarah Chen (Sec Analyst)",
         comment="Confirmed that Palo Alto PAN-OS 10.2.7-h2 was running on the primary gateway. Recommending emergency hotfix deployment in tonight's maintenance window.",
         created_at=datetime.utcnow() - timedelta(hours=2)

@@ -31,6 +31,16 @@ from app.api.v1.search import router as search_router
 async def lifespan(app: FastAPI):
     # Initialize schema
     Base.metadata.create_all(bind=engine)
+    # Automatically seed synthetic enterprise datasets if database is newly provisioned
+    db = SessionLocal()
+    try:
+        from app.models.organization import Organization
+        if not db.query(Organization).first():
+            seed_database(db, seed_users=True)
+    except Exception as e:
+        print(f"Startup seed notice: {e}")
+    finally:
+        db.close()
     yield
 
 app = FastAPI(
