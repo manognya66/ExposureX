@@ -12,6 +12,10 @@ frontend/.env.development
 !.env.example
 !*.example
 
+# Explicitly ensure frontend/src/lib is tracked
+!frontend/src/lib/
+!frontend/src/lib/**
+
 # Python
 __pycache__/
 *.py[cod]
@@ -28,8 +32,6 @@ dist/
 downloads/
 eggs/
 .eggs/
-lib/
-lib64/
 parts/
 sdist/
 var/
@@ -70,4 +72,3 @@ Thumbs.db
 .vscode/
 *.swp
 *.swo
-
