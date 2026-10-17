@@ -45,24 +45,9 @@ export async function apiFetch<T = any>(
       headers,
     });
   } catch (err: any) {
-    // If connecting directly to port 8000 failed, attempt same-origin Next.js reverse proxy fallback (/api/v1/...)
-    if (typeof window !== "undefined" && url.startsWith("http://127.0.0.1:8000")) {
-      try {
-        const fallbackUrl = `/api/v1${endpoint.startsWith("/") ? endpoint : `/${endpoint}`}`;
-        res = await fetch(fallbackUrl, {
-          ...options,
-          headers,
-        });
-      } catch {
-        throw new Error(
-          `Unable to connect to ExposureX backend. Please verify your backend API is online.`
-        );
-      }
-    } else {
-      throw new Error(
-        `Unable to reach ExposureX backend at ${baseUrl}. Please ensure the backend server is running.`
-      );
-    }
+    throw new Error(
+      `Unable to reach ExposureX backend at ${baseUrl}. Please ensure your backend server is running.`
+    );
   }
 
   // If 401 Unauthorized, clear stored expired session

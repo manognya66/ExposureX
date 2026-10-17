@@ -78,19 +78,33 @@ export default function UsersPage() {
   const [resettingUser, setResettingUser] = useState<UserType | null>(null);
   const [resetNewPassword, setResetNewPassword] = useState("");
 
+  const [currentUser, setCurrentUser] = useState<UserType | null>(null);
+
   const loadUsers = async () => {
     setIsLoading(true);
     try {
       const data = await api.getUsers();
       setUsers(data);
-    } catch (err) {
+    } catch (err: any) {
       console.error(err);
+      setNotification({
+        type: "error",
+        message: err.message || "Failed to load team users directory."
+      });
     } finally {
       setIsLoading(false);
     }
   };
 
   useEffect(() => {
+    if (typeof window !== "undefined") {
+      const stored = sessionStorage.getItem("exposurex_user") || localStorage.getItem("exposurex_user");
+      if (stored) {
+        try {
+          setCurrentUser(JSON.parse(stored));
+        } catch {}
+      }
+    }
     loadUsers();
   }, []);
 
@@ -223,14 +237,32 @@ export default function UsersPage() {
             <RefreshCw className={cn("w-4 h-4", isLoading && "animate-spin")} />
           </button>
           <button
-            onClick={() => setIsInviteModalOpen(true)}
+            onClick={() => {
+              if (currentUser && currentUser.role !== "Administrator") {
+                setNotification({
+                  type: "error",
+                  message: `Administrator privilege required to generate company invites. Your active role is '${currentUser.role}'.`,
+                });
+                return;
+              }
+              setIsInviteModalOpen(true);
+            }}
             className="text-xs px-3.5 py-2.5 rounded-xl bg-orange-500/10 hover:bg-orange-500/20 border border-orange-500/30 text-[#ff6600] font-bold transition-all flex items-center gap-1.5 shadow-sm active:scale-95"
           >
             <UserPlus className="w-4 h-4" />
             <span>Invite Colleague URL</span>
           </button>
           <button
-            onClick={() => setIsAddModalOpen(true)}
+            onClick={() => {
+              if (currentUser && currentUser.role !== "Administrator") {
+                setNotification({
+                  type: "error",
+                  message: `Administrator privilege required to provision new accounts. Your active role is '${currentUser.role}'.`,
+                });
+                return;
+              }
+              setIsAddModalOpen(true);
+            }}
             className="text-xs px-4 py-2.5 rounded-xl bg-[#ff6600] hover:bg-[#e65c00] text-white font-bold transition-all flex items-center gap-1.5 shadow-md shadow-orange-500/25 active:scale-95"
           >
             <Plus className="w-4 h-4" />
@@ -238,6 +270,18 @@ export default function UsersPage() {
           </button>
         </div>
       </div>
+
+      {/* Non-Admin Directory Information Notice */}
+      {currentUser && currentUser.role !== "Administrator" && (
+        <div className="p-3.5 rounded-xl border border-amber-800/40 bg-amber-950/20 text-xs text-amber-300 flex items-center justify-between gap-3 font-sans">
+          <div className="flex items-center gap-2">
+            <Shield className="w-4 h-4 text-amber-400 shrink-0" />
+            <span>
+              <strong>Team Directory View:</strong> You are signed in as <strong>{currentUser.email}</strong> (<span className="font-mono text-amber-200">{currentUser.role}</span>). Modifying roles, password resets, and user provisioning are restricted to Administrators.
+            </span>
+          </div>
+        </div>
+      )}
 
       {/* Smooth Non-Intrusive Notification Banner */}
       {notification && (

@@ -172,7 +172,7 @@ def signup(req: SignUpRequest, db: Session = Depends(get_db)):
             detail="Password must be at least 6 characters long."
         )
 
-    # First user to sign up automatically gets Administrator role, subsequent users become Security Analysts
+    # First user to sign up or first member of an organization gets Administrator role
     total_users = db.query(User).count()
     assigned_role = RoleEnum.ADMINISTRATOR.value if total_users == 0 else RoleEnum.SECURITY_ANALYST.value
 
@@ -223,6 +223,11 @@ def signup(req: SignUpRequest, db: Session = Depends(get_db)):
                 )
                 db.add(scope)
                 db.commit()
+
+    if not req.invite_token:
+        org_user_count = db.query(User).filter(User.organization_id == org.id).count() if org else 0
+        if org_user_count == 0 or total_users == 0:
+            assigned_role = RoleEnum.ADMINISTRATOR.value
 
     user_full_name = req.full_name.strip() if req.full_name and req.full_name.strip() else (clean_email.split("@")[0].replace(".", " ").title() if "@" in clean_email else "Enterprise User")
     new_user = User(
@@ -478,7 +483,11 @@ def sso_authenticate(req: SsoAuthRequest, db: Session = Depends(get_db)):
     user = db.query(User).filter(User.email == clean_email).first()
     if not user:
         total_users = db.query(User).count()
-        role = RoleEnum.ADMINISTRATOR.value if total_users == 0 else (invite.role if invite else RoleEnum.SECURITY_ANALYST.value)
+        org_user_count = db.query(User).filter(User.organization_id == org.id).count() if org else 0
+        if not invite and (total_users == 0 or org_user_count == 0):
+            role = RoleEnum.ADMINISTRATOR.value
+        else:
+            role = invite.role if invite else RoleEnum.SECURITY_ANALYST.value
         user = User(
             email=clean_email,
             hashed_password=hash_password(secrets.token_urlsafe(32)),
@@ -606,8 +615,15 @@ def get_current_user_profile(current_user: User = Depends(get_current_user)):
 @router.get("/users", response_model=List[UserResponse])
 def list_users(
     db: Session = Depends(get_db),
-    current_user: User = Depends(require_roles([RoleEnum.ADMINISTRATOR.value, RoleEnum.AUDITOR.value]))
+    current_user: User = Depends(get_current_user)
 ):
+    """List provisioned user accounts belonging to the caller's enterprise organization (or all users for super-administrators)."""
+    if current_user.role == RoleEnum.ADMINISTRATOR.value and not current_user.organization_id:
+        return db.query(User).all()
+    if current_user.organization_id:
+        org_users = db.query(User).filter(User.organization_id == current_user.organization_id).all()
+        if org_users:
+            return org_users
     return db.query(User).all()
 
 @router.post("/users", response_model=UserResponse)
