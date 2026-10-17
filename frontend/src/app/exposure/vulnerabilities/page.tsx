@@ -121,15 +121,15 @@ export default function VulnerabilitiesPage() {
 
       {/* Table */}
       <div className="card-cyber p-0 overflow-x-auto bg-[#09090b] border border-zinc-800 rounded-2xl shadow-xl">
-        <table className="w-full text-left text-xs table-fixed min-w-[900px]">
+        <table className="w-full text-left text-xs table-fixed min-w-[1080px]">
           <thead className="bg-black border-b border-zinc-800 text-zinc-400 font-mono uppercase text-[10px]">
             <tr>
-              <th className="py-3.5 px-4 font-bold whitespace-nowrap w-[15%]">CVE Reference</th>
-              <th className="py-3.5 px-4 font-bold w-[24%]">Title & Description</th>
-              <th className="py-3.5 px-4 font-bold whitespace-nowrap w-[11%]">CVSS Score</th>
-              <th className="py-3.5 px-4 font-bold whitespace-nowrap w-[16%]">CISA KEV Status</th>
-              <th className="py-3.5 px-4 font-bold whitespace-nowrap w-[13%]">Affected Technology</th>
-              <th className="py-3.5 px-4 font-bold whitespace-nowrap w-[14%]">Associated Asset</th>
+              <th className="py-3.5 px-4 font-bold whitespace-nowrap w-[13%]">CVE Reference</th>
+              <th className="py-3.5 px-4 font-bold w-[22%]">Title & Description</th>
+              <th className="py-3.5 px-4 font-bold whitespace-nowrap w-[9%]">CVSS Score</th>
+              <th className="py-3.5 px-4 font-bold whitespace-nowrap w-[15%]">CISA KEV Status</th>
+              <th className="py-3.5 px-4 font-bold whitespace-nowrap w-[19%]">Affected Technology</th>
+              <th className="py-3.5 px-4 font-bold whitespace-nowrap w-[15%]">Associated Asset</th>
               <th className="py-3.5 px-4 font-bold text-right whitespace-nowrap w-[7%]">Reference</th>
             </tr>
           </thead>
@@ -182,14 +182,16 @@ export default function VulnerabilitiesPage() {
                     <span className="text-[10px] text-slate-500 font-mono whitespace-nowrap">Standard Catalog</span>
                   )}
                 </td>
-                <td className="py-3 px-4 text-slate-300 font-mono text-[11px] truncate" title={v.affected_technology}>
-                  {v.affected_technology}
+                <td className="py-3 px-4 text-slate-200 font-mono text-[11px] leading-relaxed break-words whitespace-normal" title={v.affected_technology}>
+                  <div className="break-words whitespace-normal text-slate-200">
+                    {v.affected_technology || "—"}
+                  </div>
                 </td>
-                <td className="py-3 px-4 font-mono text-cyan-300 text-xs truncate">
+                <td className="py-3 px-4 font-mono text-cyan-300 text-xs">
                   {v.associated_asset_name ? (
-                    <span className="flex items-center gap-1.5 truncate" title={v.associated_asset_name}>
+                    <span className="flex items-center gap-1.5 break-all" title={v.associated_asset_name}>
                       <Globe className="w-3.5 h-3.5 text-cyan-400 shrink-0" />
-                      <span className="truncate">{v.associated_asset_name}</span>
+                      <span className="break-all">{v.associated_asset_name}</span>
                     </span>
                   ) : (
                     <span className="text-slate-500">Unmapped</span>
