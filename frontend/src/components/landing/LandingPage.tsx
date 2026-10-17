@@ -399,12 +399,12 @@ export function LandingPage() {
   return (
     <div className="min-h-screen bg-[#070d1e] text-slate-100 flex flex-col selection:bg-orange-500 selection:text-white font-sans">
       {/* Top Navbar */}
-      <header className="sticky top-0 z-40 bg-[#070d1e]/90 backdrop-blur-md border-b border-[#1a2333] px-6 lg:px-12 h-16 flex items-center justify-between">
+      <header className="sticky top-0 z-40 bg-[#070d1e]/90 backdrop-blur-md border-b border-[#1a2333] px-4 sm:px-6 lg:px-12 h-16 flex items-center justify-between">
         <div className="flex-1 flex items-center justify-start">
           <ExposureXLogo />
         </div>
 
-        <nav className="hidden md:flex items-center justify-center gap-6 text-xs text-slate-400 font-mono shrink-0">
+        <nav className="hidden lg:flex items-center justify-center gap-6 text-xs text-slate-400 font-mono shrink-0">
           <a href="#features" className="hover:text-cyan-400 transition-colors">Core Capabilities</a>
           <a href="#workflow" className="hover:text-cyan-400 transition-colors">CTEM Workflow</a>
           <a href="#pillars" className="hover:text-cyan-400 transition-colors">Explainable Risk</a>
@@ -419,7 +419,7 @@ export function LandingPage() {
                 setSignInError("");
                 setIsAccountNotFound(false);
               }}
-              className="text-xs px-4 py-2 w-[148px] justify-center rounded-lg bg-[#0f172a] hover:bg-[#1e293b] text-slate-300 font-semibold transition-colors flex items-center gap-2 border border-[#1e293b] shadow-sm whitespace-nowrap active:scale-95"
+              className="text-xs px-3 sm:px-4 py-2 w-[125px] sm:w-[148px] justify-center rounded-lg bg-[#0f172a] hover:bg-[#1e293b] text-slate-300 font-semibold transition-colors flex items-center gap-2 border border-[#1e293b] shadow-sm whitespace-nowrap active:scale-95"
             >
               <Lock className="w-3.5 h-3.5 text-cyan-400 shrink-0" />
               <span className="whitespace-nowrap font-medium">Sign In</span>
@@ -430,7 +430,7 @@ export function LandingPage() {
                 setAuthMode("signup");
                 setSignupError("");
               }}
-              className="text-xs px-4 py-2 w-[148px] justify-center rounded-lg bg-orange-500 hover:bg-orange-600 text-white font-bold transition-all flex items-center gap-2 shadow-md shadow-orange-500/25 active:scale-95 whitespace-nowrap"
+              className="text-xs px-3 sm:px-4 py-2 w-[125px] sm:w-[148px] justify-center rounded-lg bg-orange-500 hover:bg-orange-600 text-white font-bold transition-all flex items-center gap-2 shadow-md shadow-orange-500/25 active:scale-95 whitespace-nowrap"
             >
               <UserPlus className="w-3.5 h-3.5 shrink-0" />
               <span className="whitespace-nowrap">Create Account</span>
@@ -440,14 +440,14 @@ export function LandingPage() {
       </header>
 
       {/* Hero & Login Section */}
-      <section className="relative overflow-hidden py-12 lg:py-20 px-6 lg:px-12 max-w-7xl mx-auto w-full">
+      <section className="relative overflow-hidden py-8 sm:py-12 lg:py-20 px-4 sm:px-6 lg:px-12 max-w-7xl mx-auto w-full">
         {/* Ambient Glows */}
         <div className="absolute top-1/4 -left-32 w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none" />
         <div className="absolute top-1/3 -right-32 w-96 h-96 bg-blue-600/10 rounded-full blur-3xl pointer-events-none" />
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
           {/* Hero Left Content */}
-          <div className="lg:col-span-7 space-y-6">
+          <div className="lg:col-span-7 space-y-5 sm:space-y-6">
             <div className="inline-flex flex-wrap items-center gap-2 px-3.5 py-1.5 rounded-full bg-orange-500/10 border border-orange-500/30 text-xs font-mono text-slate-300 shadow-sm shadow-orange-500/10">
               <Sparkles className="w-3.5 h-3.5 text-orange-400 animate-pulse shrink-0" />
               <span>
@@ -462,7 +462,7 @@ export function LandingPage() {
               </span>
             </div>
 
-            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-white leading-tight">
+            <h1 className="text-2xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-white leading-tight">
               SEE EXPOSURE. <br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 via-amber-300 to-emerald-400">
                 REDUCE RISK.
@@ -470,12 +470,12 @@ export function LandingPage() {
               STAY AHEAD.
             </h1>
 
-            <p className="text-slate-300 text-sm sm:text-base leading-relaxed max-w-xl">
+            <p className="text-slate-300 text-xs sm:text-base leading-relaxed max-w-xl">
               An on-premises Continuous Threat Exposure Management (CTEM) platform that continuously discovers approved external assets, correlates identity context and credential leaks with actively exploited vulnerabilities, and calculates transparent, mathematically explainable risk.
             </p>
 
             {/* Quick Value Metrics */}
-            <div className="grid grid-cols-3 gap-3 pt-2 max-w-lg">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 sm:gap-3 pt-2 max-w-lg">
               <div className="p-3.5 rounded-xl glass-card border border-orange-500/20 hover:border-orange-500/50 transition-all">
                 <div className="text-[#ff6600] font-mono text-xl font-bold">100%</div>
                 <div className="text-[11px] text-zinc-400 mt-0.5 font-medium">Passive Discovery</div>
@@ -1312,7 +1312,7 @@ export function LandingPage() {
                   <Calculator className="w-4 h-4" />
                   <span>Deterministic Risk Formulation</span>
                 </div>
-                <div className="text-sm sm:text-base font-mono text-slate-200 bg-black/50 px-4 py-2.5 rounded-lg border border-slate-800">
+                <div className="text-xs sm:text-sm md:text-base font-mono text-slate-200 bg-black/50 px-3 sm:px-4 py-2.5 rounded-lg border border-slate-800 overflow-x-auto">
                   <span className="text-orange-400 font-bold">Total Risk</span> ={" "}
                   <span className="text-cyan-400">(Exposure × 30%)</span> +{" "}
                   <span className="text-red-400">(Vulnerabilities × 25%)</span> +{" "}
@@ -1320,12 +1320,12 @@ export function LandingPage() {
                   <span className="text-emerald-400">(Business Impact × 20%)</span>
                 </div>
               </div>
-              <div className="flex items-center gap-3 shrink-0">
-                <div className="text-center px-4 py-2 bg-black/40 border border-slate-800 rounded-xl">
+              <div className="flex flex-wrap items-center justify-center lg:justify-end gap-3 shrink-0 w-full lg:w-auto">
+                <div className="flex-1 sm:flex-none text-center px-4 py-2 bg-black/40 border border-slate-800 rounded-xl min-w-[120px]">
                   <div className="text-[10px] uppercase font-mono text-slate-400 tracking-wider">Output Scale</div>
                   <div className="text-xl font-bold font-mono text-white">0 — 100</div>
                 </div>
-                <div className="text-center px-4 py-2 bg-black/40 border border-slate-800 rounded-xl">
+                <div className="flex-1 sm:flex-none text-center px-4 py-2 bg-black/40 border border-slate-800 rounded-xl min-w-[120px]">
                   <div className="text-[10px] uppercase font-mono text-slate-400 tracking-wider">Auditability</div>
                   <div className="text-xl font-bold font-mono text-emerald-400">100% Deterministic</div>
                 </div>

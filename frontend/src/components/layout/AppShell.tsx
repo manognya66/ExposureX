@@ -6,6 +6,8 @@ import { Sidebar } from "@/components/layout/Sidebar";
 import { Header } from "@/components/layout/Header";
 import { LandingPage } from "@/components/landing/LandingPage";
 
+import { SidebarProvider } from "@/components/layout/SidebarContext";
+
 export function AppShell({ children }: { children: React.ReactNode }) {
   const { user, isLoading } = useAuth();
 
@@ -25,18 +27,20 @@ export function AppShell({ children }: { children: React.ReactNode }) {
     return <LandingPage />;
   }
 
-  // Once authenticated, provide full operational workspace with generous, free-flowing spacing
+  // Once authenticated, provide full responsive operational workspace across mobile, tablet, and desktop
   return (
-    <div className="flex h-screen w-full overflow-hidden min-w-0 bg-black dark:bg-[#000000] light:bg-[#f8fafc] text-white light:text-slate-900 transition-colors duration-200">
-      <Sidebar />
-      <div className="flex-1 flex flex-col min-w-0 h-screen overflow-hidden">
-        <Header />
-        <main className="flex-1 overflow-y-auto p-6 sm:p-8 md:p-10 lg:p-12 bg-black dark:bg-[#000000] light:bg-[#f8fafc] text-white light:text-slate-900 transition-colors duration-200">
-          <div className="max-w-7xl mx-auto w-full">
-            {children}
-          </div>
-        </main>
+    <SidebarProvider>
+      <div className="flex h-screen w-full overflow-hidden min-w-0 bg-black dark:bg-[#000000] light:bg-[#f8fafc] text-white light:text-slate-900 transition-colors duration-200">
+        <Sidebar />
+        <div className="flex-1 flex flex-col min-w-0 h-screen overflow-hidden">
+          <Header />
+          <main className="flex-1 overflow-y-auto p-3.5 sm:p-6 md:p-8 lg:p-10 bg-black dark:bg-[#000000] light:bg-[#f8fafc] text-white light:text-slate-900 transition-colors duration-200">
+            <div className="max-w-7xl mx-auto w-full">
+              {children}
+            </div>
+          </main>
+        </div>
       </div>
-    </div>
+    </SidebarProvider>
   );
 }

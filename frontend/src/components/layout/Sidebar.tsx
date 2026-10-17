@@ -19,9 +19,11 @@ import {
   FileText,
   UserCheck,
   Radio,
+  X,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { ExposureXLogoIcon } from "@/components/common/ExposureXLogo";
+import { useSidebar } from "@/components/layout/SidebarContext";
 
 interface NavItem {
   title: string;
@@ -38,6 +40,7 @@ interface NavGroup {
 
 export function Sidebar() {
   const pathname = usePathname();
+  const { isMobileOpen, closeMobile } = useSidebar();
 
   const navGroups: NavGroup[] = [
     {
@@ -87,57 +90,86 @@ export function Sidebar() {
   ];
 
   return (
-    <aside className="w-64 bg-[#09090b] border-r border-zinc-800/90 flex flex-col h-screen sticky top-0 z-30 select-none shadow-2xl">
-      {/* Brand Header */}
-      <div className="h-16 flex items-center px-5 border-b border-zinc-800/90 gap-3 bg-zinc-950/60">
-        <div className="relative flex items-center justify-center">
-          <ExposureXLogoIcon className="w-8 h-8" />
-          <span className="absolute -top-0.5 -right-0.5 flex h-2 w-2">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-            <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
-          </span>
-        </div>
-        <div>
-          <div className="text-sm font-bold tracking-wider text-white flex items-center gap-1.5 font-mono">
-            Exposure<span className="text-[#ff6600] font-extrabold text-base">X</span>
-            <span className="text-[10px] px-1.5 py-0.5 rounded font-sans font-bold bg-zinc-800 text-zinc-300 border border-zinc-700">
-              CTEM
-            </span>
-          </div>
-          <div className="text-[11px] uppercase font-mono tracking-widest text-zinc-400 flex items-center gap-1.5 font-medium">
-            <span>Risk Intel</span>
-            <span className="text-zinc-600">•</span>
-            <span className="text-emerald-400 font-bold flex items-center gap-1">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
-              SECURE
-            </span>
-          </div>
-        </div>
-      </div>
+    <>
+      {/* Mobile Backdrop Overlay (< lg) */}
+      {isMobileOpen && (
+        <div
+          onClick={closeMobile}
+          className="fixed inset-0 bg-black/80 backdrop-blur-sm z-40 lg:hidden transition-opacity duration-300 animate-in fade-in"
+          aria-hidden="true"
+        />
+      )}
 
-      {/* Nav List with Minimal Clean Spacing */}
-      <div className="flex-1 overflow-y-auto px-3 py-4 space-y-6">
-        {navGroups.map((grp) => (
-          <div key={grp.group}>
-            <div className="px-3 mb-2.5 text-xs font-bold uppercase tracking-wider text-zinc-400 font-mono flex items-center gap-2">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#ff6600]"></span>
-              <span className="text-zinc-300">{grp.group}</span>
+      <aside
+        className={cn(
+          "w-72 sm:w-64 bg-[#09090b] border-r border-zinc-800/90 flex flex-col h-screen select-none shadow-2xl transition-transform duration-300 ease-in-out",
+          // Drawer on mobile/tablet (< lg), docked static sidebar on desktop (lg+)
+          "fixed inset-y-0 left-0 z-50 lg:static lg:translate-x-0 lg:z-30",
+          isMobileOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
+        )}
+      >
+        {/* Brand Header */}
+        <div className="h-16 flex items-center justify-between px-5 border-b border-zinc-800/90 bg-zinc-950/60">
+          <div className="flex items-center gap-3">
+            <div className="relative flex items-center justify-center">
+              <ExposureXLogoIcon className="w-8 h-8" />
+              <span className="absolute -top-0.5 -right-0.5 flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+              </span>
             </div>
-            <div className="space-y-1.5">
-              {grp.items.map((item) => {
-                const Icon = item.icon;
-                const isActive = pathname === item.href;
-                return (
-                  <Link
-                    key={item.href}
-                    href={item.href}
-                    className={cn(
-                      "flex items-center justify-between px-3.5 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 ease-out group relative overflow-hidden active:scale-[0.98]",
-                      isActive
-                        ? "bg-zinc-900 text-white border-l-2 border-[#ff6600] font-bold shadow-sm"
-                        : "text-zinc-400 hover:text-white hover:bg-zinc-900/60"
-                    )}
-                  >
+            <div>
+              <div className="text-sm font-bold tracking-wider text-white flex items-center gap-1.5 font-mono">
+                Exposure<span className="text-[#ff6600] font-extrabold text-base">X</span>
+                <span className="text-[10px] px-1.5 py-0.5 rounded font-sans font-bold bg-zinc-800 text-zinc-300 border border-zinc-700">
+                  CTEM
+                </span>
+              </div>
+              <div className="text-[11px] uppercase font-mono tracking-widest text-zinc-400 flex items-center gap-1.5 font-medium">
+                <span>Risk Intel</span>
+                <span className="text-zinc-600">•</span>
+                <span className="text-emerald-400 font-bold flex items-center gap-1">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+                  SECURE
+                </span>
+              </div>
+            </div>
+          </div>
+
+          {/* Close button on mobile/tablet (< lg) */}
+          <button
+            onClick={closeMobile}
+            className="p-1.5 rounded-lg text-zinc-400 hover:text-white hover:bg-zinc-800 lg:hidden transition-colors"
+            aria-label="Close navigation menu"
+          >
+            <X className="w-5 h-5" />
+          </button>
+        </div>
+
+        {/* Nav List with Minimal Clean Spacing */}
+        <div className="flex-1 overflow-y-auto px-3 py-4 space-y-6">
+          {navGroups.map((grp) => (
+            <div key={grp.group}>
+              <div className="px-3 mb-2.5 text-xs font-bold uppercase tracking-wider text-zinc-400 font-mono flex items-center gap-2">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#ff6600]"></span>
+                <span className="text-zinc-300">{grp.group}</span>
+              </div>
+              <div className="space-y-1.5">
+                {grp.items.map((item) => {
+                  const Icon = item.icon;
+                  const isActive = pathname === item.href;
+                  return (
+                    <Link
+                      key={item.href}
+                      href={item.href}
+                      onClick={closeMobile}
+                      className={cn(
+                        "flex items-center justify-between px-3.5 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 ease-out group relative overflow-hidden active:scale-[0.98]",
+                        isActive
+                          ? "bg-zinc-900 text-white border-l-2 border-[#ff6600] font-bold shadow-sm"
+                          : "text-zinc-400 hover:text-white hover:bg-zinc-900/60"
+                      )}
+                    >
                     <div className="flex items-center gap-3">
                       <Icon
                         className={cn(
@@ -185,5 +217,6 @@ export function Sidebar() {
         </div>
       </div>
     </aside>
+    </>
   );
 }
