@@ -151,8 +151,8 @@ export default function CredentialsPage() {
       </div>
 
       {/* Table */}
-      <div className="card-cyber p-0 overflow-hidden bg-[#09090b] border border-zinc-800 rounded-2xl shadow-xl">
-        <table className="w-full text-left text-xs">
+      <div className="card-cyber p-0 overflow-x-auto bg-[#09090b] border border-zinc-800 rounded-2xl shadow-xl">
+        <table className="w-full text-left text-xs min-w-[900px]">
           <thead className="bg-black border-b border-zinc-800 text-zinc-400 font-mono uppercase text-[10px]">
             <tr>
               <th className="py-3.5 px-4 font-bold">Affected Identity</th>
@@ -248,7 +248,7 @@ export default function CredentialsPage() {
       {/* Triage / Status Modal */}
       {statusModalExp && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/75 backdrop-blur-sm p-4">
-          <div className="w-full max-w-md bg-[#0f172a] border border-[#1e293b] rounded-xl shadow-2xl p-6 space-y-4">
+          <div className="w-full max-w-md max-h-[90vh] overflow-y-auto bg-[#0f172a] border border-[#1e293b] rounded-xl shadow-2xl p-6 space-y-4">
             <div className="flex items-center justify-between pb-3 border-b border-[#1e293b]">
               <div className="flex items-center gap-2">
                 <KeyRound className="w-5 h-5 text-purple-400" />
@@ -311,7 +311,7 @@ export default function CredentialsPage() {
       {/* Synthetic Modal */}
       {isSyntheticModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/75 backdrop-blur-sm p-4">
-          <div className="w-full max-w-md bg-[#0f172a] border border-[#1e293b] rounded-xl shadow-2xl p-6 space-y-4">
+          <div className="w-full max-w-md max-h-[90vh] overflow-y-auto bg-[#0f172a] border border-[#1e293b] rounded-xl shadow-2xl p-6 space-y-4">
             <div className="flex items-center justify-between pb-3 border-b border-[#1e293b]">
               <div className="flex items-center gap-2">
                 <Plus className="w-5 h-5 text-purple-400" />

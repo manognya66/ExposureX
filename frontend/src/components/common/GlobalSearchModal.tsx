@@ -64,26 +64,31 @@ export function GlobalSearchModal({ isOpen, onClose }: SearchModalProps) {
     : 0;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-start justify-center pt-20 bg-black/75 backdrop-blur-sm p-4">
-      <div className="w-full max-w-2xl bg-[#0f172a] border border-[#1e293b] rounded-xl shadow-2xl overflow-hidden flex flex-col max-h-[75vh]">
+    <div className="fixed inset-0 z-50 flex items-start justify-center pt-8 sm:pt-20 bg-black/80 backdrop-blur-sm p-3 sm:p-4">
+      <div className="w-full max-w-2xl bg-[#0f172a] border border-[#1e293b] rounded-xl shadow-2xl overflow-hidden flex flex-col max-h-[85vh] sm:max-h-[75vh]">
         {/* Search Input Bar */}
-        <div className="flex items-center px-4 py-3.5 border-b border-[#1e293b] gap-3">
-          <Search className="w-5 h-5 text-cyan-400" />
+        <div className="flex items-center px-4 py-3.5 border-b border-[#1e293b] gap-2.5 sm:gap-3">
+          <Search className="w-4 sm:w-5 h-4 sm:h-5 text-cyan-400 shrink-0" />
           <input
             type="text"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Search assets, identities, CVEs, findings, cases, credentials..."
             autoFocus
-            className="flex-1 bg-transparent text-sm text-slate-100 placeholder:text-slate-500 focus:outline-none"
+            className="flex-1 bg-transparent text-xs sm:text-sm text-slate-100 placeholder:text-slate-500 focus:outline-none min-w-0"
           />
           {query && (
-            <button onClick={() => setQuery("")} className="text-slate-500 hover:text-slate-300">
+            <button onClick={() => setQuery("")} className="text-slate-500 hover:text-slate-300 p-1">
               <X className="w-4 h-4" />
             </button>
           )}
-          <button onClick={onClose} className="text-xs px-2 py-1 rounded bg-slate-800 text-slate-400 hover:text-slate-200">
-            Esc
+          <button
+            onClick={onClose}
+            className="text-xs px-2.5 py-1 rounded bg-slate-800 text-slate-400 hover:text-slate-200 flex items-center gap-1 shrink-0"
+            title="Close Search (Esc)"
+          >
+            <span className="hidden sm:inline">Esc</span>
+            <X className="w-3.5 h-3.5 sm:hidden" />
           </button>
         </div>
 

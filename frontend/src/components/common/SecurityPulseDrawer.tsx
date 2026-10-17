@@ -124,8 +124,14 @@ export function SecurityPulseDrawer({ isOpen, onClose }: PulseDrawerProps) {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex justify-end bg-black/60 backdrop-blur-xs">
-      <div className="w-full max-w-md bg-[#0a0f1d] border-l border-[#1a2333] h-full flex flex-col shadow-2xl">
+    <div
+      className="fixed inset-0 z-50 flex justify-end bg-black/70 backdrop-blur-sm animate-in fade-in"
+      onClick={onClose}
+    >
+      <div
+        className="w-full sm:max-w-md bg-[#0a0f1d] border-l border-[#1a2333] h-full flex flex-col shadow-2xl animate-in slide-in-from-right duration-200"
+        onClick={(e) => e.stopPropagation()}
+      >
         {/* Drawer Header */}
         <div className="p-4 border-b border-[#1a2333] flex items-center justify-between bg-[#0f172a]">
           <div className="flex items-center gap-2.5">

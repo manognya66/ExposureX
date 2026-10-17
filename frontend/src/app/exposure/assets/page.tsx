@@ -165,7 +165,7 @@ export default function AssetsPage() {
         <select
           value={typeFilter}
           onChange={(e) => setTypeFilter(e.target.value)}
-          className="bg-[#0f172a] border border-[#1e293b] text-slate-300 text-xs rounded-md px-3 py-2 focus:outline-none focus:border-cyan-500"
+          className="bg-black border border-zinc-800 text-zinc-300 text-xs rounded-xl px-3.5 py-2 font-sans focus:outline-none focus:border-[#ff6600]"
         >
           <option value="">All Asset Types</option>
           <option value="Domain">Domain</option>
@@ -179,7 +179,7 @@ export default function AssetsPage() {
         <select
           value={criticalityFilter}
           onChange={(e) => setCriticalityFilter(e.target.value)}
-          className="bg-[#0f172a] border border-[#1e293b] text-slate-300 text-xs rounded-md px-3 py-2 focus:outline-none focus:border-cyan-500"
+          className="bg-black border border-zinc-800 text-zinc-300 text-xs rounded-xl px-3.5 py-2 font-sans focus:outline-none focus:border-[#ff6600]"
         >
           <option value="">All Criticalities</option>
           <option value="Critical">Critical</option>
@@ -194,7 +194,7 @@ export default function AssetsPage() {
         {/* Assets Table */}
         <div className={cn("card-cyber p-0 overflow-hidden", selectedAssetId ? "lg:col-span-2" : "lg:col-span-3")}>
           <div className="overflow-x-auto">
-            <table className="w-full text-left text-xs">
+            <table className="w-full text-left text-xs min-w-[800px]">
               <thead className="bg-[#070b14] border-b border-[#1a2333] text-slate-400 font-mono uppercase text-[10px]">
                 <tr>
                   <th className="py-3 px-4">Asset Name</th>
@@ -407,7 +407,7 @@ export default function AssetsPage() {
       {/* Scoped Discovery Modal */}
       {isDiscoverModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/75 backdrop-blur-sm p-4">
-          <div className="w-full max-w-lg bg-[#0f172a] border border-[#1e293b] rounded-xl shadow-2xl p-6 space-y-4">
+          <div className="w-full max-w-lg max-h-[90vh] overflow-y-auto bg-[#0f172a] border border-[#1e293b] rounded-xl shadow-2xl p-6 space-y-4">
             <div className="flex items-center justify-between pb-3 border-b border-[#1e293b]">
               <div className="flex items-center gap-2">
                 <Radio className="w-5 h-5 text-cyan-400" />
@@ -476,7 +476,7 @@ export default function AssetsPage() {
       {/* Add Dynamic Asset Modal */}
       {isAddModalOpen && (
         <div className="fixed inset-0 z-50 bg-black/80 flex items-center justify-center p-4">
-          <div className="card-cyber max-w-lg w-full p-6 space-y-4 bg-[#09090b] border-zinc-800 rounded-2xl shadow-2xl relative">
+          <div className="card-cyber max-w-lg w-full max-h-[90vh] overflow-y-auto p-6 space-y-4 bg-[#09090b] border-zinc-800 rounded-2xl shadow-2xl relative">
             <div className="flex items-center justify-between pb-3 border-b border-zinc-800">
               <div className="flex items-center gap-2">
                 <Plus className="w-4 h-4 text-[#ff6600]" />

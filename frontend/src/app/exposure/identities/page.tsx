@@ -159,8 +159,8 @@ export default function IdentitiesPage() {
       </div>
 
       {/* Table */}
-      <div className="card-cyber p-0 overflow-hidden bg-[#09090b] border border-zinc-800 rounded-2xl shadow-xl">
-        <table className="w-full text-left text-xs">
+      <div className="card-cyber p-0 overflow-x-auto bg-[#09090b] border border-zinc-800 rounded-2xl shadow-xl">
+        <table className="w-full text-left text-xs min-w-[800px]">
           <thead className="bg-black border-b border-zinc-800 text-zinc-400 font-mono uppercase text-[10px]">
             <tr>
               <th className="py-3 px-4">Identity / Email</th>
@@ -243,7 +243,7 @@ export default function IdentitiesPage() {
       {/* CSV Import Modal */}
       {isCsvModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/75 backdrop-blur-sm p-4">
-          <div className="w-full max-w-md bg-[#0f172a] border border-[#1e293b] rounded-xl shadow-2xl p-6 space-y-4">
+          <div className="w-full max-w-md max-h-[90vh] overflow-y-auto bg-[#0f172a] border border-[#1e293b] rounded-xl shadow-2xl p-6 space-y-4">
             <div className="flex items-center justify-between pb-3 border-b border-[#1e293b]">
               <div className="flex items-center gap-2">
                 <Upload className="w-5 h-5 text-blue-400" />
@@ -301,7 +301,7 @@ export default function IdentitiesPage() {
       {/* Add Dynamic Identity Modal */}
       {isAddModalOpen && (
         <div className="fixed inset-0 z-50 bg-black/80 flex items-center justify-center p-4">
-          <div className="card-cyber max-w-lg w-full p-6 space-y-4 bg-[#09090b] border-zinc-800 rounded-2xl shadow-2xl relative">
+          <div className="card-cyber max-w-lg w-full max-h-[90vh] overflow-y-auto p-6 space-y-4 bg-[#09090b] border-zinc-800 rounded-2xl shadow-2xl relative">
             <div className="flex items-center justify-between pb-3 border-b border-zinc-800">
               <div className="flex items-center gap-2">
                 <Plus className="w-4 h-4 text-[#ff6600]" />

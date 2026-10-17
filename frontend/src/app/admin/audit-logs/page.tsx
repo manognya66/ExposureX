@@ -73,8 +73,8 @@ export default function AuditLogsPage() {
       </div>
 
       {/* Audit Log Table */}
-      <div className="card-cyber p-0 overflow-hidden bg-[#09090b] border border-zinc-800 rounded-2xl shadow-xl">
-        <table className="w-full text-left text-xs">
+      <div className="card-cyber p-0 overflow-x-auto bg-[#09090b] border border-zinc-800 rounded-2xl shadow-xl">
+        <table className="w-full text-left text-xs min-w-[850px]">
           <thead className="bg-black border-b border-zinc-800 text-zinc-400 font-mono uppercase text-[10px]">
             <tr>
               <th className="py-3.5 px-4 font-bold">Timestamp (UTC)</th>

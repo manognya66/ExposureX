@@ -174,13 +174,12 @@ export function Header() {
           {/* Responsive Search Button */}
           <button
             onClick={() => setIsSearchOpen(true)}
-            className="flex items-center gap-2 px-2.5 sm:px-3.5 py-2 rounded-xl bg-zinc-900/80 hover:bg-zinc-800/80 border border-zinc-800 hover:border-[#ff6600]/50 text-zinc-300 hover:text-white text-xs sm:text-sm transition-all w-auto sm:w-56 md:w-64 lg:w-72 text-left group shrink min-w-0"
-            title="Global Search (⌘K)"
+            className="flex items-center gap-2 px-3 py-2 rounded-xl bg-zinc-900/80 hover:bg-zinc-800/80 border border-zinc-800 hover:border-[#ff6600]/50 text-zinc-300 hover:text-white text-xs sm:text-sm transition-all w-auto sm:w-60 md:w-72 lg:w-80 text-left group shrink min-w-0"
+            title="Global Search"
           >
             <Search className="w-4 h-4 text-zinc-400 group-hover:text-[#ff6600] shrink-0 transition-colors" />
             <span className="hidden sm:inline truncate">Search Assets, CVEs, Leaks...</span>
             <span className="sm:hidden text-xs text-zinc-400">Search</span>
-            <kbd className="hidden md:inline ml-auto text-xs bg-zinc-800 border border-zinc-700 px-1.5 py-0.5 rounded text-zinc-300 font-mono">⌘K</kbd>
           </button>
         </div>
 

@@ -101,7 +101,7 @@ export function InviteUserModal({ isOpen, onClose }: InviteUserModalProps) {
 
   return (
     <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-4 animate-in fade-in">
-      <div className="bg-[#0c0c0e] border border-white/10 rounded-2xl max-w-lg w-full p-6 shadow-2xl relative space-y-5 text-white">
+      <div className="bg-[#0c0c0e] border border-white/10 rounded-2xl max-w-lg w-full max-h-[90vh] overflow-y-auto p-6 shadow-2xl relative space-y-5 text-white">
         {/* Close Button */}
         <button
           onClick={onClose}

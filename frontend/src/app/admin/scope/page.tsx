@@ -157,8 +157,8 @@ export default function ScopePage() {
       </div>
 
       {/* Scope Table */}
-      <div className="card-cyber p-0 overflow-hidden bg-[#09090b] border border-zinc-800 rounded-2xl shadow-xl">
-        <table className="w-full text-left text-xs">
+      <div className="card-cyber p-0 overflow-x-auto bg-[#09090b] border border-zinc-800 rounded-2xl shadow-xl">
+        <table className="w-full text-left text-xs min-w-[700px]">
           <thead className="bg-black border-b border-zinc-800 text-zinc-400 font-mono uppercase text-[10px]">
             <tr>
               <th className="py-3 px-4">Scope Pattern</th>
@@ -205,7 +205,7 @@ export default function ScopePage() {
       {/* Add Modal */}
       {isAddModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4">
-          <div className="w-full max-w-md bg-[#09090b] border border-zinc-800 rounded-2xl shadow-2xl p-6 space-y-4">
+          <div className="w-full max-w-md max-h-[90vh] overflow-y-auto bg-[#09090b] border border-zinc-800 rounded-2xl shadow-2xl p-6 space-y-4">
             <div className="flex items-center justify-between pb-3 border-b border-zinc-800">
               <div className="flex items-center gap-2">
                 <Target className="w-5 h-5 text-[#ff6600]" />

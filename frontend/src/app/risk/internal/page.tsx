@@ -380,17 +380,17 @@ export default function InternalRiskPage() {
                 </div>
               </div>
 
-              <div className="w-full pt-4 border-t border-zinc-800/80 grid grid-cols-3 gap-2 text-center text-xs font-mono">
-                <div className="p-2.5 rounded-lg bg-zinc-900/60">
-                  <div className="text-zinc-500 text-[10px] uppercase">Trend</div>
+              <div className="w-full pt-4 border-t border-zinc-800/80 grid grid-cols-3 gap-1.5 sm:gap-2 text-center text-[11px] sm:text-xs font-mono">
+                <div className="p-2 sm:p-2.5 rounded-lg bg-zinc-900/60">
+                  <div className="text-zinc-500 text-[9px] sm:text-[10px] uppercase">Trend</div>
                   <div className="text-emerald-400 font-bold mt-0.5">Stable</div>
                 </div>
-                <div className="p-2.5 rounded-lg bg-zinc-900/60">
-                  <div className="text-zinc-500 text-[10px] uppercase">Critical Assets</div>
+                <div className="p-2 sm:p-2.5 rounded-lg bg-zinc-900/60">
+                  <div className="text-zinc-500 text-[9px] sm:text-[10px] uppercase">Critical Assets</div>
                   <div className="text-white font-bold mt-0.5">{data.pillars?.business_impact ? Math.round(data.pillars.business_impact / 25) : 0}</div>
                 </div>
-                <div className="p-2.5 rounded-lg bg-zinc-900/60">
-                  <div className="text-zinc-500 text-[10px] uppercase">Open Findings</div>
+                <div className="p-2 sm:p-2.5 rounded-lg bg-zinc-900/60">
+                  <div className="text-zinc-500 text-[9px] sm:text-[10px] uppercase">Open Findings</div>
                   <div className="text-white font-bold mt-0.5">{score > 0 ? 5 : 0}</div>
                 </div>
               </div>
@@ -439,19 +439,19 @@ export default function InternalRiskPage() {
                 </div>
               </div>
 
-              <div className="w-full pt-4 border-t border-zinc-800/80 grid grid-cols-3 gap-2 text-center text-xs font-mono">
-                <div className="p-2.5 rounded-lg bg-zinc-900/60">
-                  <div className="text-zinc-500 text-[10px] uppercase">30d Trajectory</div>
+              <div className="w-full pt-4 border-t border-zinc-800/80 grid grid-cols-3 gap-1.5 sm:gap-2 text-center text-[11px] sm:text-xs font-mono">
+                <div className="p-2 sm:p-2.5 rounded-lg bg-zinc-900/60">
+                  <div className="text-zinc-500 text-[9px] sm:text-[10px] uppercase">30d Trajectory</div>
                   <div className={cn("font-bold mt-0.5", activeComparedPeer.trend_direction === "down" ? "text-emerald-400" : "text-amber-400")}>
                     {activeComparedPeer.trend_30d}
                   </div>
                 </div>
-                <div className="p-2.5 rounded-lg bg-zinc-900/60">
-                  <div className="text-zinc-500 text-[10px] uppercase">Critical Assets</div>
+                <div className="p-2 sm:p-2.5 rounded-lg bg-zinc-900/60">
+                  <div className="text-zinc-500 text-[9px] sm:text-[10px] uppercase">Critical Assets</div>
                   <div className="text-[#ff6600] font-bold mt-0.5">{activeComparedPeer.critical_assets}</div>
                 </div>
-                <div className="p-2.5 rounded-lg bg-zinc-900/60">
-                  <div className="text-zinc-500 text-[10px] uppercase">Open Findings</div>
+                <div className="p-2 sm:p-2.5 rounded-lg bg-zinc-900/60">
+                  <div className="text-zinc-500 text-[9px] sm:text-[10px] uppercase">Open Findings</div>
                   <div className="text-[#ff6600] font-bold mt-0.5">{activeComparedPeer.open_findings}</div>
                 </div>
               </div>

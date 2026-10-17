@@ -199,7 +199,7 @@ export default function ThirdPartyRiskPage() {
       {/* Vendor Detail Modal */}
       {selectedVendor && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/75 backdrop-blur-sm p-4">
-          <div className="w-full max-w-lg bg-[#0f172a] border border-[#1e293b] rounded-xl shadow-2xl p-6 space-y-4">
+          <div className="w-full max-w-lg max-h-[90vh] overflow-y-auto bg-[#0f172a] border border-[#1e293b] rounded-xl shadow-2xl p-6 space-y-4">
             <div className="flex items-center justify-between pb-3 border-b border-[#1e293b]">
               <div>
                 <h3 className="text-base font-bold text-slate-100">{selectedVendor.name}</h3>
@@ -336,7 +336,7 @@ export default function ThirdPartyRiskPage() {
       {/* Onboard Modal */}
       {isAddModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/75 backdrop-blur-sm p-4">
-          <div className="w-full max-w-md bg-[#0f172a] border border-[#1e293b] rounded-xl shadow-2xl p-6 space-y-4">
+          <div className="w-full max-w-md max-h-[90vh] overflow-y-auto bg-[#0f172a] border border-[#1e293b] rounded-xl shadow-2xl p-6 space-y-4">
             <div className="flex items-center justify-between pb-3 border-b border-[#1e293b]">
               <div className="flex items-center gap-2">
                 <Building2 className="w-5 h-5 text-emerald-400" />

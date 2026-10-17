@@ -345,24 +345,24 @@ export default function UsersPage() {
       </div>
 
       {/* Filter and Search Bar */}
-      <div className="flex flex-col sm:flex-row items-center justify-between gap-3 bg-[#0a0f1d] p-3 rounded-lg border border-[#1a2333]">
+      <div className="flex flex-col sm:flex-row items-center justify-between gap-3 bg-[#09090b] p-3 rounded-xl border border-zinc-800">
         <div className="relative w-full sm:w-80">
-          <Search className="w-4 h-4 absolute left-3 top-2.5 text-slate-500" />
+          <Search className="w-4 h-4 absolute left-3 top-2.5 text-zinc-400" />
           <input
             type="text"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search by analyst name or email..."
-            className="w-full pl-9 pr-3 py-1.5 bg-[#070b14] border border-[#1e293b] rounded text-xs text-slate-200 placeholder:text-slate-600 focus:outline-none focus:border-cyan-500"
+            className="w-full pl-9 pr-3 py-2 bg-black border border-zinc-800 rounded-xl text-xs text-white placeholder:text-zinc-500 focus:outline-none focus:border-[#ff6600] font-mono transition-colors"
           />
         </div>
 
         <div className="flex items-center gap-2 w-full sm:w-auto">
-          <span className="text-[11px] font-mono text-slate-400">Filter Role:</span>
+          <span className="text-xs font-mono text-zinc-400">Filter Role:</span>
           <select
             value={roleFilter}
             onChange={(e) => setRoleFilter(e.target.value)}
-            className="px-2.5 py-1.5 bg-[#070b14] border border-[#1e293b] rounded text-xs text-slate-200 focus:outline-none focus:border-cyan-500"
+            className="px-3.5 py-2 bg-black border border-zinc-800 rounded-xl text-xs text-zinc-300 focus:outline-none focus:border-[#ff6600] font-sans"
           >
             <option value="">All Roles ({users.length})</option>
             {ROLES.map((r) => (
@@ -375,8 +375,8 @@ export default function UsersPage() {
       </div>
 
       {/* Users Table */}
-      <div className="card-cyber p-0 overflow-hidden">
-        <table className="w-full text-left text-xs">
+      <div className="card-cyber p-0 overflow-x-auto bg-[#09090b] border border-zinc-800 rounded-2xl shadow-xl">
+        <table className="w-full text-left text-xs min-w-[750px]">
           <thead className="bg-[#070b14] border-b border-[#1a2333] text-slate-400 font-mono uppercase text-[10px]">
             <tr>
               <th className="py-3 px-4">User</th>
@@ -509,7 +509,7 @@ export default function UsersPage() {
       {/* Add User Modal */}
       {isAddModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/75 backdrop-blur-sm p-4">
-          <div className="w-full max-w-md bg-[#0f172a] border border-[#1e293b] rounded-xl shadow-2xl p-6 space-y-4">
+          <div className="w-full max-w-md max-h-[90vh] overflow-y-auto bg-[#0f172a] border border-[#1e293b] rounded-xl shadow-2xl p-6 space-y-4">
             <div className="flex items-center justify-between pb-3 border-b border-[#1e293b]">
               <div className="flex items-center gap-2">
                 <UserCheck className="w-5 h-5 text-cyan-400" />
@@ -608,7 +608,7 @@ export default function UsersPage() {
       {/* Edit User & Role Reassignment Modal */}
       {editingUser && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/75 backdrop-blur-sm p-4">
-          <div className="w-full max-w-md bg-[#0f172a] border border-[#1e293b] rounded-xl shadow-2xl p-6 space-y-4">
+          <div className="w-full max-w-md max-h-[90vh] overflow-y-auto bg-[#0f172a] border border-[#1e293b] rounded-xl shadow-2xl p-6 space-y-4">
             <div className="flex items-center justify-between pb-3 border-b border-[#1e293b]">
               <div className="flex items-center gap-2">
                 <Edit3 className="w-5 h-5 text-cyan-400" />
@@ -684,7 +684,7 @@ export default function UsersPage() {
       {/* Reset Password Modal */}
       {resettingUser && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/75 backdrop-blur-sm p-4">
-          <div className="w-full max-w-md bg-[#0f172a] border border-[#1e293b] rounded-xl shadow-2xl p-6 space-y-4">
+          <div className="w-full max-w-md max-h-[90vh] overflow-y-auto bg-[#0f172a] border border-[#1e293b] rounded-xl shadow-2xl p-6 space-y-4">
             <div className="flex items-center justify-between pb-3 border-b border-[#1e293b]">
               <div className="flex items-center gap-2">
                 <KeyRound className="w-5 h-5 text-amber-400" />

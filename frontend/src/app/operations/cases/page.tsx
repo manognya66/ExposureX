@@ -171,7 +171,7 @@ export default function CasesPage() {
         {/* Table */}
         <div className={cn("card-cyber p-0 overflow-hidden bg-[#09090b] border border-zinc-800 rounded-2xl shadow-xl", selectedCase ? "lg:col-span-2" : "lg:col-span-3")}>
           <div className="overflow-x-auto">
-            <table className="w-full text-left text-xs">
+            <table className="w-full text-left text-xs min-w-[750px]">
               <thead className="bg-black border-b border-zinc-800 text-zinc-400 font-mono uppercase text-[10px]">
                 <tr>
                   <th className="py-3.5 px-4 font-bold">Case ID</th>
@@ -387,7 +387,7 @@ export default function CasesPage() {
       {/* Open New Case Modal */}
       {isAddModalOpen && (
         <div className="fixed inset-0 z-50 bg-black/80 flex items-center justify-center p-4">
-          <div className="card-cyber max-w-lg w-full p-6 space-y-4 bg-[#09090b] border-zinc-800 rounded-2xl shadow-2xl relative">
+          <div className="card-cyber max-w-lg w-full max-h-[90vh] overflow-y-auto p-6 space-y-4 bg-[#09090b] border-zinc-800 rounded-2xl shadow-2xl relative">
             <div className="flex items-center justify-between pb-3 border-b border-zinc-800">
               <div className="flex items-center gap-2">
                 <Plus className="w-4 h-4 text-[#ff6600]" />
