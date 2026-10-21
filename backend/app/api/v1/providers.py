@@ -40,6 +40,15 @@ async def check_provider_health(
     elif provider_id in provider_manager.vulnerability_providers:
         p = provider_manager.vulnerability_providers[provider_id]
         return await p.health_check()
+    elif provider_id in provider_manager.darkweb_providers:
+        p = provider_manager.darkweb_providers[provider_id]
+        return await p.health_check()
+    elif provider_id in provider_manager.deepweb_providers:
+        p = provider_manager.deepweb_providers[provider_id]
+        return await p.health_check()
+    elif provider_id in provider_manager.surfaceweb_providers:
+        p = provider_manager.surfaceweb_providers[provider_id]
+        return await p.health_check()
     else:
         raise HTTPException(status_code=404, detail="Provider not found")
 
@@ -68,5 +77,49 @@ async def update_nvd_api_key(
         "message": "NVD API Key configured and verified successfully.",
         "health": health
     }
+
+class CompanyWebScanRequest(BaseModel):
+    domain: Optional[str] = None
+    company_name: Optional[str] = None
+
+@router.post("/scan-company")
+async def scan_company_web_intelligence(
+    req: Optional[CompanyWebScanRequest] = None,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user)
+):
+    """
+    Scan Dark Web, Deep Web, and Surface Web for the registered company or target domain.
+    Fetches real-time threat intelligence from Ransomwatch Tor feeds, Hudson Rock infostealers,
+    URLScan.io deep DOM inspection, AlienVault OTX pulses, and HackerTarget surface DNS.
+    """
+    target_domain = (req.domain.strip() if req and req.domain else None)
+    target_name = (req.company_name.strip() if req and req.company_name else None)
+
+    if not target_domain:
+        from app.models.organization import Organization
+        org = db.query(Organization).first()
+        if org and org.domain:
+            target_domain = org.domain
+            target_name = target_name or org.name
+        else:
+            target_domain = "abc.com"
+            target_name = target_name or "Abc Enterprise"
+
+    result = await provider_manager.scan_company_multi_layer(
+        domain=target_domain,
+        company_name=target_name
+    )
+
+    log_audit(
+        db,
+        user=current_user.email,
+        action="SCAN_MULTI_LAYER_INTELLIGENCE",
+        object_name=f"Domain: {target_domain}",
+        new_value=f"Composite Risk: {result.get('composite_risk_level')} ({result.get('total_threat_indicators')} indicators)"
+    )
+
+    return result
+
 
 

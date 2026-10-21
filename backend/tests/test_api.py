@@ -371,6 +371,58 @@ def test_free_credential_providers():
     assert "XposedOrNot" in provider_ids
     assert "LeakCheck" in provider_ids
     assert "HudsonRock" in provider_ids
+    # Multi-layer web intelligence providers
+    assert "darkweb_ransomwatch" in provider_ids
+    assert "deepweb_urlscan_otx" in provider_ids
+    assert "surfaceweb_hackertarget" in provider_ids
+
+
+def test_company_benchmarks_and_filters():
+    login_resp = client.post("/api/v1/auth/login", data={"username": "admin@company.com", "password": "ExposureX@2026!"})
+    token = login_resp.json()["access_token"]
+    headers = {"Authorization": f"Bearer {token}"}
+
+    # 1. Total peers expanded
+    resp = client.get("/api/v1/risk/company-benchmarks", headers=headers)
+    assert resp.status_code == 200
+    data = resp.json()
+    assert data["total_peers_compared"] >= 20
+    assert len(data["peers"]) >= 20
+
+    # 2. Sector filtering
+    sector_resp = client.get("/api/v1/risk/company-benchmarks?sector=Energy%20%26%20Critical%20Infrastructure", headers=headers)
+    assert sector_resp.status_code == 200
+    sec_data = sector_resp.json()
+    assert len(sec_data["peers"]) >= 2
+    assert all("Energy" in p["sector"] for p in sec_data["peers"])
+
+    # 3. Search filtering
+    search_resp = client.get("/api/v1/risk/company-benchmarks?search=Horizon", headers=headers)
+    assert search_resp.status_code == 200
+    search_data = search_resp.json()
+    assert len(search_data["peers"]) >= 1
+    assert any("Horizon" in p["name"] for p in search_data["peers"])
+
+
+def test_multi_layer_web_intelligence_scan():
+    login_resp = client.post("/api/v1/auth/login", data={"username": "admin@company.com", "password": "ExposureX@2026!"})
+    token = login_resp.json()["access_token"]
+    headers = {"Authorization": f"Bearer {token}"}
+
+    resp = client.post(
+        "/api/v1/providers/scan-company",
+        json={"domain": "abc.com", "company_name": "Abc Enterprise"},
+        headers=headers
+    )
+    assert resp.status_code == 200
+    result = resp.json()
+    assert result["target_domain"] == "abc.com"
+    assert "composite_risk_level" in result
+    assert "layers" in result
+    assert "dark_web" in result["layers"]
+    assert "deep_web" in result["layers"]
+    assert "surface_web" in result["layers"]
+
 
 
 def teardown_module(module):

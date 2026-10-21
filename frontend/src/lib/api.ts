@@ -308,6 +308,11 @@ export const api = {
   checkProviderHealth: (id: string) => apiFetch(`/providers/${id}/health-check`, { method: "POST" }),
   updateNvdKey: (apiKey: string) =>
     apiFetch("/providers/nvd-key", { method: "POST", body: JSON.stringify({ api_key: apiKey }) }),
+  scanCompanyWebIntelligence: (domain?: string, companyName?: string) =>
+    apiFetch("/providers/scan-company", {
+      method: "POST",
+      body: JSON.stringify({ domain, company_name: companyName }),
+    }),
 
   // Audit
   getAuditLogs: (params?: Record<string, string>) => {

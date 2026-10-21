@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import {
   Gauge,
   Building2,
@@ -18,6 +18,9 @@ import {
   Layers,
   CheckCircle2,
   Scale,
+  X,
+  RotateCcw,
+  Filter,
 } from "lucide-react";
 import { api } from "@/lib/api";
 import { cn } from "@/lib/utils";
@@ -111,24 +114,48 @@ export default function InternalRiskPage() {
     status: "Monitored Enterprise",
   };
 
-  const sectors = [
-    "All",
-    "FinTech & Banking",
-    "Cloud & DevOps",
-    "Healthcare & Biotech",
-    "Logistics & Supply Chain",
-    "Enterprise Software",
-    "E-Commerce & Retail",
-    "Energy & Infrastructure",
-  ];
+  const sectors = useMemo(() => {
+    const peerList = benchmarkData?.peers || [];
+    const unique = Array.from(new Set(peerList.map((p) => p.sector))).filter(Boolean);
+    return ["All", ...unique];
+  }, [benchmarkData?.peers]);
 
-  const filteredPeers = (benchmarkData?.peers || []).filter((p) => {
-    const matchesSearch =
-      p.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      p.domain.toLowerCase().includes(searchQuery.toLowerCase());
-    const matchesSector = selectedSector === "All" || p.sector === selectedSector;
-    return matchesSearch && matchesSector;
-  });
+  const sectorCounts = useMemo(() => {
+    const counts: Record<string, number> = { All: benchmarkData?.peers?.length || 0 };
+    (benchmarkData?.peers || []).forEach((p) => {
+      if (p.sector) {
+        counts[p.sector] = (counts[p.sector] || 0) + 1;
+      }
+    });
+    return counts;
+  }, [benchmarkData?.peers]);
+
+  const filteredPeers = useMemo(() => {
+    const q = searchQuery.trim().toLowerCase();
+    return (benchmarkData?.peers || []).filter((p) => {
+      const matchesSearch =
+        !q ||
+        p.name.toLowerCase().includes(q) ||
+        p.domain.toLowerCase().includes(q) ||
+        p.sector.toLowerCase().includes(q) ||
+        p.band.toLowerCase().includes(q) ||
+        p.status.toLowerCase().includes(q);
+
+      const matchesSector =
+        selectedSector === "All" ||
+        p.sector.toLowerCase() === selectedSector.toLowerCase();
+
+      return matchesSearch && matchesSector;
+    });
+  }, [benchmarkData?.peers, searchQuery, selectedSector]);
+
+  const handleSelectPeer = (peer: PeerCompany) => {
+    setSelectedPeer(peer);
+    const el = document.getElementById("comparison-scoreboard");
+    if (el) {
+      el.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  };
 
   return (
     <div className="space-y-8 max-w-7xl mx-auto pb-16">
@@ -352,7 +379,7 @@ export default function InternalRiskPage() {
             Your Org             Horizon Energy & Utilities Corporation
                   0                                    71
             ===================================================================== */}
-        <div className="w-full py-4">
+        <div id="comparison-scoreboard" className="w-full py-4 scroll-mt-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12 text-center items-stretch">
             {/* Left Column: Your Org (Full Name) */}
             <div className="p-8 sm:p-10 rounded-2xl bg-black/90 border border-zinc-800 hover:border-zinc-700 transition-all flex flex-col items-center justify-between space-y-6 shadow-2xl relative overflow-hidden group">
@@ -593,11 +620,21 @@ export default function InternalRiskPage() {
             <Search className="w-4 h-4 absolute left-3.5 top-3 text-zinc-400" />
             <input
               type="text"
-              placeholder="Search company by name or domain (e.g. horizonenergy.com, Apex, CloudScale)..."
+              placeholder="Search companies by name, domain, sector, risk band or status..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-10 pr-4 py-2.5 bg-black border border-zinc-800 rounded-xl text-xs text-white placeholder:text-zinc-500 focus:outline-none focus:border-[#ff6600] font-mono transition-colors"
+              className="w-full pl-10 pr-9 py-2.5 bg-black border border-zinc-800 rounded-xl text-xs text-white placeholder:text-zinc-500 focus:outline-none focus:border-[#ff6600] font-mono transition-colors"
             />
+            {searchQuery.trim() && (
+              <button
+                type="button"
+                onClick={() => setSearchQuery("")}
+                className="absolute right-3 top-2.5 p-1 rounded-md text-zinc-500 hover:text-white hover:bg-zinc-800/80 transition-colors"
+                title="Clear search"
+              >
+                <X className="w-3.5 h-3.5" />
+              </button>
+            )}
           </div>
 
           <div className="flex items-center gap-1.5 overflow-x-auto pb-1 max-w-full">
@@ -606,13 +643,23 @@ export default function InternalRiskPage() {
                 key={s}
                 onClick={() => setSelectedSector(s)}
                 className={cn(
-                  "px-3 py-1.5 rounded-lg text-xs font-mono whitespace-nowrap transition-all",
+                  "px-3 py-1.5 rounded-lg text-xs font-mono whitespace-nowrap transition-all flex items-center gap-1.5",
                   selectedSector === s
                     ? "bg-[#ff6600] text-white font-bold shadow-md shadow-orange-500/20"
                     : "bg-black border border-zinc-800 text-zinc-400 hover:text-white hover:border-zinc-700"
                 )}
               >
-                {s}
+                <span>{s}</span>
+                <span
+                  className={cn(
+                    "px-1.5 py-0.5 rounded text-[10px] font-mono leading-none",
+                    selectedSector === s
+                      ? "bg-black/30 text-white font-semibold"
+                      : "bg-zinc-900 text-zinc-400"
+                  )}
+                >
+                  {sectorCounts[s] ?? 0}
+                </span>
               </button>
             ))}
           </div>
@@ -620,124 +667,149 @@ export default function InternalRiskPage() {
 
         {/* Peer Companies Cards Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 pt-2">
-          {filteredPeers.map((peer) => {
-            const isSelected = activeComparedPeer.id === peer.id;
-            const deltaPositive = peer.delta_vs_org > 0;
-
-            return (
-              <div
-                key={peer.id}
-                onClick={() => setSelectedPeer(peer)}
-                className={cn(
-                  "p-5 rounded-2xl border transition-all cursor-pointer flex flex-col justify-between space-y-4 group",
-                  isSelected
-                    ? "bg-zinc-900 border-[#ff6600] shadow-xl shadow-orange-500/10 ring-1 ring-[#ff6600]/50"
-                    : "bg-black/70 hover:bg-zinc-900/80 border-zinc-800 hover:border-[#ff6600]/40"
-                )}
+          {filteredPeers.length === 0 ? (
+            <div className="col-span-full py-16 px-4 text-center rounded-2xl border border-dashed border-zinc-800 bg-zinc-950/60 flex flex-col items-center justify-center space-y-3">
+              <div className="w-12 h-12 rounded-xl bg-zinc-900 border border-zinc-800 flex items-center justify-center text-zinc-400">
+                <Search className="w-6 h-6 text-zinc-500" />
+              </div>
+              <div className="space-y-1">
+                <h4 className="text-sm font-semibold text-white">No benchmark companies found</h4>
+                <p className="text-xs text-zinc-400 max-w-md mx-auto">
+                  {searchQuery ? `No companies matching "${searchQuery}"` : "No peer companies found"}{" "}
+                  {selectedSector !== "All" ? `in sector "${selectedSector}"` : ""}.
+                </p>
+              </div>
+              <button
+                onClick={() => {
+                  setSearchQuery("");
+                  setSelectedSector("All");
+                }}
+                className="mt-2 px-4 py-2 rounded-xl bg-zinc-900 hover:bg-zinc-800 text-xs font-mono text-[#ff6600] border border-zinc-800 hover:border-[#ff6600]/40 flex items-center gap-2 transition-all shadow-sm"
               >
-                <div>
-                  <div className="flex items-start justify-between gap-2 mb-2">
-                    <div>
-                      <h3 className="font-bold text-sm text-white group-hover:text-[#ff6600] transition-colors font-sans">
-                        {peer.name}
-                      </h3>
-                      <div className="text-xs font-mono text-zinc-400 flex items-center gap-1.5 mt-0.5">
-                        <Globe className="w-3 h-3 text-zinc-500" />
-                        <span>{peer.domain}</span>
+                <RotateCcw className="w-3.5 h-3.5" />
+                <span>Reset Search & Filters</span>
+              </button>
+            </div>
+          ) : (
+            filteredPeers.map((peer) => {
+              const isSelected = activeComparedPeer.id === peer.id;
+              const deltaPositive = peer.delta_vs_org > 0;
+
+              return (
+                <div
+                  key={peer.id}
+                  onClick={() => handleSelectPeer(peer)}
+                  className={cn(
+                    "p-5 rounded-2xl border transition-all cursor-pointer flex flex-col justify-between space-y-4 group",
+                    isSelected
+                      ? "bg-zinc-900 border-[#ff6600] shadow-xl shadow-orange-500/10 ring-1 ring-[#ff6600]/50"
+                      : "bg-black/70 hover:bg-zinc-900/80 border-zinc-800 hover:border-[#ff6600]/40"
+                  )}
+                >
+                  <div>
+                    <div className="flex items-start justify-between gap-2 mb-2">
+                      <div>
+                        <h3 className="font-bold text-sm text-white group-hover:text-[#ff6600] transition-colors font-sans">
+                          {peer.name}
+                        </h3>
+                        <div className="text-xs font-mono text-zinc-400 flex items-center gap-1.5 mt-0.5">
+                          <Globe className="w-3 h-3 text-zinc-500" />
+                          <span>{peer.domain}</span>
+                        </div>
                       </div>
-                    </div>
 
-                    <span
-                      className={cn(
-                        "px-2 py-0.5 rounded text-[10px] font-mono font-bold border uppercase shrink-0",
-                        peer.band === "CRITICAL"
-                          ? "bg-red-950/60 border-red-800 text-red-400"
-                          : peer.band === "HIGH"
-                          ? "bg-orange-950/60 border-orange-800 text-orange-400"
-                          : peer.band === "MODERATE"
-                          ? "bg-amber-950/60 border-amber-800 text-amber-400"
-                          : "bg-emerald-950/60 border-emerald-800 text-emerald-400"
-                      )}
-                    >
-                      {peer.band}
-                    </span>
-                  </div>
-
-                  <div className="flex items-center gap-2 mt-3">
-                    <span className="text-xs px-2 py-0.5 rounded bg-zinc-900 border border-zinc-800 text-zinc-400 font-sans">
-                      {peer.sector}
-                    </span>
-                    <span className="text-xs px-2 py-0.5 rounded bg-zinc-900 border border-zinc-800 text-zinc-400 font-sans">
-                      {peer.status}
-                    </span>
-                  </div>
-
-                  {/* Score & Delta Row */}
-                  <div className="flex items-baseline justify-between mt-4 p-3.5 rounded-xl bg-zinc-900/60 border border-zinc-800">
-                    <div>
-                      <div className="text-[10px] uppercase font-mono text-zinc-400">Risk Score</div>
-                      <div className="flex items-baseline gap-1 mt-0.5">
-                        <span className="text-2xl font-black font-mono text-white">{peer.score}</span>
-                        <span className="text-xs font-mono text-zinc-500">/100</span>
-                      </div>
-                    </div>
-
-                    <div className="text-right">
-                      <div className="text-[10px] uppercase font-mono text-zinc-400">vs Your Org ({score})</div>
-                      <div
+                      <span
                         className={cn(
-                          "text-xs font-mono font-bold flex items-center gap-0.5 justify-end mt-0.5",
-                          deltaPositive ? "text-red-400" : "text-emerald-400"
+                          "px-2 py-0.5 rounded text-[10px] font-mono font-bold border uppercase shrink-0",
+                          peer.band === "CRITICAL"
+                            ? "bg-red-950/60 border-red-800 text-red-400"
+                            : peer.band === "HIGH"
+                            ? "bg-orange-950/60 border-orange-800 text-orange-400"
+                            : peer.band === "MODERATE"
+                            ? "bg-amber-950/60 border-amber-800 text-amber-400"
+                            : "bg-emerald-950/60 border-emerald-800 text-emerald-400"
                         )}
                       >
-                        {deltaPositive ? (
-                          <>
-                            <ArrowUpRight className="w-3.5 h-3.5" />
-                            <span>+{peer.delta_vs_org} higher</span>
-                          </>
-                        ) : (
-                          <>
-                            <ArrowDownRight className="w-3.5 h-3.5" />
-                            <span>{peer.delta_vs_org} lower</span>
-                          </>
-                        )}
+                        {peer.band}
+                      </span>
+                    </div>
+
+                    <div className="flex items-center gap-2 mt-3">
+                      <span className="text-xs px-2 py-0.5 rounded bg-zinc-900 border border-zinc-800 text-zinc-400 font-sans">
+                        {peer.sector}
+                      </span>
+                      <span className="text-xs px-2 py-0.5 rounded bg-zinc-900 border border-zinc-800 text-zinc-400 font-sans">
+                        {peer.status}
+                      </span>
+                    </div>
+
+                    {/* Score & Delta Row */}
+                    <div className="flex items-baseline justify-between mt-4 p-3.5 rounded-xl bg-zinc-900/60 border border-zinc-800">
+                      <div>
+                        <div className="text-[10px] uppercase font-mono text-zinc-400">Risk Score</div>
+                        <div className="flex items-baseline gap-1 mt-0.5">
+                          <span className="text-2xl font-black font-mono text-white">{peer.score}</span>
+                          <span className="text-xs font-mono text-zinc-500">/100</span>
+                        </div>
+                      </div>
+
+                      <div className="text-right">
+                        <div className="text-[10px] uppercase font-mono text-zinc-400">vs Your Org ({score})</div>
+                        <div
+                          className={cn(
+                            "text-xs font-mono font-bold flex items-center gap-0.5 justify-end mt-0.5",
+                            deltaPositive ? "text-red-400" : "text-emerald-400"
+                          )}
+                        >
+                          {deltaPositive ? (
+                            <>
+                              <ArrowUpRight className="w-3.5 h-3.5" />
+                              <span>+{peer.delta_vs_org} higher</span>
+                            </>
+                          ) : (
+                            <>
+                              <ArrowDownRight className="w-3.5 h-3.5" />
+                              <span>{peer.delta_vs_org} lower</span>
+                            </>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Pillar Sub-bars */}
+                    <div className="grid grid-cols-3 gap-2 mt-3 pt-3 border-t border-zinc-800/80 text-[11px] font-mono">
+                      <div className="text-center p-1.5 rounded bg-zinc-900/40 border border-zinc-800/50">
+                        <span className="text-zinc-500 block text-[9px] uppercase">Exposure</span>
+                        <span className="font-bold text-white">{peer.exposure_score}</span>
+                      </div>
+                      <div className="text-center p-1.5 rounded bg-zinc-900/40 border border-zinc-800/50">
+                        <span className="text-zinc-500 block text-[9px] uppercase">Vulns</span>
+                        <span className="font-bold text-red-400">{peer.vulnerability_score}</span>
+                      </div>
+                      <div className="text-center p-1.5 rounded bg-zinc-900/40 border border-zinc-800/50">
+                        <span className="text-zinc-500 block text-[9px] uppercase">Creds</span>
+                        <span className="font-bold text-amber-400">{peer.credential_exposure_score}</span>
                       </div>
                     </div>
                   </div>
 
-                  {/* Pillar Sub-bars */}
-                  <div className="grid grid-cols-3 gap-2 mt-3 pt-3 border-t border-zinc-800/80 text-[11px] font-mono">
-                    <div className="text-center p-1.5 rounded bg-zinc-900/40 border border-zinc-800/50">
-                      <span className="text-zinc-500 block text-[9px] uppercase">Exposure</span>
-                      <span className="font-bold text-white">{peer.exposure_score}</span>
+                  <div className="flex items-center justify-between pt-2 text-xs font-mono text-zinc-400 border-t border-zinc-800/60">
+                    <div className="flex items-center gap-1">
+                      {peer.trend_direction === "down" ? (
+                        <TrendingDown className="w-3.5 h-3.5 text-emerald-400" />
+                      ) : (
+                        <TrendingUp className="w-3.5 h-3.5 text-red-400" />
+                      )}
+                      <span>30d: {peer.trend_30d}</span>
                     </div>
-                    <div className="text-center p-1.5 rounded bg-zinc-900/40 border border-zinc-800/50">
-                      <span className="text-zinc-500 block text-[9px] uppercase">Vulns</span>
-                      <span className="font-bold text-red-400">{peer.vulnerability_score}</span>
-                    </div>
-                    <div className="text-center p-1.5 rounded bg-zinc-900/40 border border-zinc-800/50">
-                      <span className="text-zinc-500 block text-[9px] uppercase">Creds</span>
-                      <span className="font-bold text-amber-400">{peer.credential_exposure_score}</span>
-                    </div>
+                    <span className={cn("font-sans font-bold", isSelected ? "text-[#ff6600]" : "text-zinc-400 group-hover:text-white")}>
+                      {isSelected ? "Active in Comparison ✓" : "Compare Head-to-Head →"}
+                    </span>
                   </div>
                 </div>
-
-                <div className="flex items-center justify-between pt-2 text-xs font-mono text-zinc-400 border-t border-zinc-800/60">
-                  <div className="flex items-center gap-1">
-                    {peer.trend_direction === "down" ? (
-                      <TrendingDown className="w-3.5 h-3.5 text-emerald-400" />
-                    ) : (
-                      <TrendingUp className="w-3.5 h-3.5 text-red-400" />
-                    )}
-                    <span>30d: {peer.trend_30d}</span>
-                  </div>
-                  <span className={cn("font-sans font-bold", isSelected ? "text-[#ff6600]" : "text-zinc-400 group-hover:text-white")}>
-                    {isSelected ? "Active in Comparison ✓" : "Compare Head-to-Head →"}
-                  </span>
-                </div>
-              </div>
-            );
-          })}
+              );
+            })
+          )}
         </div>
       </div>
     </div>

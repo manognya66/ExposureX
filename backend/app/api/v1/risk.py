@@ -2,7 +2,7 @@
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 from pydantic import BaseModel
-from typing import Dict, Any, List
+from typing import Dict, Any, List, Optional
 from datetime import datetime, timedelta
 
 from app.database import get_db
@@ -144,6 +144,8 @@ def update_weights(req: WeightConfiguration):
 
 @router.get("/company-benchmarks")
 def get_company_benchmarks(
+    search: Optional[str] = None,
+    sector: Optional[str] = None,
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user)
 ) -> Dict[str, Any]:
@@ -153,6 +155,7 @@ def get_company_benchmarks(
     org_score = internal_res.get("overall_score", 52)
 
     peers = [
+        # --- Energy & Critical Infrastructure ---
         {
             "id": "comp-7",
             "name": "Horizon Energy & Utilities Corporation",
@@ -171,6 +174,42 @@ def get_company_benchmarks(
             "status": "Monitored Enterprise"
         },
         {
+            "id": "comp-8",
+            "name": "TerraWatt Renewable Power & Grid Systems",
+            "domain": "terrawatt-power.com",
+            "sector": "Energy & Critical Infrastructure",
+            "score": 44,
+            "band": "MODERATE",
+            "exposure_score": 48,
+            "vulnerability_score": 41,
+            "credential_exposure_score": 43,
+            "critical_assets": 12,
+            "trend_30d": "-4%",
+            "trend_direction": "down",
+            "delta_vs_org": 44 - org_score,
+            "open_findings": 8,
+            "status": "Monitored Enterprise"
+        },
+        {
+            "id": "comp-9",
+            "name": "Nordic Grid & Transmission Operator AB",
+            "domain": "nordicgrid.se",
+            "sector": "Energy & Critical Infrastructure",
+            "score": 29,
+            "band": "LOW",
+            "exposure_score": 31,
+            "vulnerability_score": 25,
+            "credential_exposure_score": 30,
+            "critical_assets": 8,
+            "trend_30d": "-7%",
+            "trend_direction": "down",
+            "delta_vs_org": 29 - org_score,
+            "open_findings": 5,
+            "status": "Benchmark Leader"
+        },
+
+        # --- FinTech & Banking ---
+        {
             "id": "comp-1",
             "name": "Apex Global Financial Services Group Inc.",
             "domain": "apexfin.com",
@@ -188,10 +227,63 @@ def get_company_benchmarks(
             "status": "Monitored Enterprise"
         },
         {
+            "id": "comp-10",
+            "name": "Silverline Capital Wealth & Investment Bank",
+            "domain": "silverlinecapital.com",
+            "sector": "FinTech & Banking",
+            "score": 53,
+            "band": "MODERATE",
+            "exposure_score": 55,
+            "vulnerability_score": 51,
+            "credential_exposure_score": 54,
+            "critical_assets": 16,
+            "trend_30d": "-3%",
+            "trend_direction": "down",
+            "delta_vs_org": 53 - org_score,
+            "open_findings": 11,
+            "status": "Monitored Enterprise"
+        },
+        {
+            "id": "comp-11",
+            "name": "NeoVault Cross-Border Payments Network",
+            "domain": "neovaultpay.io",
+            "sector": "FinTech & Banking",
+            "score": 34,
+            "band": "LOW",
+            "exposure_score": 36,
+            "vulnerability_score": 28,
+            "credential_exposure_score": 38,
+            "critical_assets": 9,
+            "trend_30d": "-8%",
+            "trend_direction": "down",
+            "delta_vs_org": 34 - org_score,
+            "open_findings": 6,
+            "status": "Benchmark Leader"
+        },
+        {
+            "id": "comp-12",
+            "name": "Zurich Horizon Bancorp AG",
+            "domain": "zurichhorizon.ch",
+            "sector": "FinTech & Banking",
+            "score": 76,
+            "band": "CRITICAL",
+            "exposure_score": 79,
+            "vulnerability_score": 78,
+            "credential_exposure_score": 72,
+            "critical_assets": 24,
+            "trend_30d": "+9%",
+            "trend_direction": "up",
+            "delta_vs_org": 76 - org_score,
+            "open_findings": 29,
+            "status": "Elevated Exposure"
+        },
+
+        # --- Cloud & DevOps ---
+        {
             "id": "comp-2",
             "name": "CloudScale Infrastructure Systems Ltd.",
             "domain": "cloudscale.io",
-            "sector": "Cloud & DevOps Platforms",
+            "sector": "Cloud & DevOps",
             "score": 38,
             "band": "LOW",
             "exposure_score": 42,
@@ -204,6 +296,59 @@ def get_company_benchmarks(
             "open_findings": 6,
             "status": "Benchmark Leader"
         },
+        {
+            "id": "comp-13",
+            "name": "KubeMatrix Multi-Cloud Kubernetes Orchestrator",
+            "domain": "kubematrix.cloud",
+            "sector": "Cloud & DevOps",
+            "score": 49,
+            "band": "MODERATE",
+            "exposure_score": 52,
+            "vulnerability_score": 47,
+            "credential_exposure_score": 48,
+            "critical_assets": 13,
+            "trend_30d": "+1%",
+            "trend_direction": "up",
+            "delta_vs_org": 49 - org_score,
+            "open_findings": 10,
+            "status": "Monitored Enterprise"
+        },
+        {
+            "id": "comp-14",
+            "name": "DevPulse Continuous Delivery Systems",
+            "domain": "devpulse.dev",
+            "sector": "Cloud & DevOps",
+            "score": 25,
+            "band": "LOW",
+            "exposure_score": 28,
+            "vulnerability_score": 21,
+            "credential_exposure_score": 26,
+            "critical_assets": 6,
+            "trend_30d": "-12%",
+            "trend_direction": "down",
+            "delta_vs_org": 25 - org_score,
+            "open_findings": 3,
+            "status": "Top Decile Leader"
+        },
+        {
+            "id": "comp-15",
+            "name": "HyperScale Global Edge CDN Networks",
+            "domain": "hyperscalecdn.net",
+            "sector": "Cloud & DevOps",
+            "score": 62,
+            "band": "HIGH",
+            "exposure_score": 66,
+            "vulnerability_score": 61,
+            "credential_exposure_score": 59,
+            "critical_assets": 18,
+            "trend_30d": "+5%",
+            "trend_direction": "up",
+            "delta_vs_org": 62 - org_score,
+            "open_findings": 16,
+            "status": "Monitored Enterprise"
+        },
+
+        # --- Healthcare & Biotech ---
         {
             "id": "comp-3",
             "name": "OmniHealth Diagnostics Healthcare Network",
@@ -222,10 +367,63 @@ def get_company_benchmarks(
             "status": "Elevated Exposure"
         },
         {
+            "id": "comp-16",
+            "name": "GeneFlow BioLabs Genomic Research",
+            "domain": "geneflowlabs.com",
+            "sector": "Healthcare & Biotech",
+            "score": 46,
+            "band": "MODERATE",
+            "exposure_score": 50,
+            "vulnerability_score": 43,
+            "credential_exposure_score": 45,
+            "critical_assets": 11,
+            "trend_30d": "-5%",
+            "trend_direction": "down",
+            "delta_vs_org": 46 - org_score,
+            "open_findings": 9,
+            "status": "Monitored Enterprise"
+        },
+        {
+            "id": "comp-17",
+            "name": "CarePoint Regional Medical Center Alliance",
+            "domain": "carepointhealth.org",
+            "sector": "Healthcare & Biotech",
+            "score": 83,
+            "band": "CRITICAL",
+            "exposure_score": 86,
+            "vulnerability_score": 88,
+            "credential_exposure_score": 76,
+            "critical_assets": 28,
+            "trend_30d": "+11%",
+            "trend_direction": "up",
+            "delta_vs_org": 83 - org_score,
+            "open_findings": 33,
+            "status": "Elevated Exposure"
+        },
+        {
+            "id": "comp-18",
+            "name": "Vitalis Pharmaceutical Innovations Group",
+            "domain": "vitalispharma.com",
+            "sector": "Healthcare & Biotech",
+            "score": 37,
+            "band": "LOW",
+            "exposure_score": 39,
+            "vulnerability_score": 32,
+            "credential_exposure_score": 40,
+            "critical_assets": 8,
+            "trend_30d": "-7%",
+            "trend_direction": "down",
+            "delta_vs_org": 37 - org_score,
+            "open_findings": 5,
+            "status": "Benchmark Leader"
+        },
+
+        # --- Logistics & Supply Chain ---
+        {
             "id": "comp-4",
             "name": "Quantum Logistics & Supply Chain International",
             "domain": "quantumlog.com",
-            "sector": "Logistics & Global Supply Chain",
+            "sector": "Logistics & Supply Chain",
             "score": 54,
             "band": "MODERATE",
             "exposure_score": 58,
@@ -239,10 +437,46 @@ def get_company_benchmarks(
             "status": "Monitored Enterprise"
         },
         {
+            "id": "comp-19",
+            "name": "AeroDynamics Global Cargo Carrier",
+            "domain": "aerodynamicsglobal.com",
+            "sector": "Logistics & Supply Chain",
+            "score": 66,
+            "band": "HIGH",
+            "exposure_score": 69,
+            "vulnerability_score": 67,
+            "credential_exposure_score": 62,
+            "critical_assets": 17,
+            "trend_30d": "+6%",
+            "trend_direction": "up",
+            "delta_vs_org": 66 - org_score,
+            "open_findings": 19,
+            "status": "Monitored Enterprise"
+        },
+        {
+            "id": "comp-20",
+            "name": "TransOceanic Container Lines Ltd.",
+            "domain": "transoceaniclines.com",
+            "sector": "Logistics & Supply Chain",
+            "score": 79,
+            "band": "CRITICAL",
+            "exposure_score": 82,
+            "vulnerability_score": 80,
+            "credential_exposure_score": 75,
+            "critical_assets": 26,
+            "trend_30d": "+10%",
+            "trend_direction": "up",
+            "delta_vs_org": 79 - org_score,
+            "open_findings": 31,
+            "status": "Elevated Exposure"
+        },
+
+        # --- Enterprise Software ---
+        {
             "id": "comp-5",
             "name": "CyberNexus Technologies Enterprise Group",
             "domain": "cybernexus.net",
-            "sector": "Enterprise Software Solutions",
+            "sector": "Enterprise Software",
             "score": 26,
             "band": "LOW",
             "exposure_score": 29,
@@ -256,10 +490,46 @@ def get_company_benchmarks(
             "status": "Top Decile Leader"
         },
         {
+            "id": "comp-21",
+            "name": "SecureWorkplace Enterprise SaaS Suite",
+            "domain": "secureworkplace.com",
+            "sector": "Enterprise Software",
+            "score": 31,
+            "band": "LOW",
+            "exposure_score": 34,
+            "vulnerability_score": 27,
+            "credential_exposure_score": 32,
+            "critical_assets": 8,
+            "trend_30d": "-9%",
+            "trend_direction": "down",
+            "delta_vs_org": 31 - org_score,
+            "open_findings": 5,
+            "status": "Benchmark Leader"
+        },
+        {
+            "id": "comp-22",
+            "name": "OmniStack Integration Systems Corp.",
+            "domain": "omnistack.io",
+            "sector": "Enterprise Software",
+            "score": 58,
+            "band": "MODERATE",
+            "exposure_score": 61,
+            "vulnerability_score": 56,
+            "credential_exposure_score": 57,
+            "critical_assets": 15,
+            "trend_30d": "+2%",
+            "trend_direction": "up",
+            "delta_vs_org": 58 - org_score,
+            "open_findings": 14,
+            "status": "Monitored Enterprise"
+        },
+
+        # --- E-Commerce & Retail ---
+        {
             "id": "comp-6",
             "name": "Vanguard Retail Commercial Holdings",
             "domain": "vanguardretail.com",
-            "sector": "E-Commerce & Commercial Retail",
+            "sector": "E-Commerce & Retail",
             "score": 84,
             "band": "CRITICAL",
             "exposure_score": 88,
@@ -271,14 +541,104 @@ def get_company_benchmarks(
             "delta_vs_org": 84 - org_score,
             "open_findings": 34,
             "status": "Elevated Exposure"
+        },
+        {
+            "id": "comp-23",
+            "name": "NexStore Global Direct Commerce",
+            "domain": "nexstoreglobal.com",
+            "sector": "E-Commerce & Retail",
+            "score": 64,
+            "band": "HIGH",
+            "exposure_score": 67,
+            "vulnerability_score": 63,
+            "credential_exposure_score": 62,
+            "critical_assets": 16,
+            "trend_30d": "+4%",
+            "trend_direction": "up",
+            "delta_vs_org": 64 - org_score,
+            "open_findings": 17,
+            "status": "Monitored Enterprise"
+        },
+        {
+            "id": "comp-24",
+            "name": "LuxeMarket Luxury Online Retail",
+            "domain": "luxemarket.fr",
+            "sector": "E-Commerce & Retail",
+            "score": 42,
+            "band": "MODERATE",
+            "exposure_score": 45,
+            "vulnerability_score": 39,
+            "credential_exposure_score": 42,
+            "critical_assets": 10,
+            "trend_30d": "-4%",
+            "trend_direction": "down",
+            "delta_vs_org": 42 - org_score,
+            "open_findings": 7,
+            "status": "Monitored Enterprise"
+        },
+
+        # --- Telecommunications & 5G ---
+        {
+            "id": "comp-25",
+            "name": "Apex Telecom Global Connectivity Ltd.",
+            "domain": "apextelecom.net",
+            "sector": "Telecommunications & 5G",
+            "score": 73,
+            "band": "HIGH",
+            "exposure_score": 77,
+            "vulnerability_score": 74,
+            "credential_exposure_score": 68,
+            "critical_assets": 21,
+            "trend_30d": "+5%",
+            "trend_direction": "up",
+            "delta_vs_org": 73 - org_score,
+            "open_findings": 23,
+            "status": "Monitored Enterprise"
+        },
+        {
+            "id": "comp-26",
+            "name": "SpectraWave 5G Wireless Infrastructure",
+            "domain": "spectrawave5g.com",
+            "sector": "Telecommunications & 5G",
+            "score": 35,
+            "band": "LOW",
+            "exposure_score": 38,
+            "vulnerability_score": 30,
+            "credential_exposure_score": 37,
+            "critical_assets": 9,
+            "trend_30d": "-8%",
+            "trend_direction": "down",
+            "delta_vs_org": 35 - org_score,
+            "open_findings": 6,
+            "status": "Benchmark Leader"
         }
     ]
 
-    # Calculate industry statistics
+    # Calculate overall industry statistics
     scores = [p["score"] for p in peers]
     avg_score = round(sum(scores) / len(scores), 1)
     lowest_score = min(scores)
     highest_score = max(scores)
+
+    # Optional server-side filtering
+    filtered = peers
+    if sector and sector.strip() and sector.strip().lower() != "all":
+        s_clean = sector.strip().lower()
+        filtered = [
+            p for p in filtered
+            if s_clean in p["sector"].lower() or p["sector"].lower() in s_clean
+        ]
+
+    if search and search.strip():
+        q = search.strip().lower()
+        filtered = [
+            p for p in filtered
+            if q in p["name"].lower()
+            or q in p["domain"].lower()
+            or q in p["sector"].lower()
+            or q in p["band"].lower()
+            or q in p["status"].lower()
+        ]
 
     return {
         "org_score": org_score,
@@ -286,7 +646,7 @@ def get_company_benchmarks(
         "top_benchmark_score": lowest_score,
         "highest_risk_peer_score": highest_score,
         "total_peers_compared": len(peers),
-        "peers": peers
+        "peers": filtered
     }
 
 
