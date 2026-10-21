@@ -1308,7 +1308,7 @@ export function LandingPage() {
       </section>
 
       {/* Explainable Risk Engine (4-Pillars) Section */}
-      <section id="pillars" className="py-20 px-6 lg:px-12 bg-[#080d1a] border-t border-b border-[#1a2333]">
+      <section id="pillars" className={cn("py-20 px-6 lg:px-12 border-t border-b transition-colors", theme === "light" ? "bg-slate-50 border-slate-200" : "bg-[#080d1a] border-[#1a2333]")}>
         <div className="max-w-7xl mx-auto space-y-12">
           {/* Header */}
           <div className="text-center max-w-3xl mx-auto space-y-3">
@@ -1316,39 +1316,39 @@ export function LandingPage() {
               <Scale className="w-3.5 h-3.5" />
               <span>Zero Black-Box Transparency</span>
             </div>
-            <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-white font-sans">
+            <h2 className={cn("text-2xl sm:text-3xl font-extrabold tracking-tight font-sans", theme === "light" ? "text-slate-900" : "text-white")}>
               The 4-Pillar Explainable Risk Engine
             </h2>
-            <p className="text-sm text-slate-400 leading-relaxed font-sans">
+            <p className={cn("text-sm leading-relaxed font-sans", theme === "light" ? "text-slate-600" : "text-slate-400")}>
               Unlike legacy systems that output mysterious AI confidence scores, ExposureX scores your attack surface using a deterministic, fully auditable mathematical formula. Every single risk point is traceable directly to real-world security telemetry.
             </p>
           </div>
 
           {/* Mathematical Formula Banner */}
-          <div className="p-6 rounded-2xl bg-[#0a101f] border border-[#1e293b] shadow-xl relative overflow-hidden">
+          <div className={cn("p-6 rounded-2xl border shadow-xl relative overflow-hidden transition-colors", theme === "light" ? "bg-white border-slate-200" : "bg-[#0a101f] border-[#1e293b]")}>
             <div className="absolute -top-12 -right-12 w-48 h-48 bg-orange-500/5 rounded-full blur-3xl pointer-events-none" />
             <div className="flex flex-col lg:flex-row items-center justify-between gap-6">
               <div className="space-y-2 text-center lg:text-left">
-                <div className="flex items-center justify-center lg:justify-start gap-2 text-xs font-mono font-bold text-orange-400 uppercase tracking-wider">
+                <div className="flex items-center justify-center lg:justify-start gap-2 text-xs font-mono font-bold text-orange-500 uppercase tracking-wider">
                   <Calculator className="w-4 h-4" />
                   <span>Deterministic Risk Formulation</span>
                 </div>
-                <div className="text-xs sm:text-sm md:text-base font-mono text-slate-200 bg-black/50 px-3 sm:px-4 py-2.5 rounded-lg border border-slate-800 overflow-x-auto">
-                  <span className="text-orange-400 font-bold">Total Risk</span> ={" "}
-                  <span className="text-cyan-400">(Exposure × 30%)</span> +{" "}
+                <div className={cn("text-xs sm:text-sm md:text-base font-mono px-3 sm:px-4 py-2.5 rounded-lg border overflow-x-auto", theme === "light" ? "bg-slate-100 border-slate-300 text-slate-800" : "bg-black/50 border-slate-800 text-slate-200")}>
+                  <span className="text-orange-500 font-bold">Total Risk</span> ={" "}
+                  <span className={cn("font-bold", theme === "light" ? "text-cyan-600" : "text-cyan-400")} style={{ color: theme === "light" ? "#0891b2" : "#22d3ee" }}>(Exposure × 30%)</span> +{" "}
                   <span className="text-red-400">(Vulnerabilities × 25%)</span> +{" "}
                   <span className="text-amber-400">(Credentials × 25%)</span> +{" "}
                   <span className="text-emerald-400">(Business Impact × 20%)</span>
                 </div>
               </div>
               <div className="flex flex-wrap items-center justify-center lg:justify-end gap-3 shrink-0 w-full lg:w-auto">
-                <div className="flex-1 sm:flex-none text-center px-4 py-2 bg-black/40 border border-slate-800 rounded-xl min-w-[120px]">
-                  <div className="text-[10px] uppercase font-mono text-slate-400 tracking-wider">Output Scale</div>
-                  <div className="text-xl font-bold font-mono text-white">0 — 100</div>
+                <div className={cn("flex-1 sm:flex-none text-center px-4 py-2 border rounded-xl min-w-[120px]", theme === "light" ? "bg-slate-50 border-slate-200" : "bg-black/40 border-slate-800")}>
+                  <div className={cn("text-[10px] uppercase font-mono tracking-wider", theme === "light" ? "text-slate-500" : "text-slate-400")}>Output Scale</div>
+                  <div className={cn("text-xl font-bold font-mono", theme === "light" ? "text-slate-900" : "text-white")}>0 — 100</div>
                 </div>
-                <div className="flex-1 sm:flex-none text-center px-4 py-2 bg-black/40 border border-slate-800 rounded-xl min-w-[120px]">
-                  <div className="text-[10px] uppercase font-mono text-slate-400 tracking-wider">Auditability</div>
-                  <div className="text-xl font-bold font-mono text-emerald-400">100% Deterministic</div>
+                <div className={cn("flex-1 sm:flex-none text-center px-4 py-2 border rounded-xl min-w-[120px]", theme === "light" ? "bg-slate-50 border-slate-200" : "bg-black/40 border-slate-800")}>
+                  <div className={cn("text-[10px] uppercase font-mono tracking-wider", theme === "light" ? "text-slate-500" : "text-slate-400")}>Auditability</div>
+                  <div className="text-xl font-bold font-mono text-emerald-500">100% Deterministic</div>
                 </div>
               </div>
             </div>
@@ -1357,215 +1357,259 @@ export function LandingPage() {
           {/* The 4 Pillars Cards */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {/* Pillar 1: External Exposure */}
-            <div className="p-6 rounded-2xl bg-[#0c1220] border border-[#1a2942] hover:border-cyan-500/50 transition-all flex flex-col justify-between space-y-4">
+            <div className={cn("p-6 rounded-2xl border transition-all flex flex-col justify-between space-y-4 hover:border-cyan-500/50", theme === "light" ? "bg-white border-slate-200 shadow-sm" : "bg-[#0c1220] border-[#1a2942]")}>
               <div className="space-y-3">
                 <div className="flex items-center justify-between">
-                  <div className="w-10 h-10 rounded-xl bg-cyan-950/80 border border-cyan-800/80 flex items-center justify-center text-cyan-400">
+                  <div className={cn("w-10 h-10 rounded-xl border flex items-center justify-center", theme === "light" ? "bg-cyan-50 border-cyan-200 text-cyan-600" : "bg-cyan-950/80 border-cyan-800/80 text-cyan-400")}>
                     <Globe className="w-5 h-5" />
                   </div>
-                  <span className="text-xs font-mono font-bold px-2.5 py-1 rounded-full bg-cyan-950/60 border border-cyan-700/60 text-cyan-300">
+                  <span className={cn("text-xs font-mono font-bold px-2.5 py-1 rounded-full border", theme === "light" ? "bg-cyan-50 border-cyan-200 text-cyan-700" : "bg-cyan-950/60 border-cyan-700/60 text-cyan-300")}>
                     Weight: 30%
                   </span>
                 </div>
                 <div>
-                  <h3 className="text-base font-bold text-white font-sans">External Exposure</h3>
-                  <div className="text-[11px] font-mono text-cyan-400">Perimeter Reachability</div>
+                  <h3 className={cn("text-base font-bold font-sans", theme === "light" ? "text-slate-900" : "text-white")}>External Exposure</h3>
+                  <div className={cn("text-[11px] font-mono", theme === "light" ? "text-cyan-600 font-semibold" : "text-cyan-400")} style={{ color: theme === "light" ? "#0891b2" : "#22d3ee" }}>Perimeter Reachability</div>
                 </div>
-                <p className="text-xs text-slate-400 leading-relaxed font-sans">
+                <p className={cn("text-xs leading-relaxed font-sans", theme === "light" ? "text-slate-600" : "text-slate-400")}>
                   Evaluates internet-facing attack surface area: open high-risk ports (RDP, SSH, SMB, databases), exposed management consoles, TLS certificate expiry, and unencrypted HTTP endpoints.
                 </p>
               </div>
-              <div className="pt-3 border-t border-slate-800/60 space-y-1.5 font-mono text-[11px] text-slate-400">
+              <div className={cn("pt-3 border-t space-y-1.5 font-mono text-[11px]", theme === "light" ? "border-slate-200 text-slate-600" : "border-slate-800/60 text-slate-400")}>
                 <div className="flex justify-between">
                   <span>Score Component:</span>
-                  <span className="text-cyan-400 font-semibold">0 - 30.0 pts</span>
+                  <span className={cn("font-semibold", theme === "light" ? "text-cyan-600" : "text-cyan-400")} style={{ color: theme === "light" ? "#0891b2" : "#22d3ee" }}>0 - 30.0 pts</span>
                 </div>
                 <div className="flex justify-between">
                   <span>Input Telemetry:</span>
-                  <span className="text-slate-300">Port &amp; SAN Scans</span>
+                  <span className={theme === "light" ? "text-slate-800" : "text-slate-300"}>Port &amp; SAN Scans</span>
                 </div>
               </div>
             </div>
 
             {/* Pillar 2: Vulnerability Posture */}
-            <div className="p-6 rounded-2xl bg-[#0c1220] border border-[#1a2942] hover:border-red-500/50 transition-all flex flex-col justify-between space-y-4">
+            <div className={cn("p-6 rounded-2xl border transition-all flex flex-col justify-between space-y-4 hover:border-red-500/50", theme === "light" ? "bg-white border-slate-200 shadow-sm" : "bg-[#0c1220] border-[#1a2942]")}>
               <div className="space-y-3">
                 <div className="flex items-center justify-between">
-                  <div className="w-10 h-10 rounded-xl bg-red-950/80 border border-red-800/80 flex items-center justify-center text-red-400">
+                  <div className={cn("w-10 h-10 rounded-xl border flex items-center justify-center", theme === "light" ? "bg-red-50 border-red-200 text-red-600" : "bg-red-950/80 border-red-800/80 text-red-400")}>
                     <ShieldAlert className="w-5 h-5" />
                   </div>
-                  <span className="text-xs font-mono font-bold px-2.5 py-1 rounded-full bg-red-950/60 border border-red-700/60 text-red-300">
+                  <span className={cn("text-xs font-mono font-bold px-2.5 py-1 rounded-full border", theme === "light" ? "bg-red-50 border-red-200 text-red-700" : "bg-red-950/60 border-red-700/60 text-red-300")}>
                     Weight: 25%
                   </span>
                 </div>
                 <div>
-                  <h3 className="text-base font-bold text-white font-sans">Vulnerability Posture</h3>
-                  <div className="text-[11px] font-mono text-red-400">Active Weaponization</div>
+                  <h3 className={cn("text-base font-bold font-sans", theme === "light" ? "text-slate-900" : "text-white")}>Vulnerability Posture</h3>
+                  <div className={cn("text-[11px] font-mono", theme === "light" ? "text-red-600 font-semibold" : "text-red-400")}>Active Weaponization</div>
                 </div>
-                <p className="text-xs text-slate-400 leading-relaxed font-sans">
+                <p className={cn("text-xs leading-relaxed font-sans", theme === "light" ? "text-slate-600" : "text-slate-400")}>
                   Prioritizes vulnerabilities based on real-world threat intelligence. Flaws listed on CISA KEV (Known Exploited Vulnerabilities) or with public weaponized exploits receive urgent weighting over passive theoretical bugs.
                 </p>
               </div>
-              <div className="pt-3 border-t border-slate-800/60 space-y-1.5 font-mono text-[11px] text-slate-400">
+              <div className={cn("pt-3 border-t space-y-1.5 font-mono text-[11px]", theme === "light" ? "border-slate-200 text-slate-600" : "border-slate-800/60 text-slate-400")}>
                 <div className="flex justify-between">
                   <span>Score Component:</span>
                   <span className="text-red-400 font-semibold">0 - 25.0 pts</span>
                 </div>
                 <div className="flex justify-between">
                   <span>Input Telemetry:</span>
-                  <span className="text-slate-300">CISA KEV + CVSS 3.1</span>
+                  <span className={theme === "light" ? "text-slate-800" : "text-slate-300"}>CISA KEV + CVSS 3.1</span>
                 </div>
               </div>
             </div>
 
             {/* Pillar 3: Credential Exposure */}
-            <div className="p-6 rounded-2xl bg-[#0c1220] border border-[#1a2942] hover:border-amber-500/50 transition-all flex flex-col justify-between space-y-4">
+            <div className={cn("p-6 rounded-2xl border transition-all flex flex-col justify-between space-y-4 hover:border-amber-500/50", theme === "light" ? "bg-white border-slate-200 shadow-sm" : "bg-[#0c1220] border-[#1a2942]")}>
               <div className="space-y-3">
                 <div className="flex items-center justify-between">
-                  <div className="w-10 h-10 rounded-xl bg-amber-950/80 border border-amber-800/80 flex items-center justify-center text-amber-400">
+                  <div className={cn("w-10 h-10 rounded-xl border flex items-center justify-center", theme === "light" ? "bg-amber-50 border-amber-200 text-amber-600" : "bg-amber-950/80 border-amber-800/80 text-amber-400")}>
                     <KeyRound className="w-5 h-5" />
                   </div>
-                  <span className="text-xs font-mono font-bold px-2.5 py-1 rounded-full bg-amber-950/60 border border-amber-700/60 text-amber-300">
+                  <span className={cn("text-xs font-mono font-bold px-2.5 py-1 rounded-full border", theme === "light" ? "bg-amber-50 border-amber-200 text-amber-700" : "bg-amber-950/60 border-amber-700/60 text-amber-300")}>
                     Weight: 25%
                   </span>
                 </div>
                 <div>
-                  <h3 className="text-base font-bold text-white font-sans">Credential Exposure</h3>
-                  <div className="text-[11px] font-mono text-amber-400">Breach &amp; Stealer Telemetry</div>
+                  <h3 className={cn("text-base font-bold font-sans", theme === "light" ? "text-slate-900" : "text-white")}>Credential Exposure</h3>
+                  <div className={cn("text-[11px] font-mono", theme === "light" ? "text-amber-600 font-semibold" : "text-amber-400")}>Breach &amp; Stealer Telemetry</div>
                 </div>
-                <p className="text-xs text-slate-400 leading-relaxed font-sans">
+                <p className={cn("text-xs leading-relaxed font-sans", theme === "light" ? "text-slate-600" : "text-slate-400")}>
                   Ingests breach intelligence from verified feeds (XposedOrNot, Hudson Rock, LeakCheck). Highlights compromised corporate identities, privileged account leaks, and unrotated credentials without storing any plaintext secrets.
                 </p>
               </div>
-              <div className="pt-3 border-t border-slate-800/60 space-y-1.5 font-mono text-[11px] text-slate-400">
+              <div className={cn("pt-3 border-t space-y-1.5 font-mono text-[11px]", theme === "light" ? "border-slate-200 text-slate-600" : "border-slate-800/60 text-slate-400")}>
                 <div className="flex justify-between">
                   <span>Score Component:</span>
                   <span className="text-amber-400 font-semibold">0 - 25.0 pts</span>
                 </div>
                 <div className="flex justify-between">
                   <span>Input Telemetry:</span>
-                  <span className="text-slate-300">Breach Feeds &amp; Stealers</span>
+                  <span className={theme === "light" ? "text-slate-800" : "text-slate-300"}>Breach Feeds &amp; Stealers</span>
                 </div>
               </div>
             </div>
 
             {/* Pillar 4: Business Criticality */}
-            <div className="p-6 rounded-2xl bg-[#0c1220] border border-[#1a2942] hover:border-emerald-500/50 transition-all flex flex-col justify-between space-y-4">
+            <div className={cn("p-6 rounded-2xl border transition-all flex flex-col justify-between space-y-4 hover:border-emerald-500/50", theme === "light" ? "bg-white border-slate-200 shadow-sm" : "bg-[#0c1220] border-[#1a2942]")}>
               <div className="space-y-3">
                 <div className="flex items-center justify-between">
-                  <div className="w-10 h-10 rounded-xl bg-emerald-950/80 border border-emerald-800/80 flex items-center justify-center text-emerald-400">
+                  <div className={cn("w-10 h-10 rounded-xl border flex items-center justify-center", theme === "light" ? "bg-emerald-50 border-emerald-200 text-emerald-600" : "bg-emerald-950/80 border-emerald-800/80 text-emerald-400")}>
                     <Building2 className="w-5 h-5" />
                   </div>
-                  <span className="text-xs font-mono font-bold px-2.5 py-1 rounded-full bg-emerald-950/60 border border-emerald-700/60 text-emerald-300">
+                  <span className={cn("text-xs font-mono font-bold px-2.5 py-1 rounded-full border", theme === "light" ? "bg-emerald-50 border-emerald-200 text-emerald-700" : "bg-emerald-950/60 border-emerald-700/60 text-emerald-300")}>
                     Weight: 20%
                   </span>
                 </div>
                 <div>
-                  <h3 className="text-base font-bold text-white font-sans">Business Criticality</h3>
-                  <div className="text-[11px] font-mono text-emerald-400">Asset &amp; Role Context</div>
+                  <h3 className={cn("text-base font-bold font-sans", theme === "light" ? "text-slate-900" : "text-white")}>Business Criticality</h3>
+                  <div className={cn("text-[11px] font-mono", theme === "light" ? "text-emerald-600 font-semibold" : "text-emerald-400")}>Asset &amp; Role Context</div>
                 </div>
-                <p className="text-xs text-slate-400 leading-relaxed font-sans">
+                <p className={cn("text-xs leading-relaxed font-sans", theme === "light" ? "text-slate-600" : "text-slate-400")}>
                   Contextualizes technical exposure against business reality. Critical assets (core payment gateways, customer databases) and privileged users (DevOps, Domain Admins, Executive leadership) amplify the score.
                 </p>
               </div>
-              <div className="pt-3 border-t border-slate-800/60 space-y-1.5 font-mono text-[11px] text-slate-400">
+              <div className={cn("pt-3 border-t space-y-1.5 font-mono text-[11px]", theme === "light" ? "border-slate-200 text-slate-600" : "border-slate-800/60 text-slate-400")}>
                 <div className="flex justify-between">
                   <span>Score Component:</span>
                   <span className="text-emerald-400 font-semibold">0 - 20.0 pts</span>
                 </div>
                 <div className="flex justify-between">
                   <span>Input Telemetry:</span>
-                  <span className="text-slate-300">Asset Tags &amp; Roles</span>
+                  <span className={theme === "light" ? "text-slate-800" : "text-slate-300"}>Asset Tags &amp; Roles</span>
                 </div>
               </div>
             </div>
           </div>
 
           {/* Transparent Calculation Walkthrough Card */}
-          <div className="p-6 sm:p-8 rounded-2xl bg-[#0b101d] border border-[#1a2942] space-y-6">
-            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-4 border-b border-slate-800">
+          <div className={cn(
+            "p-6 sm:p-8 rounded-2xl border space-y-6 transition-colors",
+            theme === "light"
+              ? "bg-white border-slate-200 shadow-md text-slate-900"
+              : "bg-[#0b101d] border-[#1a2942] text-slate-100"
+          )}>
+            <div className={cn("flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-4 border-b", theme === "light" ? "border-slate-200" : "border-slate-800")}>
               <div>
-                <div className="text-xs font-mono text-orange-400 uppercase font-bold tracking-wider">Audit Traceability Demonstration</div>
-                <h4 className="text-lg font-bold text-white font-sans">Deterministic Risk Attribution in Action</h4>
+                <div className="text-xs font-mono text-orange-500 uppercase font-bold tracking-wider">Audit Traceability Demonstration</div>
+                <h4 className={cn("text-lg font-bold font-sans", theme === "light" ? "text-slate-900" : "text-white")}>Deterministic Risk Attribution in Action</h4>
               </div>
               <div className="flex items-center gap-3">
-                <div className="px-3 py-1.5 rounded-lg bg-red-950/80 border border-red-700 text-red-300 font-mono font-bold text-sm">
+                <div className={cn(
+                  "px-3 py-1.5 rounded-lg font-mono font-bold text-sm border",
+                  theme === "light"
+                    ? "bg-red-50 border-red-200 text-red-600"
+                    : "bg-red-950/80 border border-red-700 text-red-300"
+                )}>
                   Calculated Risk: 78 / 100 (HIGH)
                 </div>
               </div>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-              <div className="p-4 rounded-xl bg-cyan-950/20 border border-cyan-500/40 hover:border-cyan-400 transition-all space-y-2">
+              {/* Pillar 1: Exposure */}
+              <div className={cn(
+                "p-4 rounded-xl border transition-all space-y-2",
+                theme === "light"
+                  ? "bg-cyan-50/70 border-cyan-300 hover:border-cyan-500 shadow-sm"
+                  : "bg-cyan-950/20 border-cyan-500/40 hover:border-cyan-400"
+              )}>
                 <div className="flex justify-between items-center text-xs">
-                  <span className="text-cyan-400 font-mono font-bold tracking-wide">1. Exposure</span>
-                  <span className="font-mono text-cyan-300 font-bold">80 / 100</span>
+                  <span
+                    className={cn("font-mono font-bold tracking-wide", theme === "light" ? "text-cyan-700" : "text-cyan-400")}
+                    style={{ color: theme === "light" ? "#0e7490" : "#22d3ee" }}
+                  >
+                    1. Exposure
+                  </span>
+                  <span className={cn("font-mono font-bold", theme === "light" ? "text-cyan-800" : "text-cyan-300")}>80 / 100</span>
                 </div>
-                <div className="w-full bg-slate-800/80 h-1.5 rounded-full overflow-hidden">
+                <div className={cn("w-full h-1.5 rounded-full overflow-hidden", theme === "light" ? "bg-cyan-200/80" : "bg-slate-800/80")}>
                   <div className="bg-cyan-400 h-full w-[80%] shadow-[0_0_8px_rgba(6,182,212,0.8)]" />
                 </div>
-                <div className="text-[11px] text-slate-400 pt-1">
-                  80 × 0.30 = <strong className="text-white font-mono">24.0 pts</strong>
+                <div className={cn("text-[11px] pt-1", theme === "light" ? "text-slate-600" : "text-slate-400")}>
+                  80 × 0.30 = <strong className={cn("font-mono font-bold", theme === "light" ? "text-slate-900" : "text-white")}>24.0 pts</strong>
                 </div>
-                <p className="text-[11px] text-slate-400 leading-tight">
+                <p className={cn("text-[11px] leading-tight", theme === "light" ? "text-slate-600" : "text-slate-400")}>
                   Unrestricted port 443 &amp; exposed staging portal.
                 </p>
               </div>
 
-              <div className="p-4 rounded-xl bg-black/40 border border-slate-800/80 space-y-2">
+              {/* Pillar 2: Vulnerabilities */}
+              <div className={cn(
+                "p-4 rounded-xl border transition-all space-y-2",
+                theme === "light"
+                  ? "bg-slate-50 border-slate-200 hover:border-red-300 shadow-sm"
+                  : "bg-black/40 border-slate-800/80 hover:border-red-500/40"
+              )}>
                 <div className="flex justify-between items-center text-xs">
-                  <span className="text-red-400 font-mono font-semibold">2. Vulnerabilities</span>
-                  <span className="font-mono text-white font-bold">90 / 100</span>
+                  <span className="text-red-400 font-mono font-bold tracking-wide">2. Vulnerabilities</span>
+                  <span className={cn("font-mono font-bold", theme === "light" ? "text-slate-800" : "text-white")}>90 / 100</span>
                 </div>
-                <div className="w-full bg-slate-800 h-1.5 rounded-full overflow-hidden">
+                <div className={cn("w-full h-1.5 rounded-full overflow-hidden", theme === "light" ? "bg-slate-200" : "bg-slate-800")}>
                   <div className="bg-red-400 h-full w-[90%]" />
                 </div>
-                <div className="text-[11px] text-slate-400 pt-1">
-                  90 × 0.25 = <strong className="text-white font-mono">22.5 pts</strong>
+                <div className={cn("text-[11px] pt-1", theme === "light" ? "text-slate-600" : "text-slate-400")}>
+                  90 × 0.25 = <strong className={cn("font-mono font-bold", theme === "light" ? "text-slate-900" : "text-white")}>22.5 pts</strong>
                 </div>
-                <p className="text-[11px] text-slate-400 leading-tight">
+                <p className={cn("text-[11px] leading-tight", theme === "light" ? "text-slate-600" : "text-slate-400")}>
                   1 CISA KEV actively exploited VPN vulnerability.
                 </p>
               </div>
 
-              <div className="p-4 rounded-xl bg-black/40 border border-slate-800/80 space-y-2">
+              {/* Pillar 3: Credentials */}
+              <div className={cn(
+                "p-4 rounded-xl border transition-all space-y-2",
+                theme === "light"
+                  ? "bg-slate-50 border-slate-200 hover:border-amber-300 shadow-sm"
+                  : "bg-black/40 border-slate-800/80 hover:border-amber-500/40"
+              )}>
                 <div className="flex justify-between items-center text-xs">
-                  <span className="text-amber-400 font-mono font-semibold">3. Credentials</span>
-                  <span className="font-mono text-white font-bold">75 / 100</span>
+                  <span className="text-amber-400 font-mono font-bold tracking-wide">3. Credentials</span>
+                  <span className={cn("font-mono font-bold", theme === "light" ? "text-slate-800" : "text-white")}>75 / 100</span>
                 </div>
-                <div className="w-full bg-slate-800 h-1.5 rounded-full overflow-hidden">
+                <div className={cn("w-full h-1.5 rounded-full overflow-hidden", theme === "light" ? "bg-slate-200" : "bg-slate-800")}>
                   <div className="bg-amber-400 h-full w-[75%]" />
                 </div>
-                <div className="text-[11px] text-slate-400 pt-1">
-                  75 × 0.25 = <strong className="text-white font-mono">18.75 pts</strong>
+                <div className={cn("text-[11px] pt-1", theme === "light" ? "text-slate-600" : "text-slate-400")}>
+                  75 × 0.25 = <strong className={cn("font-mono font-bold", theme === "light" ? "text-slate-900" : "text-white")}>18.75 pts</strong>
                 </div>
-                <p className="text-[11px] text-slate-400 leading-tight">
+                <p className={cn("text-[11px] leading-tight", theme === "light" ? "text-slate-600" : "text-slate-400")}>
                   DevOps engineer corporate identity compromised.
                 </p>
               </div>
 
-              <div className="p-4 rounded-xl bg-black/40 border border-slate-800/80 space-y-2">
+              {/* Pillar 4: Criticality */}
+              <div className={cn(
+                "p-4 rounded-xl border transition-all space-y-2",
+                theme === "light"
+                  ? "bg-slate-50 border-slate-200 hover:border-emerald-300 shadow-sm"
+                  : "bg-black/40 border-slate-800/80 hover:border-emerald-500/40"
+              )}>
                 <div className="flex justify-between items-center text-xs">
-                  <span className="text-emerald-400 font-mono font-semibold">4. Criticality</span>
-                  <span className="font-mono text-white font-bold">65 / 100</span>
+                  <span className="text-emerald-400 font-mono font-bold tracking-wide">4. Criticality</span>
+                  <span className={cn("font-mono font-bold", theme === "light" ? "text-slate-800" : "text-white")}>65 / 100</span>
                 </div>
-                <div className="w-full bg-slate-800 h-1.5 rounded-full overflow-hidden">
+                <div className={cn("w-full h-1.5 rounded-full overflow-hidden", theme === "light" ? "bg-slate-200" : "bg-slate-800")}>
                   <div className="bg-emerald-400 h-full w-[65%]" />
                 </div>
-                <div className="text-[11px] text-slate-400 pt-1">
-                  65 × 0.20 = <strong className="text-white font-mono">13.0 pts</strong>
+                <div className={cn("text-[11px] pt-1", theme === "light" ? "text-slate-600" : "text-slate-400")}>
+                  65 × 0.20 = <strong className={cn("font-mono font-bold", theme === "light" ? "text-slate-900" : "text-white")}>13.0 pts</strong>
                 </div>
-                <p className="text-[11px] text-slate-400 leading-tight">
+                <p className={cn("text-[11px] leading-tight", theme === "light" ? "text-slate-600" : "text-slate-400")}>
                   Production environment with Tier-1 asset tagging.
                 </p>
               </div>
             </div>
 
-            <div className="p-4 rounded-xl bg-orange-500/10 border border-orange-500/30 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs">
-              <div className="flex items-center gap-2 text-slate-200">
-                <CheckCircle2 className="w-4 h-4 text-orange-400 shrink-0" />
-                <span>
-                  <strong>Audit Rationale:</strong> 24.0 + 22.5 + 18.75 + 13.0 = <strong className="font-mono text-orange-400">78.25</strong> → Normalized to <strong className="font-mono text-white">78 / 100 (HIGH Risk)</strong>. Every calculation parameter is auditable in compliance reports.
+            <div className={cn(
+              "p-4 rounded-xl flex flex-col sm:flex-row items-center justify-between gap-3 text-xs border transition-colors",
+              theme === "light"
+                ? "bg-orange-50/90 border-orange-200 text-slate-800 shadow-sm"
+                : "bg-orange-500/10 border-orange-500/30 text-slate-200"
+            )}>
+              <div className="flex items-center gap-2">
+                <CheckCircle2 className="w-4 h-4 text-[#ff6600] shrink-0" />
+                <span className={theme === "light" ? "text-slate-800" : "text-slate-200"}>
+                  <strong className={theme === "light" ? "text-slate-900 font-bold" : "text-white font-bold"}>Audit Rationale:</strong> 24.0 + 22.5 + 18.75 + 13.0 = <strong className="font-mono text-[#ff6600] font-bold">78.25</strong> → Normalized to <strong className={cn("font-mono font-bold", theme === "light" ? "text-slate-900" : "text-white")}>78 / 100 (HIGH Risk)</strong>. Every calculation parameter is auditable in compliance reports.
                 </span>
               </div>
               <a

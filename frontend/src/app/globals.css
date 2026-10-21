@@ -217,6 +217,8 @@ html.light [class*="bg-[#070b14]"],
 html.light [class*="bg-[#080d1a]"],
 html.light [class*="bg-[#0c1220]"],
 html.light [class*="bg-[#090e1c]"],
+html.light [class*="bg-[#0b101d]"],
+html.light [class*="bg-[#0a0f1d]"],
 html.light [class*="bg-[#040814]"] {
   background-color: #ffffff !important;
 }
@@ -348,37 +350,60 @@ html.dark header {
   border-color: #27272a !important;
 }
 
-/* Ensure any remaining legacy blue/slate text and borders blend seamlessly in Dark mode */
-html.dark .text-cyan-300,
+/* Ensure any remaining legacy blue text and borders blend seamlessly in Dark mode */
 html.dark .text-blue-300 {
   color: #fed7aa !important; /* Soft warm orange-tinted white */
 }
 
-html.dark .text-cyan-400,
 html.dark .text-blue-400 {
   color: #ff6600 !important; /* Brand orange accent */
 }
 
 /* Light Mode Comprehensive Color Remapping */
-html.light .text-cyan-300,
 html.light .text-blue-300,
-html.light .text-cyan-400,
 html.light .text-blue-400 {
   color: #ea580c !important; /* Darker vibrant orange for high readability on white */
 }
 
 html.light .border-blue-500\/40,
-html.light .border-cyan-500\/40,
-html.light .border-blue-800,
-html.light .border-cyan-800 {
+html.light .border-blue-800 {
   border-color: #fdba74 !important;
 }
 
 html.light .bg-blue-950,
-html.light .bg-cyan-950,
-html.light [class*="bg-blue-950"],
-html.light [class*="bg-cyan-950"] {
+html.light [class*="bg-blue-950"] {
   background-color: #fff7ed !important;
+}
+
+/* Preserve true Cyan for Pillar 1 (Exposure) & Network Telemetry */
+.text-cyan-400,
+html.dark .text-cyan-400 {
+  color: #22d3ee !important;
+}
+.text-cyan-300,
+html.dark .text-cyan-300 {
+  color: #67e8f9 !important;
+}
+html.light .text-cyan-400 {
+  color: #0891b2 !important; /* High-contrast readable cyan on light backgrounds */
+}
+html.light .text-cyan-300 {
+  color: #0e7490 !important;
+}
+.bg-cyan-400 {
+  background-color: #22d3ee !important;
+}
+html.dark .border-cyan-500\/40 {
+  border-color: rgba(6, 182, 212, 0.4) !important;
+}
+html.light .border-cyan-500\/40 {
+  border-color: #06b6d4 !important;
+}
+html.dark .bg-cyan-950\/20 {
+  background-color: rgba(8, 51, 68, 0.2) !important;
+}
+html.light .bg-cyan-950\/20 {
+  background-color: #ecfeff !important;
 }
 
 /* Module & Route Transition Animations */

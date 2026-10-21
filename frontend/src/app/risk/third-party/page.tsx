@@ -198,110 +198,303 @@ export default function ThirdPartyRiskPage() {
 
       {/* Vendor Detail Modal */}
       {selectedVendor && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/75 backdrop-blur-sm p-4">
-          <div className="w-full max-w-lg max-h-[90vh] overflow-y-auto bg-[#0f172a] border border-[#1e293b] rounded-xl shadow-2xl p-6 space-y-4">
-            <div className="flex items-center justify-between pb-3 border-b border-[#1e293b]">
-              <div>
-                <h3 className="text-base font-bold text-slate-100">{selectedVendor.name}</h3>
-                <div className="text-xs font-mono text-cyan-400">{selectedVendor.domain}</div>
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md p-4 sm:p-6 overflow-hidden">
+          <div className="w-full max-w-3xl max-h-[90vh] flex flex-col bg-[#0b0f19] border border-zinc-800 rounded-2xl shadow-2xl overflow-hidden">
+            
+            {/* Sticky Header */}
+            <div className="flex items-center justify-between p-5 border-b border-zinc-800 bg-[#0e1424] shrink-0">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-xl bg-orange-500/10 border border-orange-500/30 flex items-center justify-center text-[#ff6600]">
+                  <Building2 className="w-5 h-5" />
+                </div>
+                <div>
+                  <div className="flex items-center gap-2">
+                    <h3 className="text-base font-bold text-white font-sans">{selectedVendor.name}</h3>
+                    <span className={cn(
+                      "text-[10px] font-mono font-bold px-2 py-0.5 rounded-full border",
+                      selectedVendor.risk_band === "Critical"
+                        ? "bg-red-500/10 text-red-400 border-red-500/30"
+                        : selectedVendor.risk_band === "High"
+                        ? "bg-amber-500/10 text-amber-400 border-amber-500/30"
+                        : "bg-emerald-500/10 text-emerald-400 border-emerald-500/30"
+                    )}>
+                      {selectedVendor.risk_band} Risk ({selectedVendor.overall_risk_score}/100)
+                    </span>
+                  </div>
+                  <div className="text-xs font-mono text-cyan-400 flex items-center gap-1.5 mt-0.5">
+                    <Globe className="w-3.5 h-3.5" />
+                    <span>{selectedVendor.domain}</span>
+                    <a
+                      href={`https://${selectedVendor.domain}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-zinc-500 hover:text-cyan-300 transition-colors"
+                      title="Open domain in new tab"
+                    >
+                      <ExternalLink className="w-3 h-3" />
+                    </a>
+                  </div>
+                </div>
               </div>
-              <button onClick={() => setSelectedVendor(null)} className="text-slate-400 hover:text-slate-200">
-                <X className="w-4 h-4" />
+              <button
+                onClick={() => setSelectedVendor(null)}
+                className="p-1.5 rounded-lg text-zinc-400 hover:text-white hover:bg-zinc-800 transition-colors"
+              >
+                <X className="w-5 h-5" />
               </button>
             </div>
 
-            <div className="grid grid-cols-2 gap-3 p-3 rounded bg-slate-900/80 border border-slate-800 text-xs">
-              <div>
-                <span className="text-slate-400 text-[10px] block">Overall Third-Party Risk</span>
-                <span className="text-xl font-bold font-mono text-amber-400">
-                  {selectedVendor.overall_risk_score} / 100
-                </span>
+            {/* Scrollable Modal Content */}
+            <div className="flex-1 overflow-y-auto p-5 sm:p-6 space-y-6">
+              
+              {/* Top Overview Cards */}
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                <div className="p-3.5 rounded-xl bg-[#090d16] border border-zinc-800 space-y-1">
+                  <span className="text-[10px] uppercase font-mono text-zinc-500 block">Overall Risk Score</span>
+                  <div className="flex items-baseline gap-1.5">
+                    <span className="text-2xl font-extrabold font-mono text-amber-400">{selectedVendor.overall_risk_score}</span>
+                    <span className="text-xs font-mono text-zinc-500">/ 100</span>
+                  </div>
+                </div>
+
+                <div className="p-3.5 rounded-xl bg-[#090d16] border border-zinc-800 space-y-1">
+                  <span className="text-[10px] uppercase font-mono text-zinc-500 block">Category</span>
+                  <div className="text-xs font-bold text-zinc-200 mt-1 truncate">{selectedVendor.category}</div>
+                </div>
+
+                <div className="p-3.5 rounded-xl bg-[#090d16] border border-zinc-800 space-y-1">
+                  <span className="text-[10px] uppercase font-mono text-zinc-500 block">Criticality</span>
+                  <div className="text-xs font-bold text-orange-400 mt-1">{selectedVendor.business_criticality}</div>
+                </div>
+
+                <div className="p-3.5 rounded-xl bg-[#090d16] border border-zinc-800 space-y-1">
+                  <span className="text-[10px] uppercase font-mono text-zinc-500 block">Data Sensitivity</span>
+                  <div className="text-xs font-bold text-purple-400 mt-1">{selectedVendor.data_sensitivity}</div>
+                </div>
               </div>
-              <div>
-                <span className="text-slate-400 text-[10px] block">Data Sensitivity</span>
-                <span className="text-sm font-semibold text-slate-200">{selectedVendor.data_sensitivity}</span>
+
+              {/* Security Pillars Breakdown */}
+              <div className="p-4 rounded-xl bg-[#090d16] border border-zinc-800 space-y-3">
+                <div className="flex items-center justify-between text-xs">
+                  <span className="font-mono text-zinc-400 font-bold uppercase text-[11px] flex items-center gap-1.5">
+                    <Shield className="w-3.5 h-3.5 text-[#ff6600]" />
+                    <span>Security Pillars &amp; Posture Metrics</span>
+                  </span>
+                  <span className="text-[10px] font-mono text-zinc-500">Continuous Assessment</span>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+                  <div className="p-2.5 rounded-lg bg-black/40 border border-zinc-800/80 flex items-center justify-between">
+                    <span className="text-zinc-400">External Exposure:</span>
+                    <span className="font-mono text-cyan-400 font-bold">{selectedVendor.external_exposure_score} / 100</span>
+                  </div>
+                  <div className="p-2.5 rounded-lg bg-black/40 border border-zinc-800/80 flex items-center justify-between">
+                    <span className="text-zinc-400">Vulnerability Posture:</span>
+                    <span className="font-mono text-red-400 font-bold">{selectedVendor.vulnerability_score} / 100</span>
+                  </div>
+                  <div className="p-2.5 rounded-lg bg-black/40 border border-zinc-800/80 flex items-center justify-between">
+                    <span className="text-zinc-400">Credential Leaks:</span>
+                    <span className="font-mono text-purple-400 font-bold">{selectedVendor.credential_score} / 100</span>
+                  </div>
+                  <div className="p-2.5 rounded-lg bg-black/40 border border-zinc-800/80 flex items-center justify-between">
+                    <span className="text-zinc-400">Email Security (SPF/DMARC):</span>
+                    <span className="font-mono text-emerald-400 font-bold">{selectedVendor.email_security_score} / 100</span>
+                  </div>
+                  <div className="p-2.5 rounded-lg bg-black/40 border border-zinc-800/80 flex items-center justify-between sm:col-span-2">
+                    <span className="text-zinc-400">Transport Hygiene (TLS 1.3 / HSTS):</span>
+                    <span className="font-mono text-emerald-400 font-bold">{selectedVendor.hygiene_score} / 100</span>
+                  </div>
+                </div>
               </div>
+
+              {/* Live Protocol Telemetry Section */}
+              {selectedVendor.evidence && (selectedVendor.evidence.dns_protocol || selectedVendor.evidence.tls_protocol || selectedVendor.evidence.http_protocol) ? (
+                <div className="p-4 sm:p-5 rounded-xl bg-slate-950/90 border border-cyan-800/50 space-y-4 shadow-lg">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 border-b border-cyan-900/40">
+                    <div className="flex items-center gap-2">
+                      <div className="w-7 h-7 rounded-lg bg-cyan-950/80 border border-cyan-700/50 flex items-center justify-center text-cyan-400">
+                        <Globe className="w-4 h-4" />
+                      </div>
+                      <div>
+                        <div className="text-xs font-mono text-cyan-400 font-bold uppercase tracking-wider flex items-center gap-2">
+                          <span>Live Protocol Telemetry Verified</span>
+                          <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
+                        </div>
+                        <div className="text-[11px] text-zinc-400">Active cryptographic &amp; network handshake evidence</div>
+                      </div>
+                    </div>
+                    {selectedVendor.last_assessed_at && (
+                      <span className="text-[10px] font-mono text-zinc-500">
+                        Assessed: {new Date(selectedVendor.last_assessed_at).toLocaleDateString()} {new Date(selectedVendor.last_assessed_at).toLocaleTimeString()}
+                      </span>
+                    )}
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {/* DNS & Email Security */}
+                    <div className="p-3 rounded-lg bg-[#070b14] border border-cyan-950 space-y-2.5">
+                      <div className="text-[11px] font-mono text-cyan-300 font-semibold uppercase flex items-center gap-1.5 pb-1 border-b border-zinc-800">
+                        <Mail className="w-3.5 h-3.5 text-cyan-400" />
+                        <span>DNS &amp; Mail Routing Hygiene</span>
+                      </div>
+                      
+                      <div className="space-y-2 text-xs">
+                        <div>
+                          <span className="text-zinc-400 text-[11px] block mb-1">DNS A Records (IPv4):</span>
+                          <div className="flex flex-wrap gap-1.5">
+                            {selectedVendor.evidence.dns_protocol?.a_records && selectedVendor.evidence.dns_protocol.a_records.length > 0 ? (
+                              selectedVendor.evidence.dns_protocol.a_records.map((ip: string, idx: number) => (
+                                <span key={idx} className="font-mono text-[11px] px-2 py-0.5 rounded bg-zinc-900 border border-zinc-800 text-cyan-300">
+                                  {ip}
+                                </span>
+                              ))
+                            ) : (
+                              <span className="text-zinc-500 font-mono text-[11px]">No A records</span>
+                            )}
+                          </div>
+                        </div>
+
+                        <div>
+                          <span className="text-zinc-400 text-[11px] block mb-1">Mail Exchangers (MX):</span>
+                          <div className="flex flex-wrap gap-1.5">
+                            {selectedVendor.evidence.dns_protocol?.mx_records && selectedVendor.evidence.dns_protocol.mx_records.length > 0 ? (
+                              selectedVendor.evidence.dns_protocol.mx_records.map((mx: string, idx: number) => (
+                                <span key={idx} className="font-mono text-[11px] px-2 py-0.5 rounded bg-zinc-900 border border-zinc-800 text-zinc-300">
+                                  {mx}
+                                </span>
+                              ))
+                            ) : (
+                              <span className="text-zinc-500 font-mono text-[11px]">No MX records detected</span>
+                            )}
+                          </div>
+                        </div>
+
+                        <div className="flex items-center justify-between pt-1">
+                          <span className="text-zinc-400 text-[11px]">DMARC Policy:</span>
+                          <span className={cn(
+                            "font-semibold font-mono px-2 py-0.5 rounded text-[10px] uppercase border",
+                            selectedVendor.evidence.dns_protocol?.dmarc_enforcement === "reject"
+                              ? "bg-emerald-950/80 text-emerald-400 border-emerald-800"
+                              : selectedVendor.evidence.dns_protocol?.dmarc_enforcement === "quarantine"
+                              ? "bg-amber-950/80 text-amber-400 border-amber-800"
+                              : "bg-red-950/80 text-red-400 border-red-800"
+                          )}>
+                            {selectedVendor.evidence.dns_protocol?.dmarc_enforcement || "NONE"}
+                          </span>
+                        </div>
+
+                        {selectedVendor.evidence.dns_protocol?.dmarc && (
+                          <div className="pt-1">
+                            <span className="text-zinc-500 text-[10px] block mb-0.5 font-mono">Raw DMARC Record:</span>
+                            <div className="p-1.5 rounded bg-black/60 border border-zinc-900 font-mono text-[10px] text-zinc-400 break-all leading-tight">
+                              {selectedVendor.evidence.dns_protocol.dmarc}
+                            </div>
+                          </div>
+                        )}
+
+                        {selectedVendor.evidence.dns_protocol?.spf && (
+                          <div className="pt-1">
+                            <span className="text-zinc-500 text-[10px] block mb-0.5 font-mono">Raw SPF Record:</span>
+                            <div className="p-1.5 rounded bg-black/60 border border-zinc-900 font-mono text-[10px] text-zinc-400 break-all leading-tight">
+                              {selectedVendor.evidence.dns_protocol.spf}
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+
+                    {/* TLS & Web Server Hygiene */}
+                    <div className="p-3 rounded-lg bg-[#070b14] border border-cyan-950 space-y-2.5">
+                      <div className="text-[11px] font-mono text-cyan-300 font-semibold uppercase flex items-center gap-1.5 pb-1 border-b border-zinc-800">
+                        <Lock className="w-3.5 h-3.5 text-cyan-400" />
+                        <span>Transport Cryptography &amp; HTTPS</span>
+                      </div>
+
+                      <div className="space-y-2 text-xs">
+                        <div className="flex items-center justify-between">
+                          <span className="text-zinc-400 text-[11px]">TLS Handshake Version:</span>
+                          <span className={cn(
+                            "font-mono font-bold px-2 py-0.5 rounded text-[10px] border",
+                            selectedVendor.evidence.tls_protocol?.tls_version?.includes("1.3")
+                              ? "bg-emerald-950/80 text-emerald-400 border-emerald-800"
+                              : selectedVendor.evidence.tls_protocol?.tls_version?.includes("1.2")
+                              ? "bg-cyan-950/80 text-cyan-400 border-cyan-800"
+                              : "bg-amber-950/80 text-amber-400 border-amber-800"
+                          )}>
+                            {selectedVendor.evidence.tls_protocol?.tls_version || "Not Handshaked"}
+                          </span>
+                        </div>
+
+                        <div>
+                          <span className="text-zinc-400 text-[11px] block mb-1">Negotiated Cipher Suite:</span>
+                          <div className="p-1.5 rounded bg-black/60 border border-zinc-900 font-mono text-[10px] text-emerald-300 break-all leading-tight">
+                            {selectedVendor.evidence.tls_protocol?.cipher || "N/A"}
+                          </div>
+                        </div>
+
+                        {selectedVendor.evidence.tls_protocol?.issuer && (
+                          <div className="flex items-center justify-between">
+                            <span className="text-zinc-400 text-[11px]">Certificate Issuer:</span>
+                            <span className="font-mono text-zinc-300 text-[11px] truncate max-w-[180px]" title={selectedVendor.evidence.tls_protocol.issuer}>
+                              {selectedVendor.evidence.tls_protocol.issuer}
+                            </span>
+                          </div>
+                        )}
+
+                        {selectedVendor.evidence.tls_protocol?.san_count !== undefined && (
+                          <div className="flex items-center justify-between">
+                            <span className="text-zinc-400 text-[11px]">SAN Coverage:</span>
+                            <span className="font-mono text-cyan-300 text-[11px]">
+                              {selectedVendor.evidence.tls_protocol.san_count} Alternative Domains
+                            </span>
+                          </div>
+                        )}
+
+                        <div className="flex items-center justify-between pt-1 border-t border-zinc-900">
+                          <span className="text-zinc-400 text-[11px]">HSTS Strict Security:</span>
+                          <span className={cn(
+                            "font-bold font-mono px-2 py-0.5 rounded text-[10px] border",
+                            selectedVendor.evidence.http_protocol?.hsts
+                              ? "bg-emerald-950/80 text-emerald-400 border-emerald-800"
+                              : "bg-amber-950/80 text-amber-400 border-amber-800"
+                          )}>
+                            {selectedVendor.evidence.http_protocol?.hsts ? "ENFORCED" : "NOT DETECTED"}
+                          </span>
+                        </div>
+
+                        {selectedVendor.evidence.http_protocol?.server && (
+                          <div className="flex items-center justify-between">
+                            <span className="text-zinc-400 text-[11px]">Web Server Banner:</span>
+                            <span className="font-mono text-zinc-300 text-[11px]">
+                              {selectedVendor.evidence.http_protocol.server}
+                            </span>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ) : (
+                <div className="p-5 rounded-xl bg-slate-950/60 border border-dashed border-zinc-800 text-center space-y-2">
+                  <Globe className="w-8 h-8 text-zinc-600 mx-auto" />
+                  <div className="text-xs font-semibold text-zinc-300">Live Protocol Telemetry Not Yet Gathered</div>
+                  <p className="text-[11px] text-zinc-500 max-w-md mx-auto">
+                    Click &quot;Run Live Protocol Assessment&quot; below to execute non-intrusive DNS A/MX, SPF, DMARC, TLS handshake, and HSTS checks for {selectedVendor.domain}.
+                  </p>
+                </div>
+              )}
+
+              {/* Assessment Notes */}
+              {selectedVendor.notes && (
+                <div className="p-3.5 rounded-xl bg-[#090d16] border border-zinc-800 text-xs space-y-1">
+                  <div className="text-[10px] font-mono text-zinc-500 font-bold uppercase tracking-wider">Assessment Context &amp; Notes:</div>
+                  <p className="text-zinc-300 text-[11px] leading-relaxed">{selectedVendor.notes}</p>
+                </div>
+              )}
             </div>
 
-            <div className="space-y-2 text-xs">
-              <div className="font-mono text-slate-400 font-semibold uppercase text-[10px]">Security Pillars Breakdown:</div>
-              <div className="space-y-1 text-slate-300">
-                <div className="flex justify-between">
-                  <span>External Exposure:</span>
-                  <span className="font-mono text-cyan-400">{selectedVendor.external_exposure_score}/100</span>
-                </div>
-                <div className="flex justify-between">
-                  <span>Vulnerability Posture:</span>
-                  <span className="font-mono text-red-400">{selectedVendor.vulnerability_score}/100</span>
-                </div>
-                <div className="flex justify-between">
-                  <span>Credential Leaks:</span>
-                  <span className="font-mono text-purple-400">{selectedVendor.credential_score}/100</span>
-                </div>
-                <div className="flex justify-between">
-                  <span>Email Security (SPF/DKIM/DMARC):</span>
-                  <span className="font-mono text-emerald-400">{selectedVendor.email_security_score}/100</span>
-                </div>
-                <div className="flex justify-between">
-                  <span>Transport Hygiene (TLS/Certs):</span>
-                  <span className="font-mono text-emerald-400">{selectedVendor.hygiene_score}/100</span>
-                </div>
-              </div>
-            </div>
-
-            {/* Live Protocol Telemetry */}
-            {selectedVendor.evidence && selectedVendor.evidence.dns_protocol && (
-              <div className="p-3 rounded bg-slate-950/80 border border-cyan-900/40 text-xs space-y-2">
-                <div className="text-[10px] font-mono text-cyan-400 font-bold uppercase flex items-center gap-1.5">
-                  <Globe className="w-3.5 h-3.5" />
-                  <span>Real-World Protocol Telemetry</span>
-                </div>
-                <div className="space-y-1 font-mono text-[11px] text-slate-300">
-                  <div className="flex justify-between">
-                    <span className="text-slate-400">DNS A Records:</span>
-                    <span className="text-cyan-300">{selectedVendor.evidence.dns_protocol.a_records?.join(", ") || "None"}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-slate-400">Mail (MX):</span>
-                    <span className="text-slate-300">{selectedVendor.evidence.dns_protocol.mx_records?.join(", ") || "None"}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-slate-400">DMARC Policy:</span>
-                    <span className={cn(
-                      "font-semibold px-1.5 py-0.2 rounded text-[10px]",
-                      selectedVendor.evidence.dns_protocol.dmarc_enforcement === "reject"
-                        ? "bg-emerald-950 text-emerald-400 border border-emerald-800"
-                        : "bg-amber-950 text-amber-400 border border-amber-800"
-                    )}>
-                      {selectedVendor.evidence.dns_protocol.dmarc_enforcement?.toUpperCase()}
-                    </span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-slate-400">TLS Handshake:</span>
-                    <span className="text-emerald-400">{selectedVendor.evidence.tls_protocol?.tls_version || "Not Handshaked"}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-slate-400">TLS Cipher:</span>
-                    <span className="text-slate-300 truncate max-w-[200px]">{selectedVendor.evidence.tls_protocol?.cipher || "N/A"}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-slate-400">HSTS Enabled:</span>
-                    <span className={selectedVendor.evidence.http_protocol?.hsts ? "text-emerald-400" : "text-amber-400"}>
-                      {selectedVendor.evidence.http_protocol?.hsts ? "YES" : "NO"}
-                    </span>
-                  </div>
-                </div>
-              </div>
-            )}
-
-            {selectedVendor.notes && (
-              <div className="p-3 rounded bg-slate-900/60 border border-slate-800 text-xs">
-                <div className="text-[10px] font-mono text-slate-400 font-semibold mb-1">Assessment Notes:</div>
-                <p className="text-slate-300 text-[11px] leading-relaxed">{selectedVendor.notes}</p>
-              </div>
-            )}
-
-            <div className="flex justify-between items-center pt-2 border-t border-[#1e293b]">
+            {/* Sticky Action Footer */}
+            <div className="flex items-center justify-between p-4 bg-[#080c14] border-t border-zinc-800 shrink-0">
               <button
                 disabled={isAssessing}
                 onClick={async () => {
@@ -317,18 +510,20 @@ export default function ThirdPartyRiskPage() {
                     setIsAssessing(false);
                   }
                 }}
-                className="px-4 py-2 rounded-xl bg-orange-500 hover:bg-orange-600 disabled:opacity-50 text-xs text-white font-bold flex items-center gap-1.5 transition-all shadow-md shadow-orange-500/25 active:scale-95"
+                className="px-5 py-2.5 rounded-xl bg-orange-500 hover:bg-orange-600 disabled:opacity-50 text-xs text-white font-bold flex items-center gap-2 transition-all shadow-md shadow-orange-500/25 active:scale-95"
               >
-                <Globe className={cn("w-3.5 h-3.5", isAssessing && "animate-spin")} />
+                <Globe className={cn("w-4 h-4", isAssessing && "animate-spin")} />
                 <span>{isAssessing ? "Probing Protocols..." : "Run Live Protocol Assessment"}</span>
               </button>
+              
               <button
                 onClick={() => setSelectedVendor(null)}
-                className="px-4 py-1.5 rounded bg-slate-800 hover:bg-slate-700 text-xs text-slate-200"
+                className="px-4 py-2 rounded-xl bg-zinc-800 hover:bg-zinc-700 text-xs font-medium text-zinc-200 transition-colors"
               >
                 Close
               </button>
             </div>
+
           </div>
         </div>
       )}
