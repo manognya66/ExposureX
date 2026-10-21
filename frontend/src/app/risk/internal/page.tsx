@@ -53,105 +53,26 @@ interface BenchmarkData {
 }
 
 export default function InternalRiskPage() {
-  const [data, setData] = useState<any>(null);
+  // Default robust initial state to guarantee zero hydration mismatch and zero white-screen errors
+  const [data, setData] = useState<any>({
+    overall_score: 52,
+    risk_band: "HIGH",
+    org_name: "Abc Enterprise",
+    formula: "Internal Risk = (Exposure × 30%) + (Vulnerability × 25%) + (Credential × 25%) + (BusinessImpact × 20%)",
+    pillars: {
+      exposure: 60.0,
+      vulnerability: 65.0,
+      credential_exposure: 40.0,
+      business_impact: 50.0,
+    },
+  });
   const [benchmarkData, setBenchmarkData] = useState<BenchmarkData | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedSector, setSelectedSector] = useState("All");
   const [selectedPeer, setSelectedPeer] = useState<PeerCompany | null>(null);
+  const [isInitializing, setIsInitializing] = useState(true);
 
-  const loadData = async () => {
-    try {
-      const [riskRes, benchRes] = await Promise.all([
-        api.getInternalRiskAssessment().catch((e) => {
-          console.warn("Internal risk API notice:", e);
-          return null;
-        }),
-        api.getCompanyBenchmarks().catch((e) => {
-          console.warn("Benchmarks API notice:", e);
-          return null;
-        }),
-      ]);
-
-      if (riskRes) {
-        setData(riskRes);
-      } else {
-        // Resilient fallback state to prevent client-side white-screen crashes
-        setData({
-          overall_score: 52,
-          risk_band: "HIGH",
-          org_name: "Abc Enterprise",
-          formula: "Internal Risk = (Exposure × 30%) + (Vulnerability × 25%) + (Credential × 25%) + (BusinessImpact × 20%)",
-          pillars: {
-            exposure: 60.0,
-            vulnerability: 65.0,
-            credential_exposure: 40.0,
-            business_impact: 50.0,
-          },
-        });
-      }
-
-      if (benchRes && Array.isArray(benchRes.peers) && benchRes.peers.length > 0) {
-        setBenchmarkData(benchRes);
-        // Default to Horizon Energy & Utilities per user design preference
-        const horizonPeer = benchRes.peers.find(
-          (p: PeerCompany) => p && p.name && p.name.toLowerCase().includes("horizon")
-        ) || benchRes.peers[0];
-        setSelectedPeer(horizonPeer);
-      }
-    } catch (err) {
-      console.error("Failed to load risk assessment:", err);
-      setData({
-        overall_score: 52,
-        risk_band: "HIGH",
-        org_name: "Abc Enterprise",
-        formula: "Internal Risk = (Exposure × 30%) + (Vulnerability × 25%) + (Credential × 25%) + (BusinessImpact × 20%)",
-        pillars: {
-          exposure: 60.0,
-          vulnerability: 65.0,
-          credential_exposure: 40.0,
-          business_impact: 50.0,
-        },
-      });
-    }
-  };
-
-  useEffect(() => {
-    loadData();
-  }, []);
-
-  if (!data) {
-    return (
-      <div className="py-20 text-center font-mono text-sm text-zinc-400 flex flex-col items-center justify-center gap-3">
-        <div className="w-8 h-8 border-2 border-[#ff6600] border-t-transparent rounded-full animate-spin" />
-        <span>Computing Internal Risk Assessment & Benchmark Scores...</span>
-      </div>
-    );
-  }
-
-  const score = data.overall_score ?? 0;
-  const band = data.risk_band || (score === 0 ? "LOW" : score >= 75 ? "CRITICAL" : score >= 50 ? "HIGH" : "MODERATE");
-
-  // Safe default fallback comparative peer
-  const defaultPeer: PeerCompany = {
-    id: "comp-7",
-    name: "Horizon Energy & Utilities Corporation",
-    domain: "horizonenergy.com",
-    sector: "Energy & Critical Infrastructure",
-    score: 71,
-    band: "HIGH",
-    exposure_score: 74,
-    vulnerability_score: 76,
-    credential_exposure_score: 63,
-    critical_assets: 19,
-    trend_30d: "+3%",
-    trend_direction: "up",
-    delta_vs_org: 71 - score,
-    open_findings: 21,
-    status: "Monitored Enterprise",
-  };
-
-  const activeComparedPeer: PeerCompany = selectedPeer || defaultPeer;
-
+  // ALL HOOKS UNCONDITIONALLY CALLED AT THE TOP (Strict Compliance with React Rules of Hooks)
   const sectors = useMemo(() => {
     const peerList = Array.isArray(benchmarkData?.peers) ? benchmarkData.peers : [];
     const unique = Array.from(new Set(peerList.map((p) => p?.sector))).filter(Boolean);
@@ -195,6 +116,66 @@ export default function InternalRiskPage() {
       return matchesSearch && matchesSector;
     });
   }, [benchmarkData?.peers, searchQuery, selectedSector]);
+
+  const loadData = async () => {
+    try {
+      const [riskRes, benchRes] = await Promise.all([
+        api.getInternalRiskAssessment().catch((e) => {
+          console.warn("Internal risk API notice:", e);
+          return null;
+        }),
+        api.getCompanyBenchmarks().catch((e) => {
+          console.warn("Benchmarks API notice:", e);
+          return null;
+        }),
+      ]);
+
+      if (riskRes) {
+        setData(riskRes);
+      }
+
+      if (benchRes && Array.isArray(benchRes.peers) && benchRes.peers.length > 0) {
+        setBenchmarkData(benchRes);
+        // Default to Horizon Energy & Utilities per user design preference
+        const horizonPeer = benchRes.peers.find(
+          (p: PeerCompany) => p && p.name && p.name.toLowerCase().includes("horizon")
+        ) || benchRes.peers[0];
+        setSelectedPeer(horizonPeer);
+      }
+    } catch (err) {
+      console.error("Failed to load risk assessment:", err);
+    } finally {
+      setIsInitializing(false);
+    }
+  };
+
+  useEffect(() => {
+    loadData();
+  }, []);
+
+  const score = data?.overall_score ?? 0;
+  const band = data?.risk_band || (score === 0 ? "LOW" : score >= 75 ? "CRITICAL" : score >= 50 ? "HIGH" : "MODERATE");
+
+  // Safe default fallback comparative peer
+  const defaultPeer: PeerCompany = {
+    id: "comp-7",
+    name: "Horizon Energy & Utilities Corporation",
+    domain: "horizonenergy.com",
+    sector: "Energy & Critical Infrastructure",
+    score: 71,
+    band: "HIGH",
+    exposure_score: 74,
+    vulnerability_score: 76,
+    credential_exposure_score: 63,
+    critical_assets: 19,
+    trend_30d: "+3%",
+    trend_direction: "up",
+    delta_vs_org: 71 - score,
+    open_findings: 21,
+    status: "Monitored Enterprise",
+  };
+
+  const activeComparedPeer: PeerCompany = selectedPeer || defaultPeer;
 
   const handleSelectPeer = (peer: PeerCompany) => {
     setSelectedPeer(peer);
