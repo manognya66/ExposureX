@@ -65,7 +65,7 @@ export default function ScopePage() {
   };
 
   return (
-    <div className="space-y-6 max-w-7xl mx-auto">
+    <div className="space-y-6 max-w-[1700px] w-full mx-auto px-4 sm:px-6 lg:px-8">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-3 border-b border-zinc-800">
         <div>
@@ -158,15 +158,15 @@ export default function ScopePage() {
 
       {/* Scope Table */}
       <div className="card-cyber p-0 overflow-x-auto bg-[#09090b] border border-zinc-800 rounded-2xl shadow-xl">
-        <table className="w-full text-left text-xs min-w-[700px]">
+        <table className="w-full text-left text-xs min-w-[1000px]">
           <thead className="bg-black border-b border-zinc-800 text-zinc-400 font-mono uppercase text-[10px]">
             <tr>
-              <th className="py-3 px-4">Scope Pattern</th>
-              <th className="py-3 px-4">Scope Type</th>
-              <th className="py-3 px-4">Description</th>
-              <th className="py-3 px-4">Status</th>
-              <th className="py-3 px-4">Approved By</th>
-              <th className="py-3 px-4">Approved Date</th>
+              <th className="py-3.5 px-4 sm:px-5 font-bold">Scope Pattern</th>
+              <th className="py-3.5 px-4 sm:px-5 font-bold">Scope Type</th>
+              <th className="py-3.5 px-4 sm:px-5 font-bold">Description</th>
+              <th className="py-3.5 px-4 sm:px-5 font-bold">Status</th>
+              <th className="py-3.5 px-4 sm:px-5 font-bold">Approved By</th>
+              <th className="py-3.5 px-4 sm:px-5 font-bold">Approved Date</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-[#1a2333]/60">
@@ -185,16 +185,16 @@ export default function ScopePage() {
             ) : (
               scopes.map((s) => (
                 <tr key={s.id} className="hover:bg-zinc-900/60 transition-colors">
-                  <td className="py-3 px-4 font-mono font-bold text-[#ff6600]">{s.pattern}</td>
-                  <td className="py-3 px-4 text-white font-medium">{s.scope_type}</td>
-                  <td className="py-3 px-4 text-zinc-400">{s.description || "Authorized boundary"}</td>
-                  <td className="py-3 px-4">
+                  <td className="py-3.5 px-4 sm:px-5 font-mono font-bold text-[#ff6600]">{s.pattern}</td>
+                  <td className="py-3.5 px-4 sm:px-5 text-white font-medium">{s.scope_type}</td>
+                  <td className="py-3.5 px-4 sm:px-5 text-zinc-400">{s.description || "Authorized boundary"}</td>
+                  <td className="py-3.5 px-4 sm:px-5">
                     <span className="text-[10px] font-mono px-2 py-0.5 rounded-full font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/30">
                       Active
                     </span>
                   </td>
-                  <td className="py-3 px-4 text-zinc-300 font-mono text-[11px]">{s.approved_by || "CISO Office"}</td>
-                  <td className="py-3 px-4 text-zinc-500 font-mono text-[11px]">{s.created_at}</td>
+                  <td className="py-3.5 px-4 sm:px-5 text-zinc-300 font-mono text-[11px]">{s.approved_by || "CISO Office"}</td>
+                  <td className="py-3.5 px-4 sm:px-5 text-zinc-500 font-mono text-[11px]">{s.created_at}</td>
                 </tr>
               ))
             )}

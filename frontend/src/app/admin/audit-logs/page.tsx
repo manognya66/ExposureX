@@ -28,7 +28,7 @@ export default function AuditLogsPage() {
   }, [search, actionFilter]);
 
   return (
-    <div className="space-y-6 max-w-7xl mx-auto">
+    <div className="space-y-6 max-w-[1700px] w-full mx-auto px-4 sm:px-6 lg:px-8">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-3 border-b border-zinc-800">
         <div>
@@ -74,16 +74,16 @@ export default function AuditLogsPage() {
 
       {/* Audit Log Table */}
       <div className="card-cyber p-0 overflow-x-auto bg-[#09090b] border border-zinc-800 rounded-2xl shadow-xl">
-        <table className="w-full text-left text-xs min-w-[850px]">
+        <table className="w-full text-left text-xs min-w-[1100px]">
           <thead className="bg-black border-b border-zinc-800 text-zinc-400 font-mono uppercase text-[10px]">
             <tr>
-              <th className="py-3.5 px-4 font-bold">Timestamp (UTC)</th>
-              <th className="py-3.5 px-4 font-bold">User</th>
-              <th className="py-3.5 px-4 font-bold">Action</th>
-              <th className="py-3.5 px-4 font-bold">Target Object</th>
-              <th className="py-3.5 px-4 font-bold">Prior / New Value</th>
-              <th className="py-3.5 px-4 font-bold">IP Address</th>
-              <th className="py-3.5 px-4 font-bold">Result</th>
+              <th className="py-3.5 px-4 sm:px-5 font-bold">Timestamp (UTC)</th>
+              <th className="py-3.5 px-4 sm:px-5 font-bold">User</th>
+              <th className="py-3.5 px-4 sm:px-5 font-bold">Action</th>
+              <th className="py-3.5 px-4 sm:px-5 font-bold">Target Object</th>
+              <th className="py-3.5 px-4 sm:px-5 font-bold">Prior / New Value</th>
+              <th className="py-3.5 px-4 sm:px-5 font-bold">IP Address</th>
+              <th className="py-3.5 px-4 sm:px-5 font-bold">Result</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-zinc-800/60 font-sans">
@@ -102,19 +102,19 @@ export default function AuditLogsPage() {
             ) : (
               logs.map((l) => (
                 <tr key={l.id} className="hover:bg-zinc-900/60 transition-colors">
-                  <td className="py-3 px-4 font-mono text-zinc-400 text-[11px]">{l.timestamp}</td>
-                  <td className="py-3 px-4 font-mono text-white font-medium">{l.user}</td>
-                  <td className="py-3 px-4">
+                  <td className="py-3.5 px-4 sm:px-5 font-mono text-zinc-400 text-[11px]">{l.timestamp}</td>
+                  <td className="py-3.5 px-4 sm:px-5 font-mono text-white font-medium">{l.user}</td>
+                  <td className="py-3.5 px-4 sm:px-5">
                     <span className="font-mono text-[10px] px-2 py-0.5 rounded-md bg-zinc-900 border border-zinc-800 text-zinc-200 font-semibold">
                       {l.action}
                     </span>
                   </td>
-                  <td className="py-3 px-4 text-white font-medium">{l.object}</td>
-                  <td className="py-3 px-4 text-zinc-400 text-[11px] max-w-xs truncate font-mono">
+                  <td className="py-3.5 px-4 sm:px-5 text-white font-medium">{l.object}</td>
+                  <td className="py-3.5 px-4 sm:px-5 text-zinc-400 text-[11px] max-w-xs truncate font-mono">
                     {l.new_value || l.previous_value || "—"}
                   </td>
-                  <td className="py-3 px-4 font-mono text-zinc-500 text-[11px]">{l.ip_address}</td>
-                  <td className="py-3 px-4">
+                  <td className="py-3.5 px-4 sm:px-5 font-mono text-zinc-500 text-[11px]">{l.ip_address}</td>
+                  <td className="py-3.5 px-4 sm:px-5">
                     <span
                       className={cn(
                         "text-[10px] font-mono px-2 py-0.5 rounded-full font-bold uppercase border",

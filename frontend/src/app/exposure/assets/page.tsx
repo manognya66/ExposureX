@@ -115,7 +115,7 @@ export default function AssetsPage() {
   };
 
   return (
-    <div className="space-y-6 max-w-7xl mx-auto">
+    <div className="space-y-6 max-w-[1700px] w-full mx-auto px-4 sm:px-6 lg:px-8">
       {/* Top Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-3 border-b border-zinc-800">
         <div>
@@ -194,15 +194,15 @@ export default function AssetsPage() {
         {/* Assets Table */}
         <div className={cn("card-cyber p-0 overflow-hidden", selectedAssetId ? "lg:col-span-2" : "lg:col-span-3")}>
           <div className="overflow-x-auto">
-            <table className="w-full text-left text-xs min-w-[800px]">
+            <table className="w-full text-left text-xs min-w-[1050px]">
               <thead className="bg-[#070b14] border-b border-[#1a2333] text-slate-400 font-mono uppercase text-[10px]">
                 <tr>
-                  <th className="py-3 px-4">Asset Name</th>
-                  <th className="py-3 px-4">Type</th>
-                  <th className="py-3 px-4">Technology</th>
-                  <th className="py-3 px-4">Criticality</th>
-                  <th className="py-3 px-4">Risk Score</th>
-                  <th className="py-3 px-4">Status</th>
+                  <th className="py-3.5 px-4 sm:px-5 font-bold">Asset Name</th>
+                  <th className="py-3.5 px-4 sm:px-5 font-bold">Type</th>
+                  <th className="py-3.5 px-4 sm:px-5 font-bold">Technology</th>
+                  <th className="py-3.5 px-4 sm:px-5 font-bold">Criticality</th>
+                  <th className="py-3.5 px-4 sm:px-5 font-bold">Risk Score</th>
+                  <th className="py-3.5 px-4 sm:px-5 font-bold">Status</th>
                   <th className="py-3 px-4 text-right">Details</th>
                 </tr>
               </thead>
@@ -227,13 +227,13 @@ export default function AssetsPage() {
                           isSelected ? "bg-cyan-950/30 border-l-2 border-cyan-400" : ""
                         )}
                       >
-                        <td className="py-3 px-4 font-mono font-medium text-cyan-300">
+                        <td className="py-3.5 px-4 sm:px-5 font-mono font-medium text-cyan-300">
                           <div>{asset.name}</div>
                           {asset.ip && <div className="text-[10px] text-slate-500">{asset.ip}:{asset.port || 443}</div>}
                         </td>
-                        <td className="py-3 px-4 text-slate-300">{asset.asset_type}</td>
-                        <td className="py-3 px-4 text-slate-400 truncate max-w-xs">{asset.technology || "Standard TLS"}</td>
-                        <td className="py-3 px-4">
+                        <td className="py-3.5 px-4 sm:px-5 text-slate-300">{asset.asset_type}</td>
+                        <td className="py-3.5 px-4 sm:px-5 text-slate-400 truncate max-w-xs">{asset.technology || "Standard TLS"}</td>
+                        <td className="py-3.5 px-4 sm:px-5">
                           <span
                             className={cn(
                               "text-[10px] font-mono px-2 py-0.5 rounded font-semibold",
@@ -247,7 +247,7 @@ export default function AssetsPage() {
                             {asset.business_criticality}
                           </span>
                         </td>
-                        <td className="py-3 px-4">
+                        <td className="py-3.5 px-4 sm:px-5">
                           <span
                             className={cn(
                               "font-mono font-bold text-xs",
@@ -261,13 +261,13 @@ export default function AssetsPage() {
                             {asset.risk_score} / 100
                           </span>
                         </td>
-                        <td className="py-3 px-4">
+                        <td className="py-3.5 px-4 sm:px-5">
                           <span className="text-[10px] text-emerald-400 flex items-center gap-1 font-mono">
                             <span className="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
                             {asset.status}
                           </span>
                         </td>
-                        <td className="py-3 px-4 text-right">
+                        <td className="py-3.5 px-4 sm:px-5 text-right">
                           <button
                             onClick={(e) => {
                               e.stopPropagation();

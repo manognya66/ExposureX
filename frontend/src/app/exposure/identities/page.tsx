@@ -88,7 +88,7 @@ export default function IdentitiesPage() {
   };
 
   return (
-    <div className="space-y-6 max-w-7xl mx-auto">
+    <div className="space-y-6 max-w-[1700px] w-full mx-auto px-4 sm:px-6 lg:px-8">
       {/* Page Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-3 border-b border-zinc-800">
         <div>
@@ -160,16 +160,16 @@ export default function IdentitiesPage() {
 
       {/* Table */}
       <div className="card-cyber p-0 overflow-x-auto bg-[#09090b] border border-zinc-800 rounded-2xl shadow-xl">
-        <table className="w-full text-left text-xs min-w-[800px]">
+        <table className="w-full text-left text-xs min-w-[1100px]">
           <thead className="bg-black border-b border-zinc-800 text-zinc-400 font-mono uppercase text-[10px]">
             <tr>
-              <th className="py-3 px-4">Identity / Email</th>
-              <th className="py-3 px-4">Role / Department</th>
-              <th className="py-3 px-4">Account Type</th>
-              <th className="py-3 px-4">Privilege</th>
-              <th className="py-3 px-4">Credential Leaks</th>
-              <th className="py-3 px-4">Risk Score</th>
-              <th className="py-3 px-4">Status</th>
+              <th className="py-3.5 px-4 sm:px-5 font-bold">Identity / Email</th>
+              <th className="py-3.5 px-4 sm:px-5 font-bold">Role / Department</th>
+              <th className="py-3.5 px-4 sm:px-5 font-bold">Account Type</th>
+              <th className="py-3.5 px-4 sm:px-5 font-bold">Privilege</th>
+              <th className="py-3.5 px-4 sm:px-5 font-bold">Credential Leaks</th>
+              <th className="py-3.5 px-4 sm:px-5 font-bold">Risk Score</th>
+              <th className="py-3.5 px-4 sm:px-5 font-bold">Status</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-[#1a2333]/60">
@@ -188,16 +188,16 @@ export default function IdentitiesPage() {
             ) : (
               identities.map((i) => (
                 <tr key={i.id} className="hover:bg-slate-900/60 transition-colors">
-                  <td className="py-3 px-4">
+                  <td className="py-3.5 px-4 sm:px-5">
                     <div className="font-mono text-slate-100 font-medium">{i.email}</div>
                     <div className="text-[10px] text-slate-500">{i.username}</div>
                   </td>
-                  <td className="py-3 px-4">
+                  <td className="py-3.5 px-4 sm:px-5">
                     <div className="text-slate-200">{i.role || "Staff"}</div>
                     <div className="text-[10px] text-slate-400">{i.department}</div>
                   </td>
-                  <td className="py-3 px-4 text-slate-300">{i.account_type}</td>
-                  <td className="py-3 px-4">
+                  <td className="py-3.5 px-4 sm:px-5 text-slate-300">{i.account_type}</td>
+                  <td className="py-3.5 px-4 sm:px-5">
                     {i.is_privileged ? (
                       <span className="text-[10px] font-mono px-2 py-0.5 rounded font-bold bg-red-950/60 text-red-400 border border-red-500/40">
                         PRIVILEGED
@@ -206,7 +206,7 @@ export default function IdentitiesPage() {
                       <span className="text-[10px] font-mono text-slate-500">Standard</span>
                     )}
                   </td>
-                  <td className="py-3 px-4">
+                  <td className="py-3.5 px-4 sm:px-5">
                     {i.credential_exposure_count > 0 ? (
                       <span className="text-xs font-mono font-bold text-purple-400 flex items-center gap-1">
                         <KeyRound className="w-3.5 h-3.5 text-purple-400" />
@@ -216,7 +216,7 @@ export default function IdentitiesPage() {
                       <span className="text-slate-500 text-[11px] font-mono">0 detected</span>
                     )}
                   </td>
-                  <td className="py-3 px-4">
+                  <td className="py-3.5 px-4 sm:px-5">
                     <span
                       className={cn(
                         "font-mono font-bold text-xs",
@@ -230,7 +230,7 @@ export default function IdentitiesPage() {
                       {i.risk_score} / 100
                     </span>
                   </td>
-                  <td className="py-3 px-4">
+                  <td className="py-3.5 px-4 sm:px-5">
                     <span className="text-[10px] text-emerald-400 font-mono">{i.status}</span>
                   </td>
                 </tr>

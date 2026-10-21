@@ -124,91 +124,40 @@ export default function ProvidersPage() {
   );
 
   const categories = [
-    { title: "Dark Web Intelligence", key: "Dark Web Intelligence" },
-    { title: "Deep Web Intelligence", key: "Deep Web Intelligence" },
-    { title: "Surface Web Intelligence", key: "Surface Web Intelligence" },
-    { title: "External Asset Discovery", key: "External Asset Discovery" },
-    { title: "Credential Intelligence", key: "Credential Intelligence" },
-    { title: "Vulnerability Intelligence", key: "Vulnerability Intelligence" },
-  ];
-
-  const freeApiPlatforms = [
     {
-      name: "Ransomwatch Feed",
-      category: "Dark Web Extortion Intelligence",
-      badge: "100% Free / Keyless",
-      badgeColor: "bg-red-950/80 text-red-300 border-red-800",
-      description:
-        "Real-time scraper tracking 100+ dark web Tor hidden services and ransomware extortion leak blogs (LockBit, Play, BlackBasta, Akira, 8base, Medusa). Scans darknet victim logs.",
-      envVar: "KEYLESS_PUBLIC_FEED",
-      signupUrl: "https://github.com/joshhighet/ransomwatch",
-      apiDocUrl: "https://raw.githubusercontent.com/joshhighet/ransomwatch/main/posts.json",
-      rateLimitInfo: "Keyless: Live Tor Scraping Feed (Updated hourly)",
+      title: "Dark Web Intelligence",
+      key: "Dark Web Intelligence",
+      description: "Live Tor hidden service scraping (LockBit, Play, Akira, 8base, Medusa) & cybercrime infostealer telemetry",
     },
     {
-      name: "URLScan.io API",
-      category: "Deep Web Application & DOM Crawler",
-      badge: "Free Public Tier",
-      badgeColor: "bg-blue-950/80 text-blue-300 border-blue-800",
-      description:
-        "Deep web inspection engine analyzing website DOM structures, TLS certificate chains, ASN infrastructure, IP relations, and automated security verdicts.",
-      envVar: "URLSCAN_API_KEY",
-      signupUrl: "https://urlscan.io",
-      apiDocUrl: "https://urlscan.io/docs/api/",
-      rateLimitInfo: "Keyless Search: Public queries • Free Key: 5,000 scans/mo",
+      title: "Deep Web Intelligence",
+      key: "Deep Web Intelligence",
+      description: "Deep web application DOM analysis, ASN relations, TLS certificate validation & AlienVault OTX threat pulses",
     },
     {
-      name: "AlienVault OTX (Open Threat Exchange)",
-      category: "Deep Threat Pulse Intelligence",
-      badge: "Free Community Tier",
-      badgeColor: "bg-purple-950/80 text-purple-300 border-purple-800",
-      description:
-        "Crowd-sourced open threat intelligence platform detailing threat pulses, malicious campaign tags, adversary groups, and CVE correlations for target domains.",
-      envVar: "OTX_API_KEY",
-      signupUrl: "https://otx.alienvault.com",
-      apiDocUrl: "https://otx.alienvault.com/api",
-      rateLimitInfo: "Keyless Indicator API: Public community endpoints",
+      title: "Surface Web Intelligence",
+      key: "Surface Web Intelligence",
+      description: "Perimeter surface mapping via HackerTarget DNS host search, crt.sh Certificate Transparency logs & Internet Archive",
     },
     {
-      name: "HackerTarget DNS Host Search",
-      category: "Surface Web Perimeter Mapping",
-      badge: "Free OSINT Tier",
-      badgeColor: "bg-emerald-950/80 text-emerald-300 border-emerald-800",
-      description:
-        "Passive DNS infrastructure and hostname mapping query engine returning live subdomains and IP addresses from surface DNS records without active scanning.",
-      envVar: "HACKERTARGET_API_KEY",
-      signupUrl: "https://hackertarget.com",
-      apiDocUrl: "https://hackertarget.com/ip-tools/",
-      rateLimitInfo: "Keyless: 50 lookups/day • Free Developer Key",
+      title: "Credential Intelligence",
+      key: "Credential Intelligence",
+      description: "Zero-cost community breach registries (XposedOrNot, LeakCheck, Hudson Rock) scanning compromised accounts",
     },
     {
-      name: "XposedOrNot",
-      category: "Open-Source Community Breach Registry",
-      badge: "100% Free / Keyless",
-      badgeColor: "bg-emerald-950/80 text-emerald-300 border-emerald-800",
-      description:
-        "Open-source, community-driven database of hundreds of verified data breaches and paste dumps. Offers keyless REST endpoints for email lookups and free domain monitoring.",
-      envVar: "XPOSEDORNOT_API_KEY",
-      signupUrl: "https://xposedornot.com",
-      apiDocUrl: "https://api.xposedornot.com/docs",
-      rateLimitInfo: "Keyless: 2 req/sec, 100/day • Free Key: High throughput",
+      title: "Vulnerability Intelligence",
+      key: "Vulnerability Intelligence",
+      description: "NIST NVD CVE telemetry & CISA KEV actively weaponized vulnerability tracking",
     },
     {
-      name: "Hudson Rock Cavalier OSINT",
-      category: "Infostealer & Cybercrime Telemetry",
-      badge: "Free OSINT Tier",
-      badgeColor: "bg-orange-950/80 text-orange-300 border-orange-800",
-      description:
-        "Specialized threat intelligence analyzing live infostealer malware infections (RedLine, Vidar, Raccoon, Lumma). Detects compromised employee devices and stolen credentials.",
-      envVar: "HUDSON_ROCK_API_KEY",
-      signupUrl: "https://www.hudsonrock.com/free-tools",
-      apiDocUrl: "https://docs.hudsonrock.com",
-      rateLimitInfo: "Free OSINT: Keyless lookups • Developer Key: On-demand",
+      title: "External Asset Discovery",
+      key: "External Asset Discovery",
+      description: "Passive Certificate Transparency monitors & authoritative DNS infrastructure discovery",
     },
   ];
 
   return (
-    <div className="space-y-8 max-w-7xl mx-auto pb-16">
+    <div className="space-y-8 max-w-[1700px] w-full mx-auto px-4 sm:px-6 lg:px-8 pb-16">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-zinc-800">
         <div>
@@ -618,14 +567,19 @@ export default function ProvidersPage() {
 
           return (
             <div key={cat.key} className="space-y-3">
-              <div className="text-xs font-mono uppercase tracking-wider text-zinc-400 flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#ff6600]"></span>
-                  <span className="font-bold text-white">{cat.title}</span>
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 pb-1 border-b border-zinc-800/60">
+                <div>
+                  <div className="flex items-center gap-2">
+                    <span className="w-2 h-2 rounded-full bg-[#ff6600]"></span>
+                    <h3 className="font-bold text-sm text-white font-sans tracking-wide">{cat.title}</h3>
+                    <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-zinc-900 border border-zinc-800 text-zinc-400">
+                      {groupProviders.length} {groupProviders.length === 1 ? "adapter" : "adapters"}
+                    </span>
+                  </div>
+                  <p className="text-xs text-zinc-400 mt-0.5 font-sans pl-4">
+                    {cat.description}
+                  </p>
                 </div>
-                <span className="text-[11px] text-zinc-500 font-normal">
-                  {groupProviders.length} {groupProviders.length === 1 ? "adapter" : "adapters"}
-                </span>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -718,63 +672,7 @@ export default function ProvidersPage() {
         })}
       </div>
 
-      {/* Free & Open Source Intelligence APIs Reference */}
-      <div className="space-y-4 pt-4 border-t border-zinc-800">
-        <div className="flex items-center gap-2">
-          <Sparkles className="w-4 h-4 text-[#ff6600]" />
-          <h2 className="text-base font-bold text-white font-sans">
-            Curated Free & Open-Source Cyber Threat Intelligence APIs
-          </h2>
-        </div>
-        <p className="text-xs text-zinc-400 font-sans">
-          These zero-cost, community-supported intelligence feeds provide real-time dark web ransomware logs, deep web DOM inspection, crowd threat pulses, and surface DNS mapping.
-        </p>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {freeApiPlatforms.map((platform) => (
-            <div
-              key={platform.name}
-              className="p-5 rounded-2xl bg-black/60 border border-zinc-800 hover:border-zinc-700 transition-all flex flex-col justify-between space-y-4"
-            >
-              <div>
-                <div className="flex items-start justify-between gap-2 mb-2">
-                  <h3 className="font-bold text-sm text-white font-sans">{platform.name}</h3>
-                  <span className={cn("px-2 py-0.5 rounded text-[10px] font-mono font-bold border", platform.badgeColor)}>
-                    {platform.badge}
-                  </span>
-                </div>
-                <div className="text-[11px] font-mono text-zinc-400 mb-2">{platform.category}</div>
-                <p className="text-xs text-zinc-400 font-sans leading-relaxed">{platform.description}</p>
-                <div className="mt-3 text-[11px] font-mono text-zinc-500">
-                  <span>Quota: </span>
-                  <span className="text-zinc-300">{platform.rateLimitInfo}</span>
-                </div>
-              </div>
-
-              <div className="pt-3 border-t border-zinc-800 flex items-center justify-between text-xs font-mono">
-                <a
-                  href={platform.signupUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-zinc-400 hover:text-white flex items-center gap-1 transition-colors"
-                >
-                  <span>Portal</span>
-                  <ExternalLink className="w-3 h-3" />
-                </a>
-                <a
-                  href={platform.apiDocUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-[#ff6600] hover:underline flex items-center gap-1"
-                >
-                  <span>API Docs</span>
-                  <ExternalLink className="w-3 h-3" />
-                </a>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
     </div>
   );
 }

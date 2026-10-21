@@ -80,7 +80,7 @@ export default function CredentialsPage() {
   };
 
   return (
-    <div className="space-y-6 max-w-7xl mx-auto">
+    <div className="space-y-6 max-w-[1700px] w-full mx-auto px-4 sm:px-6 lg:px-8">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-3 border-b border-zinc-800">
         <div>
@@ -152,16 +152,16 @@ export default function CredentialsPage() {
 
       {/* Table */}
       <div className="card-cyber p-0 overflow-x-auto bg-[#09090b] border border-zinc-800 rounded-2xl shadow-xl">
-        <table className="w-full text-left text-xs min-w-[900px]">
+        <table className="w-full text-left text-xs min-w-[1150px]">
           <thead className="bg-black border-b border-zinc-800 text-zinc-400 font-mono uppercase text-[10px]">
             <tr>
-              <th className="py-3.5 px-4 font-bold">Affected Identity</th>
-              <th className="py-3.5 px-4 font-bold">Breach Source / Title</th>
-              <th className="py-3.5 px-4 font-bold">Provider</th>
-              <th className="py-3.5 px-4 font-bold">Exposed Metadata Classes</th>
-              <th className="py-3.5 px-4 font-bold">Severity</th>
-              <th className="py-3.5 px-4 font-bold">Correlated Asset</th>
-              <th className="py-3.5 px-4 font-bold">Status</th>
+              <th className="py-3.5 px-4 sm:px-5 font-bold">Affected Identity</th>
+              <th className="py-3.5 px-4 sm:px-5 font-bold">Breach Source / Title</th>
+              <th className="py-3.5 px-4 sm:px-5 font-bold">Provider</th>
+              <th className="py-3.5 px-4 sm:px-5 font-bold">Exposed Metadata Classes</th>
+              <th className="py-3.5 px-4 sm:px-5 font-bold">Severity</th>
+              <th className="py-3.5 px-4 sm:px-5 font-bold">Correlated Asset</th>
+              <th className="py-3.5 px-4 sm:px-5 font-bold">Status</th>
               <th className="py-3.5 px-4 text-right font-bold">Actions</th>
             </tr>
           </thead>
@@ -177,18 +177,18 @@ export default function CredentialsPage() {
             ) : (
               exposures.map((exp) => (
                 <tr key={exp.id} className="hover:bg-slate-900/60 transition-colors">
-                  <td className="py-3 px-4">
+                  <td className="py-3.5 px-4 sm:px-5">
                     <div className="font-mono text-slate-100 font-semibold">{exp.email}</div>
                     <div className="text-[10px] text-slate-500 font-mono truncate max-w-[140px]">
                       SHA: {exp.email_hash_sha256?.substring(0, 16)}...
                     </div>
                   </td>
-                  <td className="py-3 px-4">
+                  <td className="py-3.5 px-4 sm:px-5">
                     <div className="text-purple-300 font-medium">{exp.breach_title}</div>
                     <div className="text-[10px] text-slate-400 font-mono">{exp.breach_date || "Continuous Feed"}</div>
                   </td>
-                  <td className="py-3 px-4 text-slate-300">{exp.provider}</td>
-                  <td className="py-3 px-4">
+                  <td className="py-3.5 px-4 sm:px-5 text-slate-300">{exp.provider}</td>
+                  <td className="py-3.5 px-4 sm:px-5">
                     <div className="flex flex-wrap gap-1 max-w-xs">
                       {exp.exposed_data_classes?.map((c, idx) => (
                         <span key={idx} className="text-[9px] px-1.5 py-0.5 rounded bg-slate-800 text-slate-300 font-mono">
@@ -197,7 +197,7 @@ export default function CredentialsPage() {
                       ))}
                     </div>
                   </td>
-                  <td className="py-3 px-4">
+                  <td className="py-3.5 px-4 sm:px-5">
                     <span
                       className={cn(
                         "text-[10px] font-mono px-2 py-0.5 rounded font-bold uppercase",
@@ -209,10 +209,10 @@ export default function CredentialsPage() {
                       {exp.severity}
                     </span>
                   </td>
-                  <td className="py-3 px-4 font-mono text-cyan-300 text-xs">
+                  <td className="py-3.5 px-4 sm:px-5 font-mono text-cyan-300 text-xs">
                     {exp.related_asset_name || "Enterprise Domain"}
                   </td>
-                  <td className="py-3 px-4">
+                  <td className="py-3.5 px-4 sm:px-5">
                     <span
                       className={cn(
                         "text-[10px] font-mono px-2 py-0.5 rounded",
@@ -226,7 +226,7 @@ export default function CredentialsPage() {
                       {exp.investigation_status}
                     </span>
                   </td>
-                  <td className="py-3 px-4 text-right">
+                  <td className="py-3.5 px-4 sm:px-5 text-right">
                     <button
                       onClick={() => {
                         setStatusModalExp(exp);

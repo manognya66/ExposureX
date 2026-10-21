@@ -29,6 +29,8 @@ import {
   Gauge,
   Scale,
   Calculator,
+  Sun,
+  Moon,
 } from "lucide-react";
 import { useAuth } from "@/lib/auth";
 import { api } from "@/lib/api";
@@ -72,6 +74,39 @@ function MicrosoftIcon({ className = "w-4 h-4" }: { className?: string }) {
 
 export function LandingPage() {
   const { login, setAuthSession } = useAuth();
+
+  // Theme state
+  const [theme, setTheme] = useState<"dark" | "light">("dark");
+
+  useEffect(() => {
+    const savedTheme = (typeof window !== "undefined"
+      ? localStorage.getItem("exposurex_theme")
+      : null) as "dark" | "light" | null;
+    const initialTheme = savedTheme || "dark";
+    setTheme(initialTheme);
+    if (initialTheme === "light") {
+      document.documentElement.classList.add("light");
+      document.documentElement.classList.remove("dark");
+    } else {
+      document.documentElement.classList.add("dark");
+      document.documentElement.classList.remove("light");
+    }
+  }, []);
+
+  const toggleTheme = () => {
+    const nextTheme = theme === "dark" ? "light" : "dark";
+    setTheme(nextTheme);
+    if (typeof window !== "undefined") {
+      localStorage.setItem("exposurex_theme", nextTheme);
+    }
+    if (nextTheme === "light") {
+      document.documentElement.classList.add("light");
+      document.documentElement.classList.remove("dark");
+    } else {
+      document.documentElement.classList.add("dark");
+      document.documentElement.classList.remove("light");
+    }
+  };
 
   // Auth modes: 'signin' | 'signup' | 'mfa' | 'forgot'
   const [authMode, setAuthMode] = useState<"signin" | "signup" | "mfa" | "forgot">("signin");
@@ -200,20 +235,7 @@ export function LandingPage() {
     }
   };
 
-  const handleDemoSignIn = (
-    role: "Administrator" | "Security Analyst" | "Risk Manager" | "Viewer" | "Auditor" = "Administrator"
-  ) => {
-    const demoEmail = email.trim() || "sam@abc.com";
-    const namePart = demoEmail.split("@")[0].replace(".", " ");
-    const formattedName = namePart.charAt(0).toUpperCase() + namePart.slice(1);
-    setAuthSession("demo-token-preview-session", {
-      id: "usr-demo-admin",
-      email: demoEmail,
-      full_name: `${formattedName} (Demo Analyst)`,
-      role: role,
-      is_active: true,
-    });
-  };
+
 
   const handleSignUp = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -397,9 +419,9 @@ export function LandingPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#070d1e] text-slate-100 flex flex-col selection:bg-orange-500 selection:text-white font-sans">
+    <div className={cn("min-h-screen flex flex-col selection:bg-orange-500 selection:text-white font-sans transition-colors duration-200", theme === "light" ? "bg-[#f8fafc] text-slate-900" : "bg-[#070d1e] text-slate-100")}>
       {/* Top Navbar */}
-      <header className="sticky top-0 z-40 bg-[#070d1e]/90 backdrop-blur-md border-b border-[#1a2333] px-4 sm:px-6 lg:px-12 h-16 flex items-center justify-between">
+      <header className={cn("sticky top-0 z-40 backdrop-blur-md px-4 sm:px-6 lg:px-12 h-16 flex items-center justify-between border-b transition-colors", theme === "light" ? "bg-white/95 border-slate-200 shadow-sm" : "bg-[#070d1e]/90 border-[#1a2333]")}>
         <div className="flex-1 flex items-center justify-start">
           <ExposureXLogo />
         </div>
@@ -411,7 +433,26 @@ export function LandingPage() {
           <a href="#governance" className="hover:text-cyan-400 transition-colors">Scope Boundaries</a>
         </nav>
 
-        <div className="flex-1 flex items-center justify-end">
+        <div className="flex-1 flex items-center justify-end gap-2.5">
+          {/* Light & Dark Theme Toggle */}
+          <button
+            type="button"
+            onClick={toggleTheme}
+            className={cn(
+              "p-2 sm:p-2.5 rounded-xl border transition-all hover:scale-105 active:scale-95",
+              theme === "light"
+                ? "bg-slate-100 hover:bg-slate-200 border-slate-300 text-slate-800 shadow-sm"
+                : "bg-slate-900/80 hover:bg-slate-800 border-slate-800 text-slate-200 hover:border-cyan-500/50"
+            )}
+            title={theme === "dark" ? "Switch to Light Theme" : "Switch to Dark Theme"}
+            aria-label="Toggle theme"
+          >
+            {theme === "dark" ? (
+              <Sun className="w-4 h-4 text-amber-400 transition-transform hover:rotate-45" />
+            ) : (
+              <Moon className="w-4 h-4 text-cyan-600 transition-transform hover:-rotate-12" />
+            )}
+          </button>
           {authMode !== "signin" ? (
             <button
               onClick={() => {
@@ -647,17 +688,7 @@ export function LandingPage() {
                         <AlertTriangle className="w-4 h-4 text-red-400 flex-shrink-0 mt-0.5" />
                         <span className="leading-snug">{signInError}</span>
                       </div>
-                      <div className="pt-2 border-t border-red-800/60 flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-[11px]">
-                        <span className="text-zinc-400">Testing on Vercel without a backend?</span>
-                        <button
-                          type="button"
-                          onClick={() => handleDemoSignIn()}
-                          className="px-3 py-1 rounded bg-[#ff6600] hover:bg-[#e65c00] text-white font-bold transition-all shadow-sm flex items-center justify-center gap-1 w-fit"
-                        >
-                          <span>Instant Demo Access</span>
-                          <ArrowRight className="w-3 h-3" />
-                        </button>
-                      </div>
+
                     </div>
                   )}
 
@@ -747,17 +778,7 @@ export function LandingPage() {
                       )}
                     </button>
 
-                    <div className="pt-2 flex items-center justify-between text-[11px] text-zinc-400">
-                      <span>Evaluating platform?</span>
-                      <button
-                        type="button"
-                        onClick={() => handleDemoSignIn()}
-                        className="text-orange-400 hover:text-orange-300 font-mono font-semibold flex items-center gap-1 hover:underline transition-colors"
-                      >
-                        <Sparkles className="w-3 h-3 text-orange-400" />
-                        <span>One-Click Demo Mode</span>
-                      </button>
-                    </div>
+
                   </form>
 
                   <div className="mt-5 pt-4 border-t border-zinc-800 text-center text-xs text-zinc-400">
@@ -1475,13 +1496,13 @@ export function LandingPage() {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-              <div className="p-4 rounded-xl bg-black/40 border border-slate-800/80 space-y-2">
+              <div className="p-4 rounded-xl bg-cyan-950/20 border border-cyan-500/40 hover:border-cyan-400 transition-all space-y-2">
                 <div className="flex justify-between items-center text-xs">
-                  <span className="text-cyan-400 font-mono font-semibold">1. Exposure</span>
-                  <span className="font-mono text-white font-bold">80 / 100</span>
+                  <span className="text-cyan-400 font-mono font-bold tracking-wide">1. Exposure</span>
+                  <span className="font-mono text-cyan-300 font-bold">80 / 100</span>
                 </div>
-                <div className="w-full bg-slate-800 h-1.5 rounded-full overflow-hidden">
-                  <div className="bg-cyan-400 h-full w-[80%]" />
+                <div className="w-full bg-slate-800/80 h-1.5 rounded-full overflow-hidden">
+                  <div className="bg-cyan-400 h-full w-[80%] shadow-[0_0_8px_rgba(6,182,212,0.8)]" />
                 </div>
                 <div className="text-[11px] text-slate-400 pt-1">
                   80 × 0.30 = <strong className="text-white font-mono">24.0 pts</strong>

@@ -46,7 +46,7 @@ export default function DashboardPage() {
   const overallBand = metrics?.overall_risk_band ?? (overallScore === 0 ? "LOW" : "CRITICAL");
 
   return (
-    <div className="space-y-6 max-w-7xl mx-auto">
+    <div className="space-y-6 max-w-[1700px] w-full mx-auto px-4 sm:px-6 lg:px-8">
       {/* Page Title & Scope Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-3 border-b border-[#182852]">
         <div>
@@ -365,14 +365,14 @@ export default function DashboardPage() {
         </div>
 
         <div className="overflow-x-auto">
-          <table className="w-full text-left text-xs min-w-[680px]">
+          <table className="w-full text-left text-xs min-w-[900px] sm:min-w-full">
             <thead>
               <tr className="border-b border-[#182852] text-slate-400 font-mono uppercase text-[10px]">
-                <th className="py-2.5 px-3">Asset FQDN / Name</th>
-                <th className="py-2.5 px-3">Type</th>
-                <th className="py-2.5 px-3">Criticality</th>
-                <th className="py-2.5 px-3">Risk Score</th>
-                <th className="py-2.5 px-3">First Seen</th>
+                <th className="py-3 px-4 font-bold">Asset FQDN / Name</th>
+                <th className="py-3 px-4 font-bold">Type</th>
+                <th className="py-3 px-4 font-bold">Criticality</th>
+                <th className="py-3 px-4 font-bold">Risk Score</th>
+                <th className="py-3 px-4 font-bold">First Seen</th>
                 <th className="py-2.5 px-3 text-right">Action</th>
               </tr>
             </thead>
@@ -386,11 +386,11 @@ export default function DashboardPage() {
               ) : (
                 metrics.recent_assets.map((asset) => (
                   <tr key={asset.id} className="hover:bg-[#0d1733]/50 transition-colors">
-                    <td className="py-2.5 px-3 font-mono font-medium text-white">
+                    <td className="py-3.5 px-4 font-mono font-medium text-white">
                       {asset.name}
                     </td>
-                    <td className="py-2.5 px-3 text-slate-300">{asset.asset_type}</td>
-                    <td className="py-2.5 px-3">
+                    <td className="py-3.5 px-4 text-slate-300">{asset.asset_type}</td>
+                    <td className="py-3.5 px-4">
                       <span
                         className={cn(
                           "text-[10px] font-mono px-2 py-0.5 rounded font-semibold",
@@ -404,7 +404,7 @@ export default function DashboardPage() {
                         {asset.business_criticality}
                       </span>
                     </td>
-                    <td className="py-2.5 px-3">
+                    <td className="py-3.5 px-4">
                       <span
                         className={cn(
                           "font-mono font-bold text-xs",
@@ -418,10 +418,10 @@ export default function DashboardPage() {
                         {asset.risk_score} / 100
                       </span>
                     </td>
-                    <td className="py-2.5 px-3 text-slate-400 font-mono text-[11px]">
+                    <td className="py-3.5 px-4 text-slate-400 font-mono text-[11px]">
                       {asset.first_seen}
                     </td>
-                    <td className="py-2.5 px-3 text-right">
+                    <td className="py-3.5 px-4 text-right">
                       <Link
                         href={`/exposure/assets`}
                         className="text-orange-400 hover:text-orange-300 text-[11px] font-mono font-semibold inline-flex items-center gap-0.5"

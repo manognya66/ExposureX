@@ -112,7 +112,7 @@ export default function CasesPage() {
   };
 
   return (
-    <div className="space-y-6 max-w-7xl mx-auto">
+    <div className="space-y-6 max-w-[1700px] w-full mx-auto px-4 sm:px-6 lg:px-8">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-3 border-b border-zinc-800">
         <div>
@@ -171,15 +171,15 @@ export default function CasesPage() {
         {/* Table */}
         <div className={cn("card-cyber p-0 overflow-hidden bg-[#09090b] border border-zinc-800 rounded-2xl shadow-xl", selectedCase ? "lg:col-span-2" : "lg:col-span-3")}>
           <div className="overflow-x-auto">
-            <table className="w-full text-left text-xs min-w-[750px]">
+            <table className="w-full text-left text-xs min-w-[1000px]">
               <thead className="bg-black border-b border-zinc-800 text-zinc-400 font-mono uppercase text-[10px]">
                 <tr>
-                  <th className="py-3.5 px-4 font-bold">Case ID</th>
-                  <th className="py-3.5 px-4 font-bold">Title & Context</th>
-                  <th className="py-3.5 px-4 font-bold">Severity</th>
-                  <th className="py-3.5 px-4 font-bold">Assigned Analyst</th>
-                  <th className="py-3.5 px-4 font-bold">Status</th>
-                  <th className="py-3.5 px-4 font-bold">Updated</th>
+                  <th className="py-3.5 px-4 sm:px-5 font-bold">Case ID</th>
+                  <th className="py-3.5 px-4 sm:px-5 font-bold">Title & Context</th>
+                  <th className="py-3.5 px-4 sm:px-5 font-bold">Severity</th>
+                  <th className="py-3.5 px-4 sm:px-5 font-bold">Assigned Analyst</th>
+                  <th className="py-3.5 px-4 sm:px-5 font-bold">Status</th>
+                  <th className="py-3.5 px-4 sm:px-5 font-bold">Updated</th>
                   <th className="py-3.5 px-4 text-right font-bold">Details</th>
                 </tr>
               </thead>
@@ -206,12 +206,12 @@ export default function CasesPage() {
                         selectedCase?.id === c.id ? "bg-orange-500/10 border-l-2 border-[#ff6600]" : ""
                       )}
                     >
-                      <td className="py-3 px-4 font-mono font-bold text-[#ff6600]">{c.case_ref}</td>
-                      <td className="py-3 px-4 max-w-sm">
+                      <td className="py-3.5 px-4 sm:px-5 font-mono font-bold text-[#ff6600]">{c.case_ref}</td>
+                      <td className="py-3.5 px-4 sm:px-5 max-w-sm">
                         <div className="font-semibold text-white">{c.title}</div>
                         <div className="text-[11px] text-zinc-400 line-clamp-1">{c.description}</div>
                       </td>
-                      <td className="py-3 px-4">
+                      <td className="py-3.5 px-4 sm:px-5">
                         <span
                           className={cn(
                             "text-[10px] font-mono px-2 py-0.5 rounded-full font-bold uppercase border",
@@ -223,13 +223,13 @@ export default function CasesPage() {
                           {c.severity}
                         </span>
                       </td>
-                      <td className="py-3 px-4 text-zinc-300">
+                      <td className="py-3.5 px-4 sm:px-5 text-zinc-300">
                         <span className="flex items-center gap-1 font-medium font-mono text-xs">
                           <User className="w-3.5 h-3.5 text-zinc-500" />
                           {c.assigned_analyst || "Unassigned"}
                         </span>
                       </td>
-                      <td className="py-3 px-4">
+                      <td className="py-3.5 px-4 sm:px-5">
                         <span
                           className={cn(
                             "text-[10px] font-mono px-2 py-0.5 rounded-full font-semibold border",
@@ -243,8 +243,8 @@ export default function CasesPage() {
                           {c.status}
                         </span>
                       </td>
-                      <td className="py-3 px-4 text-zinc-500 font-mono text-[11px]">{c.updated_at || c.created_at}</td>
-                      <td className="py-3 px-4 text-right">
+                      <td className="py-3.5 px-4 sm:px-5 text-zinc-500 font-mono text-[11px]">{c.updated_at || c.created_at}</td>
+                      <td className="py-3.5 px-4 sm:px-5 text-right">
                         <button
                           onClick={(e) => {
                             e.stopPropagation();

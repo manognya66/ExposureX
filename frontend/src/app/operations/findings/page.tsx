@@ -120,7 +120,7 @@ export default function FindingsPage() {
   };
 
   return (
-    <div className="space-y-6 max-w-7xl mx-auto">
+    <div className="space-y-6 max-w-[1700px] w-full mx-auto px-4 sm:px-6 lg:px-8">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-3 border-b border-zinc-800">
         <div>
@@ -193,15 +193,15 @@ export default function FindingsPage() {
         {/* Findings Table */}
         <div className={cn("card-cyber p-0 overflow-hidden", selectedFinding ? "lg:col-span-2" : "lg:col-span-3")}>
           <div className="overflow-x-auto">
-            <table className="w-full text-left text-xs min-w-[750px]">
+            <table className="w-full text-left text-xs min-w-[1000px]">
               <thead className="bg-[#070b14] border-b border-[#1a2333] text-slate-400 font-mono uppercase text-[10px]">
                 <tr>
-                  <th className="py-3 px-4">Finding Ref</th>
-                  <th className="py-3 px-4">Title & Correlation</th>
-                  <th className="py-3 px-4">Severity</th>
-                  <th className="py-3 px-4">Risk</th>
-                  <th className="py-3 px-4">Status</th>
-                  <th className="py-3 px-4">Owner</th>
+                  <th className="py-3.5 px-4 sm:px-5 font-bold">Finding Ref</th>
+                  <th className="py-3.5 px-4 sm:px-5 font-bold">Title & Correlation</th>
+                  <th className="py-3.5 px-4 sm:px-5 font-bold">Severity</th>
+                  <th className="py-3.5 px-4 sm:px-5 font-bold">Risk</th>
+                  <th className="py-3.5 px-4 sm:px-5 font-bold">Status</th>
+                  <th className="py-3.5 px-4 sm:px-5 font-bold">Owner</th>
                   <th className="py-3 px-4 text-right">Action</th>
                 </tr>
               </thead>
@@ -228,12 +228,12 @@ export default function FindingsPage() {
                         selectedFinding?.id === f.id ? "bg-amber-950/20 border-l-2 border-amber-400" : ""
                       )}
                     >
-                      <td className="py-3 px-4 font-mono font-bold text-amber-400">{f.finding_ref}</td>
-                      <td className="py-3 px-4 max-w-md">
+                      <td className="py-3.5 px-4 sm:px-5 font-mono font-bold text-amber-400">{f.finding_ref}</td>
+                      <td className="py-3.5 px-4 sm:px-5 max-w-md">
                         <div className="font-semibold text-slate-200">{f.title}</div>
                         <div className="text-[11px] font-mono text-cyan-400 mt-0.5">{f.asset_name || "Enterprise Scope"}</div>
                       </td>
-                      <td className="py-3 px-4">
+                      <td className="py-3.5 px-4 sm:px-5">
                         <span
                           className={cn(
                             "text-[10px] font-mono px-2 py-0.5 rounded font-bold uppercase",
@@ -247,14 +247,14 @@ export default function FindingsPage() {
                           {f.severity}
                         </span>
                       </td>
-                      <td className="py-3 px-4 font-mono font-bold text-slate-100">{f.risk_score}</td>
-                      <td className="py-3 px-4">
+                      <td className="py-3.5 px-4 sm:px-5 font-mono font-bold text-slate-100">{f.risk_score}</td>
+                      <td className="py-3.5 px-4 sm:px-5">
                         <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-slate-800 text-slate-300">
                           {f.status}
                         </span>
                       </td>
-                      <td className="py-3 px-4 text-slate-400 truncate max-w-[120px]">{f.owner || "Unassigned"}</td>
-                      <td className="py-3 px-4 text-right">
+                      <td className="py-3.5 px-4 sm:px-5 text-slate-400 truncate max-w-[120px]">{f.owner || "Unassigned"}</td>
+                      <td className="py-3.5 px-4 sm:px-5 text-right">
                         <button
                           onClick={(e) => {
                             e.stopPropagation();

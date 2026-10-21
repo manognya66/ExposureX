@@ -212,7 +212,7 @@ export default function UsersPage() {
   });
 
   return (
-    <div className="space-y-6 max-w-7xl mx-auto">
+    <div className="space-y-6 max-w-[1700px] w-full mx-auto px-4 sm:px-6 lg:px-8">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-3 border-b border-zinc-800">
         <div>
@@ -376,13 +376,13 @@ export default function UsersPage() {
 
       {/* Users Table */}
       <div className="card-cyber p-0 overflow-x-auto bg-[#09090b] border border-zinc-800 rounded-2xl shadow-xl">
-        <table className="w-full text-left text-xs min-w-[750px]">
+        <table className="w-full text-left text-xs min-w-[1000px]">
           <thead className="bg-[#070b14] border-b border-[#1a2333] text-slate-400 font-mono uppercase text-[10px]">
             <tr>
-              <th className="py-3 px-4">User</th>
-              <th className="py-3 px-4">Email</th>
-              <th className="py-3 px-4">Assigned Role</th>
-              <th className="py-3 px-4">Status</th>
+              <th className="py-3.5 px-4 sm:px-5 font-bold">User</th>
+              <th className="py-3.5 px-4 sm:px-5 font-bold">Email</th>
+              <th className="py-3.5 px-4 sm:px-5 font-bold">Assigned Role</th>
+              <th className="py-3.5 px-4 sm:px-5 font-bold">Status</th>
               <th className="py-3 px-4 text-right">Actions</th>
             </tr>
           </thead>
@@ -407,7 +407,7 @@ export default function UsersPage() {
 
               return (
                 <tr key={u.id} className="hover:bg-slate-900/60 transition-colors">
-                  <td className="py-3 px-4">
+                  <td className="py-3.5 px-4 sm:px-5">
                     <div className="flex items-center gap-2.5">
                       <div className="w-7 h-7 rounded-full bg-slate-800 border border-slate-700 flex items-center justify-center text-xs font-bold text-cyan-400 font-mono">
                         {u.full_name?.charAt(0) || "U"}
@@ -419,10 +419,10 @@ export default function UsersPage() {
                     </div>
                   </td>
 
-                  <td className="py-3 px-4 font-mono text-cyan-300">{u.email}</td>
+                  <td className="py-3.5 px-4 sm:px-5 font-mono text-cyan-300">{u.email}</td>
 
                   {/* Assign Role Dropdown */}
-                  <td className="py-3 px-4">
+                  <td className="py-3.5 px-4 sm:px-5">
                     <div className="flex items-center gap-1.5">
                       <select
                         value={u.role}
@@ -443,7 +443,7 @@ export default function UsersPage() {
                   </td>
 
                   {/* Status Toggle */}
-                  <td className="py-3 px-4">
+                  <td className="py-3.5 px-4 sm:px-5">
                     <button
                       onClick={() => handleToggleStatus(u)}
                       className={cn(
@@ -460,7 +460,7 @@ export default function UsersPage() {
                   </td>
 
                   {/* Row Actions */}
-                  <td className="py-3 px-4 text-right">
+                  <td className="py-3.5 px-4 sm:px-5 text-right">
                     <div className="flex items-center justify-end gap-1.5">
                       {/* Edit Details */}
                       <button

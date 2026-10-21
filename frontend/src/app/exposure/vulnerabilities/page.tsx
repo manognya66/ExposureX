@@ -47,7 +47,7 @@ export default function VulnerabilitiesPage() {
   };
 
   return (
-    <div className="space-y-6 max-w-7xl mx-auto">
+    <div className="space-y-6 max-w-[1700px] w-full mx-auto px-4 sm:px-6 lg:px-8">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-3 border-b border-zinc-800">
         <div>
@@ -121,7 +121,7 @@ export default function VulnerabilitiesPage() {
 
       {/* Table */}
       <div className="card-cyber p-0 overflow-x-auto bg-[#09090b] border border-zinc-800 rounded-2xl shadow-xl">
-        <table className="w-full text-left text-xs table-fixed min-w-[1080px]">
+        <table className="w-full text-left text-xs table-fixed min-w-[1250px]">
           <thead className="bg-black border-b border-zinc-800 text-zinc-400 font-mono uppercase text-[10px]">
             <tr>
               <th className="py-3.5 px-4 font-bold whitespace-nowrap w-[13%]">CVE Reference</th>
@@ -149,15 +149,15 @@ export default function VulnerabilitiesPage() {
             ) : (
               vulns.map((v) => (
               <tr key={v.id} className="hover:bg-slate-900/60 transition-colors">
-                <td className="py-3 px-4 whitespace-nowrap">
+                <td className="py-3.5 px-4 whitespace-nowrap">
                   <div className="font-mono text-red-400 font-bold text-xs whitespace-nowrap">{v.cve_id}</div>
                   <div className="text-[10px] text-slate-500 font-mono whitespace-nowrap">{v.published_date}</div>
                 </td>
-                <td className="py-3 px-4 overflow-hidden">
+                <td className="py-3.5 px-4 overflow-hidden">
                   <div className="text-slate-200 font-semibold truncate" title={v.title}>{v.title}</div>
                   <div className="text-[11px] text-slate-400 line-clamp-2 mt-0.5">{v.description}</div>
                 </td>
-                <td className="py-3 px-4 whitespace-nowrap">
+                <td className="py-3.5 px-4 whitespace-nowrap">
                   <div className="flex items-center gap-1.5 whitespace-nowrap">
                     <span className="font-mono font-extrabold text-sm text-slate-100">{v.cvss_score}</span>
                     <span
@@ -172,7 +172,7 @@ export default function VulnerabilitiesPage() {
                     </span>
                   </div>
                 </td>
-                <td className="py-3 px-4 whitespace-nowrap">
+                <td className="py-3.5 px-4 whitespace-nowrap">
                   {v.cisa_kev_status ? (
                     <span className="inline-flex items-center gap-1.5 text-[10px] font-mono font-bold px-2.5 py-1 rounded bg-red-950/80 text-red-400 border border-red-500/40 whitespace-nowrap">
                       <Flame className="w-3.5 h-3.5 text-red-500 animate-pulse shrink-0" />
@@ -182,12 +182,12 @@ export default function VulnerabilitiesPage() {
                     <span className="text-[10px] text-slate-500 font-mono whitespace-nowrap">Standard Catalog</span>
                   )}
                 </td>
-                <td className="py-3 px-4 text-slate-200 font-mono text-[11px] leading-relaxed break-words whitespace-normal" title={v.affected_technology}>
+                <td className="py-3.5 px-4 text-slate-200 font-mono text-[11px] leading-relaxed break-words whitespace-normal" title={v.affected_technology}>
                   <div className="break-words whitespace-normal text-slate-200">
                     {v.affected_technology || "—"}
                   </div>
                 </td>
-                <td className="py-3 px-4 font-mono text-cyan-300 text-xs">
+                <td className="py-3.5 px-4 font-mono text-cyan-300 text-xs">
                   {v.associated_asset_name ? (
                     <span className="flex items-center gap-1.5 break-all" title={v.associated_asset_name}>
                       <Globe className="w-3.5 h-3.5 text-cyan-400 shrink-0" />
@@ -197,7 +197,7 @@ export default function VulnerabilitiesPage() {
                     <span className="text-slate-500">Unmapped</span>
                   )}
                 </td>
-                <td className="py-3 px-4 text-right whitespace-nowrap">
+                <td className="py-3.5 px-4 text-right whitespace-nowrap">
                   <a
                     href={`https://nvd.nist.gov/vuln/detail/${v.cve_id}`}
                     target="_blank"

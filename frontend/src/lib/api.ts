@@ -327,7 +327,4 @@ export const api = {
 
   // Search
   globalSearch: (q: string) => apiFetch(`/search/?q=${encodeURIComponent(q)}`),
-
-  // Maintenance
-  resetDemoData: () => apiFetch("/demo/reset-demo-data", { method: "POST" }),
 };
